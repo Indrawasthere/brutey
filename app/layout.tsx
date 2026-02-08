@@ -1,46 +1,53 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PageTransition } from "@/components/page-transition";
+import { CustomCursor } from "@/components/custom-cursor";
 import FocusMain from "@/components/focus-main";
 
+// Medieval Serif - Display headings
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-serif",
+  display: "swap",
+  style: ["normal", "italic"],
 });
 
-const geistMono = Geist_Mono({
+// Clean Sans - Everything else
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Muhammad Fadlan | Portfolio",
-  description: "A guy who's addicted to code",
-  generator: "v0.app",
+  title: "Muhammad Fadlan — Software Engineer",
+  description: "Ancient logic meets modern engineering. Building digital fortresses with code.",
+  generator: "Next.js",
   metadataBase: new URL("https://mfadlans.xyz"),
   openGraph: {
-    title: "Muhammad Fadlan | Portfolio",
-    description: "A guy who's addicted to code",
+    title: "Muhammad Fadlan — Software Engineer",
+    description: "Ancient logic meets modern engineering",
     url: "https://mfadlans.xyz",
     siteName: "Muhammad Fadlan",
-    images: ["/og-image.svg"],
+    images: ["/og-image.png"],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Fadlan | Portfolio",
-    description: "A guy who's addicted to code",
-    images: ["/og-image.svg"],
+    title: "Muhammad Fadlan — Software Engineer",
+    description: "Ancient logic meets modern engineering",
+    images: ["/og-image.png"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1a1a1a",
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
@@ -49,14 +56,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${geistMono.variable}`}>
-      <body className="font-sans antialiased overflow-x-hidden">
-        <ThemeProvider attribute="class" defaultTheme="system">
+    <html 
+      lang="en" 
+      className={`${playfair.variable} ${inter.variable}`}
+    >
+      <body className="font-sans antialiased overflow-x-hidden bg-background">
+        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
           <FocusMain />
+          
+          {/* Atmospheric overlays */}
           <div className="noise-overlay" />
+          <div className="vignette-overlay" />
+          
+          {/* Custom cursor for enhanced interactivity */}
+          <CustomCursor />
+          
           <PageTransition>
             {children}
           </PageTransition>
+          
           <Analytics />
         </ThemeProvider>
       </body>

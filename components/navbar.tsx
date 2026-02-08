@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Download } from "lucide-react"
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -54,27 +53,27 @@ export function Navbar() {
           isScrolled ? "bg-background/90 backdrop-blur-md border-b border-primary/20" : ""
         }`}
       >
-        <nav className="flex items-center justify-between px-6 py-4 md:px-12 md:py-4">
-          {/* Logo - Brutalist */}
+        <nav className="flex items-center justify-center px-6 py-4 md:px-12 md:py-4 relative">
+          {/* Logo - Left */}
           <a
             href="#"
             onClick={(e) => {
               e.preventDefault()
               window.scrollTo({ top: 0, behavior: "smooth" })
             }}
-            className="group flex items-center gap-3"
+            className="absolute left-6 md:left-12 group flex items-center gap-3"
           >
             <div className="w-8 h-8 border border-primary/40 flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-primary/10 scale-0 group-hover:scale-100 transition-transform duration-300" />
-              <span className="relative font-sans font-bold text-primary text-sm">MF</span>
+              <img src="/preview.webp" alt="Logo" className="relative w-full h-full object-cover" />
             </div>
-            <span className="font-mono-label text-primary/70 group-hover:text-primary transition-colors hidden sm:block">
+            <span className="label-caps text-primary/70 group-hover:text-primary transition-colors hidden sm:block">
               FORTRESS
             </span>
           </a>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-1">
+          {/* Desktop Navigation - Centered */}
+          <ul className="hidden md:flex items-center gap-2">
             {navLinks.map((link, index) => (
               <li key={link.label}>
                 <button
@@ -90,7 +89,7 @@ export function Navbar() {
                   {/* Brutalist underline */}
                   <span
                     className={`absolute bottom-0 left-0 right-0 h-px bg-primary transition-all duration-300 ${
-                      activeSection === link.href.slice(1) ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                      activeSection === link.href.slice(1) ? "opacity-100" : "opacity-0"
                     }`}
                   />
                 </button>
@@ -98,36 +97,10 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* Resume Button - Brutalist */}
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="/fadlan_resume.pdf"
-              download
-              className="group inline-flex items-center gap-3 px-5 py-3 border border-primary/30 hover:border-primary/60 transition-all duration-300 relative overflow-hidden"
-            >
-              <span className="absolute inset-0 bg-primary/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              <Download className="w-4 h-4 text-primary/70 group-hover:text-primary transition-colors" />
-              <span className="relative font-mono-label tracking-wider text-primary/70 group-hover:text-primary transition-colors">
-                RESUME
-              </span>
-            </a>
-
-            {/* Available Status */}
-            <div className="flex items-center gap-3 pl-4 border-l border-primary/20">
-              <div className="relative">
-                <div className="absolute inset-0 bg-primary animate-ping opacity-50" />
-                <div className="relative w-2 h-2 bg-primary" />
-              </div>
-              <span className="font-mono-label text-primary/60 text-[10px] tracking-widest">
-                ACTIVE
-              </span>
-            </div>
-          </div>
-
-          {/* Mobile Menu Button - Brutalist */}
+          {/* Mobile Menu Button - Right */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden relative w-10 h-10 flex items-center justify-center border border-primary/30"
+            className="md:hidden absolute right-6 relative w-10 h-10 flex items-center justify-center border border-primary/30"
             aria-label="Toggle menu"
           >
             <motion.span
@@ -171,38 +144,9 @@ export function Navbar() {
                 >
                   <span className="font-mono-label text-sm mr-3 text-primary/40">0{index + 1}.</span>
                   {link.label}
-                  <div className={`h-1 bg-primary/30 mt-2 transition-all duration-300 ${activeSection === link.href.slice(1) ? "w-full" : "w-0 group-hover:w-full"}`} />
+                  <div className={`h-1 bg-primary/30 mt-2 transition-all duration-300 ${activeSection === link.href.slice(1) ? "w-full" : "w-0"}`} />
                 </motion.button>
               ))}
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: navLinks.length * 0.1 + 0.2 }}
-                className="flex items-center gap-4 mt-8"
-              >
-                <a
-                  href="/fadlan_resume.pdf"
-                  download
-                  className="inline-flex items-center gap-2 px-6 py-3 border border-primary/40"
-                >
-                  <Download className="w-4 h-4 text-primary" />
-                  <span className="font-mono-label tracking-wider text-primary">RESUME</span>
-                </a>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: navLinks.length * 0.1 + 0.3 }}
-                className="flex items-center gap-3 mt-4"
-              >
-                <div className="relative">
-                  <div className="absolute inset-0 bg-primary animate-ping opacity-50" />
-                  <div className="relative w-2 h-2 bg-primary" />
-                </div>
-                <span className="font-mono-label text-primary/60 text-xs tracking-widest">ACTIVE</span>
-              </motion.div>
 
               {/* Corner decorations */}
               <div className="absolute top-8 left-8 w-12 h-12 border-l-2 border-t-2 border-primary/20" />
