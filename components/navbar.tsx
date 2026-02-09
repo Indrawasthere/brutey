@@ -10,21 +10,45 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
+// Helper function untuk jam Jakarta
+const useJakartaTime = () => {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      };
+      setTime(new Intl.DateTimeFormat("en-GB", options).format(now));
+    };
+
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return time;
+};
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const currentTime = useJakartaTime();
 
-  // Fungsi buat ngerubah angka ke Romawi
   const toRoman = (num: number) => {
-    const map = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+    const map = ["I", "II", "III", "IV"];
     return map[num] || num + 1;
   };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
       const sections = navLinks.map((link) => link.href.slice(1));
       for (const section of sections.reverse()) {
         const element = document.getElementById(section);
@@ -57,79 +81,64 @@ export function Navbar() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-background/90 backdrop-blur-md border-b border-primary/20"
+            ? "bg-background/80 backdrop-blur-xl border-b border-white/5"
             : ""
         }`}
       >
-        <nav className="flex items-center justify-center px-6 py-4 md:px-12 md:py-4 relative">
-          {/* Logo - Left */}
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="absolute left-6 md:left-12 group flex items-center gap-5"
-          >
-            <div
-              className="
-                w-16 h-16 md:w-20 md:h-20
-                flex items-center justify-center
-                relative
-                transition-all duration-500 ease-out
-                group-hover:scale-110
-              "
+        <nav className="grid grid-cols-3 items-center px-6 py-4 md:px-12 h-20 md:h-24">
+          {/* LEFT: LOGO */}
+          {/* LEFT: LOGO */}
+          <div className="flex items-center justify-start">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="group flex items-center gap-5" // Gap gue naikin dikit biar lega
             >
-              {/* Brutalist box effect */}
-              <div className="absolute inset-0 border border-primary/20 group-hover:border-primary transition-colors duration-300" />
-              <div className="absolute inset-0 bg-primary/5 scale-0 group-hover:scale-100 transition-transform duration-500" />
+              {/* Box Logo - Ukuran dinaikin, Border diilangin */}
+              <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center relative transition-transform duration-500 group-hover:scale-105">
+                {/* Subtle glow pas hover biar tetep ada depth walau gapake border */}
+                <div className="absolute inset-0 bg-primary/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <img
-                src="/dacode.png"
-                alt="Logo"
-                className="relative w-[80%] h-[80%] object-contain"
-              />
-            </div>
+                <img
+                  src="/dacode.png"
+                  alt="Logo"
+                  className="relative w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity"
+                />
+              </div>
 
-            <span
-              className="
-                font-sans font-semibold tracking-tighter text-l
-                text-stone-500
-                transition-all duration-300
-                group-hover:text-primary
-                group-hover:translate-x-1
-                hidden sm:block
-              "
-            >
-              FORTRESS
-            </span>
-          </a>
+              {/* Text Fortress - 12px & Bold Tracking */}
+              <span className="hidden lg:block font-sans text-[12px] leading-tight tracking-[0.4em] text-stone-400 uppercase group-hover:text-white transition-colors">
+                Sir Fadlan <br />
+                <span className="text-primary font-bold opacity-80 group-hover:opacity-100">
+                  PORTFOLIO
+                </span>
+              </span>
+            </a>
+          </div>
 
-          {/* Desktop Navigation - Centered */}
-          <ul className="hidden md:flex items-center gap-4">
+          {/* CENTER: NAV LINKS (Lebih Readable) */}
+          <ul className="hidden md:flex items-center justify-center gap-8">
             {navLinks.map((link, index) => (
               <li key={link.label}>
                 <button
                   onClick={() => scrollToSection(link.href)}
-                  className={`relative px-4 py-2 font-sans font-medium tracking-widest transition-all duration-300 ${
+                  className={`group relative flex items-center font-sans text-[11px] tracking-[0.2em] transition-all duration-300 ${
                     activeSection === link.href.slice(1)
                       ? "text-primary"
-                      : "text-muted-foreground hover:text-primary"
+                      : "text-white/40 hover:text-white"
                   }`}
                 >
-                  {/* Nomor pake Font Serif & Romawi */}
-                  <span className="font-serif italic text-sm mr-2 opacity-50">
+                  <span className="font-serif italic text-[10px] mr-1.5 opacity-30 group-hover:opacity-100">
                     {toRoman(index)}.
                   </span>
-
                   {link.label.toUpperCase()}
-
-                  {/* Brutalist underline */}
+                  {/* Underline minimal */}
                   <span
-                    className={`absolute bottom-0 left-0 right-0 h-[2px] bg-primary transition-all duration-500 ${
-                      activeSection === link.href.slice(1)
-                        ? "opacity-100 scale-x-100"
-                        : "opacity-0 scale-x-0"
+                    className={`absolute -bottom-1 left-0 h-px bg-primary transition-all duration-500 ${
+                      activeSection === link.href.slice(1) ? "w-full" : "w-0"
                     }`}
                   />
                 </button>
@@ -137,64 +146,86 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* Mobile Menu Button - Right */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden absolute right-6 relative w-12 h-12 flex items-center justify-center border border-primary/30 active:bg-primary/10 transition-colors"
-            aria-label="Toggle menu"
-          >
-            <motion.span
-              animate={isMenuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: -3 }}
-              className="absolute w-6 h-[2px] bg-primary origin-center"
-            />
-            <motion.span
-              animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="absolute w-6 h-[2px] bg-primary"
-            />
-            <motion.span
-              animate={
-                isMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 3 }
-              }
-              className="absolute w-6 h-[2px] bg-primary origin-center"
-            />
-          </button>
+          {/* RIGHT: REALTIME CLOCK & MOBILE TRIGGER */}
+          {/* RIGHT: REALTIME CLOCK & MOBILE TRIGGER */}
+          <div className="flex items-center justify-end gap-6">
+            {/* Clock Container - Ukuran disamain kayak kiri (w-14/16 atau h-14/16) */}
+            <div className="hidden md:flex flex-col items-end justify-center h-14 md:h-16 min-w-30">
+              <span className="font-technical text-[10px] text-white/30 tracking-[0.3em] uppercase mb-1">
+                Local Time
+              </span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-technical text-sm md:text-base text-primary tabular-nums font-bold tracking-wider">
+                  {currentTime}
+                </span>
+                <span className="text-[10px] text-white/40 font-bold">
+                  GMT+7
+                </span>
+              </div>
+            </div>
+
+            {/* Mobile Menu Button - Ukuran disamain juga biar konsisten di mobile */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden w-14 h-14 flex flex-col items-center justify-center gap-1.5 transition-colors active:bg-white/5"
+              aria-label="Toggle menu"
+            >
+              <motion.span
+                animate={
+                  isMenuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }
+                }
+                className="w-6 h-[1.5px] bg-white"
+              />
+              <motion.span
+                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                className="w-6 h-[1.5px] bg-white"
+              />
+              <motion.span
+                animate={
+                  isMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }
+                }
+                className="w-6 h-[1.5px] bg-white"
+              />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
+      {/* MOBILE MENU OVERLAY (Simplified & Brutalist) */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-background/98 md:hidden"
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 bg-background flex flex-col p-12"
           >
-            <nav className="flex flex-col items-center justify-center h-full gap-8 px-6">
+            <div className="mt-20 flex flex-col gap-8">
               {navLinks.map((link, index) => (
-                <motion.button
+                <button
                   key={link.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
                   onClick={() => scrollToSection(link.href)}
-                  className={`text-5xl font-sans font-black tracking-tighter transition-all duration-300 ${
-                    activeSection === link.href.slice(1)
-                      ? "text-primary"
-                      : "text-foreground hover:text-primary/70"
-                  }`}
+                  className="flex items-baseline gap-4 text-left"
                 >
-                  <span className="font-serif italic text-lg block mb-2 text-primary/40">
-                    {toRoman(index)}.
+                  <span className="font-serif italic text-xl text-primary/40">
+                    {toRoman(index)}
                   </span>
-                  {link.label}
-                </motion.button>
+                  <span className="text-5xl font-sans font-bold tracking-tighter hover:italic hover:text-primary transition-all">
+                    {link.label.toUpperCase()}
+                  </span>
+                </button>
               ))}
-
-              {/* Minimalist corner footer for mobile menu */}
-              <div className="absolute bottom-12 font-serif italic text-primary/20"></div>
-            </nav>
+            </div>
+            {/* Mobile Clock */}
+            <div className="mt-auto border-t border-white/5 pt-8">
+              <span className="block text-[10px] tracking-widest text-white/20 uppercase mb-2">
+                Current Coordinates
+              </span>
+              <span className="text-2xl font-technical text-white">
+                {currentTime} JKT
+              </span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

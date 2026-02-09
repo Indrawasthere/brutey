@@ -16,7 +16,7 @@ export default function Home() {
       <LoadingScreen />
       <SmoothScroll>
         <Navbar />
-        <main>
+        <main className="bg-black min-h-screen no-scrollbar">
           <Hero />
           <About />
           <Experience />

@@ -299,7 +299,7 @@ function ExperienceCard({
                         transition={{ delay: i * 0.1 }}
                         className="flex items-start gap-3 p-4 border border-stone-700 bg-stone-900/50"
                       >
-                        <div className="w-2 h-2 rounded-full bg-amber-900 mt-2 flex-shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-amber-900 mt-2 shrink-0" />
                         <span className="text-sm font-medium text-stone-300">
                           {achievement}
                         </span>

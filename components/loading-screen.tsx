@@ -36,9 +36,9 @@ export function LoadingScreen() {
           exit={{ y: "-100%" }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           onAnimationComplete={() => {
-            document.body.style.overflow = "auto";
+            document.body.style.overflowY = "auto";
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0a]"
+          className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-[#0a0a0a]"
         >
           {/* Animated Obsidian Background Texture */}
           <div className="absolute inset-0 overflow-hidden">
@@ -94,7 +94,7 @@ export function LoadingScreen() {
             {/* Blade Forging Progress */}
             <div className="w-72 md:w-96 mb-10 relative">
               {/* Blade track */}
-              <div className="relative h-[2px] bg-gradient-to-r from-transparent via-stone-700 to-transparent overflow-hidden">
+              <div className="relative h-0.5 bg-linear-to-r from-transparent via-stone-700 to-transparent overflow-hidden">
                 {/* Heat shimmer */}
                 <motion.div
                   className="absolute inset-0"
@@ -176,8 +176,8 @@ export function LoadingScreen() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55 }}
               >
-                <div className="w-14 h-px bg-gradient-to-r from-transparent via-stone-700 to-transparent" />
-                <div className="w-14 h-px bg-gradient-to-r from-transparent via-stone-700 to-transparent" />
+                <div className="w-14 h-px bg-linear-to-r from-transparent via-stone-700 to-transparent" />
+                <div className="w-14 h-px bg-linear-to-r from-transparent via-stone-700 to-transparent" />
               </motion.div>
             </div>
           </div>{" "}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, Suspense, useState, useEffect, useMemo } from "react";
+import { useRef, Suspense, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls, Preload } from "@react-three/drei";
@@ -8,16 +8,20 @@ import { KnightKTP } from "./KnightKTP";
 
 function Knight3D({ scrollProgress }: { scrollProgress: any }) {
   const modelRef = useRef<any>(null);
+
+  // Animasi 3D berdasarkan scroll
+  // Knight bakal muter dikit dan turun pas di-scroll
   const rotationY = useTransform(
     scrollProgress,
     [0, 1],
-    [Math.PI, Math.PI + 0.6],
+    [Math.PI, Math.PI + 0.8],
   );
-  const positionY = useTransform(scrollProgress, [0, 1], [-0.2, -0.5]);
+  const positionY = useTransform(scrollProgress, [0, 1], [-0.2, -0.8]);
 
   useFrame((state) => {
     if (modelRef.current) {
       const t = state.clock.getElapsedTime();
+      // Gabungin scroll position sama idle bobbing (floating effect)
       modelRef.current.position.y = positionY.get() + Math.sin(t * 0.5) * 0.05;
       modelRef.current.rotation.y = rotationY.get();
     }
@@ -29,15 +33,9 @@ function Knight3D({ scrollProgress }: { scrollProgress: any }) {
       <directionalLight position={[0, 5, 5]} intensity={1.5} />
       <Suspense fallback={null}>
         <group ref={modelRef}>
-          <KnightKTP showFullBody={false} animation="Idle" scale={2.2} />
+          <KnightKTP showFullBody={false} animation="Idle" scale={2.5} />
         </group>
       </Suspense>
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        autoRotate
-        autoRotateSpeed={0.2}
-      />
       <Environment preset="studio" />
       <Preload all />
     </>
@@ -46,131 +44,116 @@ function Knight3D({ scrollProgress }: { scrollProgress: any }) {
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  const smoothScroll = useSpring(scrollYProgress, {
+  // Smooth scroll progress buat 3D biar gak kaku
+  const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
   });
+
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.9]);
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
     <section
       ref={containerRef}
-      className="
-        relative w-full bg-black
-        h-screen
-        overflow-hidden
-        pt-0 pb-0
-      "
+      className="relative h-screen w-full overflow-hidden bg-background"
     >
-      {/* Container Sticky  */}
-      <div className="sticky top-0 h-screen w-full">
-        {/* Background 3D */}
-        <motion.div style={{ y: yParallax }} className="absolute inset-0 z-0">
-          <Canvas
-            resize={{ scroll: false }}
-            camera={{
-              position: isMobile ? [0, 0.3, 4.5] : [0, 0.5, 5],
-              fov: isMobile ? 40 : 35,
-            }}
-            gl={{
-              antialias: true,
-              alpha: true,
-              powerPreference: "high-performance",
-            }}
-            style={{ width: "100%", height: "100%" }}
-          >
-            <Knight3D scrollProgress={scrollYProgress} />
-          </Canvas>
-        </motion.div>
+      {/* 1. TYPOGRAPHY BEHIND */}
+      <motion.div
+        style={{ opacity }}
+        className="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none"
+      >
+        <h1 className="font-serif text-[18vw] leading-[0.75] text-center font-bold tracking-tighter uppercase text-foreground/80">
+          <span className="block">MUHAMMAD</span>
+          <span className="block italic font-light text-primary brightness-110">
+            FADLAN
+          </span>
+        </h1>
+      </motion.div>
 
-        {/* Overlay Grid & Vignette */}
-        <div
-          className="absolute inset-0 z-10 pointer-events-none opacity-20"
-          style={{
-            backgroundImage: `linear-gradient(#ffffff11 1px, transparent 1px), linear-gradient(90deg, #ffffff11 1px, transparent 1px)`,
-            backgroundSize: "50px 50px",
+      {/* 2. 3D MODEL CENTERED */}
+      <motion.div style={{ y: yParallax }} className="absolute inset-0 z-10">
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 35 }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
           }}
-        />
-        <div className="absolute inset-0 z-15 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
-
-        {/* Content UI - Hapus container dan gunakan padding langsung */}
-        <motion.div
-          style={{ opacity, scale }}
-          className="relative z-30 w-full h-full px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
         >
-          {/* Sisi Kiri - Nama */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="h-px w-12 bg-red-400/50" />
-              <span className="text-xs tracking-[0.4em] text-stone-500 uppercase">
-                Portfolio Volume I
-              </span>
-            </div>
-            <h1 className="font-serif text-[12vw] md:text-[7vw] font-bold leading-[0.8] text-white">
-              MUHAMMAD <br />
-              <span className="text-red-400 italic font-light ml-4">
-                FADLAN
-              </span>
-            </h1>
-          </div>
+          <Knight3D scrollProgress={smoothProgress} />
+        </Canvas>
+      </motion.div>
 
-          {/* Sisi Kanan - Info */}
-          <div className="lg:justify-self-end">
-            <div className="backdrop-blur-md bg-white/[0.02] border border-white/10 p-8 max-w-sm rounded-sm">
-              <p className="text-lg text-white/70 font-light leading-relaxed mb-8">
-                <span className="text-white italic">Ancient logic</span> meets
-                modern engineering. Building digital fortresses.
-              </p>
-              <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-6">
-                <div>
-                  <span className="block text-[9px] text-white/40 uppercase tracking-tighter">
-                    Location
-                  </span>
-                  <span className="text-xs text-white uppercase font-bold">
-                    Jakarta, ID
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-[9px] text-white/40 uppercase tracking-tighter">
-                    Specialization
-                  </span>
-                  <span className="text-xs text-red-400 uppercase font-bold">
-                    Software Eng
-                  </span>
-                </div>
+      {/* 3. UI OVERLAY */}
+      <motion.div
+        style={{ opacity }}
+        className="absolute inset-0 z-20 flex flex-col items-center justify-between py-20 px-6 pointer-events-none"
+      >
+        <div className="flex flex-col items-center gap-2">
+          <span className="label-caps text-accent/60 text-[10px]!">
+            Portfolio Vol. 01
+          </span>
+          <div className="h-10 w-px bg-linear-to-b from-primary to-transparent" />
+        </div>
+
+        {/* GLASS CARD FIX: Pake isolation & backface-visibility */}
+        <div
+          className="w-full max-w-lg mt-auto pointer-events-auto"
+          style={{ isolation: "isolate" }}
+        >
+          <div
+            className="relative overflow-hidden backdrop-blur-xl bg-card/40 border border-white/10 p-6 rounded-sm text-center shadow-2xl transition-all duration-500"
+            style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }}
+          >
+            {/* Gradient glow subtle biar tetep glass walau fade */}
+            <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent pointer-events-none" />
+
+            <p className="relative z-10 text-muted-foreground font-sans text-sm md:text-base leading-relaxed mb-6">
+              Ancient logic meets modern engineering. <br />
+              Building digital fortresses with deliberate code.
+            </p>
+            <div className="relative z-10 grid grid-cols-2 gap-4 border-t border-border/30 pt-4">
+              <div className="text-center">
+                <span className="label-caps text-white/40 text-[8px]! block">
+                  Location
+                </span>
+                <span className="font-technical text-white text-xs">
+                  JAKARTA, ID
+                </span>
+              </div>
+              <div className="text-center">
+                <span className="label-caps text-white/40 text-[8px]! block">
+                  Specialization
+                </span>
+                <span className="font-technical text-primary text-xs uppercase tracking-widest">
+                  Software Eng
+                </span>
               </div>
             </div>
           </div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-10 z-30 flex items-center gap-4">
-          <motion.div
-            animate={{ height: [0, 40, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-[1px] bg-red-400"
-          />
-          <span className="text-[9px] tracking-[0.3em] text-white/40 uppercase vertical-text">
-            Scroll to Dive
-          </span>
         </div>
-      </div>
+
+        <div className="flex flex-col items-center gap-3 mt-10">
+          <span className="label-caps text-white/30 text-[9px]!">
+            SCROLL TO INITIATE
+          </span>
+          <div className="w-5 h-8 border border-border/50 rounded-full flex justify-center p-1">
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1 h-1.5 bg-primary rounded-full"
+            />
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="absolute inset-0 z-15 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_30%,var(--background)_90%)]" />
     </section>
   );
 }
