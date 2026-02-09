@@ -32,7 +32,7 @@ const experiences: Experience[] = [
   {
     company: "Rupa Aestetika Teknologi Aktual",
     role: "Software Engineer",
-    period: "August 2024 — August 2025",
+    period: "2024 — 2025",
     description:
       "Developed end-to-end web applications using modern technologies. Implemented real-time features and improved application performance by 40%.",
     technologies: ["React", "Node.js", "PostgreSQL", "AWS"],
@@ -46,7 +46,7 @@ const experiences: Experience[] = [
   {
     company: "Wahana Datarindo Sempurna",
     role: "Software Developer",
-    period: "October 2023 — August 2024",
+    period: "2023 — 2024",
     description:
       "Built responsive websites and web applications for various clients. Collaborated with designers to implement pixel-perfect UIs.",
     technologies: ["React", "Laravel", "Bootstrap", "MySQL"],

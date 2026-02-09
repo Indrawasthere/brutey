@@ -3,10 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    MEDIEVAL BRUTALISM THEME
    Chrome Dark & Ancient Stone Aesthetic
-   ═══════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
   /* Background - Deep obsidian */
@@ -72,10 +72,10 @@
 }
 
 @theme inline {
-  /* ═══════════════════════════════════════════════════════════════
+  /* ═══════════════════════════════════════════════════════════════════════
      TYPOGRAPHY SYSTEM
      Medieval Serif + Modern Sans
-     ═══════════════════════════════════════════════════════════════ */
+     ═══════════════════════════════════════════════════════════════════════ */
   
   /* Primary: Playfair Display - Elegant medieval serif */
   --font-serif: "Playfair Display", Georgia, serif;
@@ -119,40 +119,57 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    line-height: 1.7;
+    letter-spacing: 0.01em;
   }
 
-  /* ═══════════════════════════════════════════════════════════════
-     TYPOGRAPHY HIERARCHY - Medieval Brutalism
-     ═══════════════════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════════════════════════════
+     TYPOGRAPHY HIERARCHY - Improved Readability
+     Better spacing, line heights, and font composition
+     ═══════════════════════════════════════════════════════════════════════ */
   
   h1 {
     font-family: var(--font-serif);
     @apply text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight uppercase;
     letter-spacing: -0.02em;
-    line-height: 0.95;
+    line-height: 0.9;
   }
   
   h2 {
     font-family: var(--font-serif);
     @apply text-4xl md:text-6xl font-bold tracking-tight;
     letter-spacing: -0.015em;
-    line-height: 1;
+    line-height: 1.05;
+    margin-bottom: 1rem;
   }
   
   h3 {
     font-family: var(--font-serif);
-    @apply text-3xl md:text-5xl font-semibold tracking-tight;
-    line-height: 1.1;
+    @apply text-3xl md:text-4xl font-semibold tracking-tight;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
   }
   
   h4 {
     font-family: var(--font-sans);
     @apply text-xl md:text-2xl font-semibold tracking-tight;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
   }
   
   p {
     font-family: var(--font-sans);
     @apply text-base leading-relaxed;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  /* Paragraph with more breathing room */
+  p.lead {
+    @apply text-lg md:text-xl leading-relaxed;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--muted-foreground);
   }
 
   /* Small caps labels - Medieval inscription style */
@@ -160,11 +177,95 @@
     font-family: var(--font-sans);
     @apply text-xs tracking-[0.25em] uppercase font-medium;
     letter-spacing: 0.2em;
+    line-height: 1.5;
   }
 
-  /* ═══════════════════════════════════════════════════════════════
+  /* Mono labels - Smaller, tighter tracking */
+  .font-mono-label {
+    font-family: var(--font-sans);
+    @apply text-xs tracking-wider uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+
+  /* Font effects - Strikethrough */
+  .strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+  }
+
+  .strike-through {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .strike-through::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: var(--accent);
+    transform: translateY(-50%);
+  }
+
+  /* Emphasis text */
+  .text-emphasis {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Muted text with better contrast */
+  .text-muted {
+    color: var(--muted-foreground);
+    line-height: 1.7;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     SECTION SPACING - Better pagination/flow
+     ═══════════════════════════════════════════════════════════════════════ */
+  
+  section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  @media (min-width: 768px) {
+    section {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    section {
+      padding-top: 10rem;
+      padding-bottom: 10rem;
+    }
+  }
+
+  /* Better spacing between elements */
+  .space-y-6 > * + * {
+    margin-top: 1.5rem;
+  }
+
+  .space-y-8 > * + * {
+    margin-top: 2rem;
+  }
+
+  .space-y-10 > * + * {
+    margin-top: 2.5rem;
+  }
+
+  .space-y-12 > * + * {
+    margin-top: 3rem;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
      BUTTON STYLES - Brutalist with minimal hover
-     ═══════════════════════════════════════════════════════════════ */
+     ═══════════════════════════════════════════════════════════════════════ */
   
   button {
     font-family: var(--font-sans);
@@ -176,12 +277,13 @@
   input, textarea {
     font-family: var(--font-sans);
     @apply text-sm;
+    line-height: 1.6;
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    ATMOSPHERIC OVERLAYS
-   ═══════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 /* Subtle noise texture */
 .noise-overlay {
@@ -208,9 +310,9 @@
   background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%);
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    SCROLLBAR - Iron rail aesthetic
-   ═══════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -236,9 +338,9 @@
   color: var(--accent-foreground);
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    ANIMATIONS - Slow, heavy, deliberate
-   ═══════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 @keyframes fade-in-slow {
   from {
@@ -290,3 +392,40 @@
 .brutalist-frame:hover::after {
   border-color: color-mix(in srgb, var(--primary) 50%, transparent);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MARQUEE ANIMATIONS - Tech Marquee
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 30s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 30s linear infinite;
+}
+
+/* Pause animation on hover for better readability */
+.marquee-container:hover .animate-marquee-left,
+.marquee-container:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
