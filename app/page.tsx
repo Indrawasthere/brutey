@@ -1,13 +1,13 @@
-import { Hero } from "@/components/hero"
-import { Navbar } from "@/components/navbar"
-import { About } from "@/components/about"
-import { Experience } from "@/components/experience"
-import { TechMarquee } from "@/components/tech-marquee"
-import { Works } from "@/components/works"
-import { Resume } from "@/components/resume"
-import { Contact } from "@/components/contact"
-import { Footer } from "@/components/footer"
-import { SmoothScroll } from "@/components/smooth-scroll"
+import { Hero } from "@/components/hero";
+import { Navbar } from "@/components/navbar";
+import { About } from "@/components/about";
+import { Experience } from "@/components/experience";
+import { TechMarquee } from "@/components/tech-marquee";
+import { Works } from "@/components/works";
+import { Resume } from "@/components/resume";
+import { Contact } from "@/components/contact";
+import { Footer } from "@/components/footer";
+import { SmoothScroll } from "@/components/smooth-scroll";
 
 export default function Home() {
   return (
@@ -24,5 +24,5 @@ export default function Home() {
         <Footer />
       </main>
     </SmoothScroll>
-  )
+  );
 }

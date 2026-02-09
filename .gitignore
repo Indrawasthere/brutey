@@ -27,5 +27,4 @@ yarn-error.log*
 next-env.d.ts
 .env*.local
 
-models/knight.glb
-/Users/muhammadfadlan/Documents/Project/brutal-portfo/public/models/knight.glb
+public/models/knight.glb

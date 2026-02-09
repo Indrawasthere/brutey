@@ -59,20 +59,32 @@ export default function RootLayout({
     <html 
       lang="en" 
       className={`${playfair.variable} ${inter.variable}`}
+      // SOLUSI UTAMA: Menghilangkan error Hydration Mismatch dari ThemeProvider/forcedTheme
+      suppressHydrationWarning 
     >
-      <body className="font-sans antialiased overflow-x-hidden bg-background">
-        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
+      <body className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30">
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="dark" 
+          enableSystem={false} // Dimatikan karena kita pake forcedTheme
+          forcedTheme="dark"
+        >
+          {/* Main accessibility helper */}
           <FocusMain />
           
-          {/* Atmospheric overlays */}
-          <div className="noise-overlay" />
-          <div className="vignette-overlay" />
+          {/* Atmospheric Overlays: 
+              Pastikan CSS noise-overlay & vignette-overlay pake pointer-events-none 
+          */}
+          <div className="noise-overlay fixed inset-0 z-[9999] pointer-events-none opacity-[0.05]" />
+          <div className="vignette-overlay fixed inset-0 z-[9998] pointer-events-none" />
           
-          {/* Custom cursor for enhanced interactivity */}
+          {/* Custom cursor stays on top */}
           <CustomCursor />
           
           <PageTransition>
-            {children}
+            <main className="relative min-h-screen">
+              {children}
+            </main>
           </PageTransition>
           
           <Analytics />

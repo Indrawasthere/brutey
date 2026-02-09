@@ -1,47 +1,47 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Works", href: "#works" },
   { label: "Contact", href: "#contact" },
-]
+];
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 50);
 
-      const sections = navLinks.map((link) => link.href.slice(1))
+      const sections = navLinks.map((link) => link.href.slice(1));
       for (const section of sections.reverse()) {
-        const element = document.getElementById(section)
+        const element = document.getElementById(section);
         if (element) {
-          const rect = element.getBoundingClientRect()
+          const rect = element.getBoundingClientRect();
           if (rect.top <= 150) {
-            setActiveSection(section)
-            break
+            setActiveSection(section);
+            break;
           }
         }
       }
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToSection = (href: string) => {
-    setIsMenuOpen(false)
-    const element = document.querySelector(href)
+    setIsMenuOpen(false);
+    const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
     <>
@@ -50,7 +50,9 @@ export function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled ? "bg-background/90 backdrop-blur-md border-b border-primary/20" : ""
+          isScrolled
+            ? "bg-background/90 backdrop-blur-md border-b border-primary/20"
+            : ""
         }`}
       >
         <nav className="flex items-center justify-center px-6 py-4 md:px-12 md:py-4 relative">
@@ -58,14 +60,18 @@ export function Navbar() {
           <a
             href="#"
             onClick={(e) => {
-              e.preventDefault()
-              window.scrollTo({ top: 0, behavior: "smooth" })
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="absolute left-6 md:left-12 group flex items-center gap-3"
           >
             <div className="w-8 h-8 border border-primary/40 flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-primary/10 scale-0 group-hover:scale-100 transition-transform duration-300" />
-              <img src="/preview.webp" alt="Logo" className="relative w-full h-full object-cover" />
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="relative w-full h-full object-cover"
+              />
             </div>
             <span className="label-caps text-primary/70 group-hover:text-primary transition-colors hidden sm:block">
               FORTRESS
@@ -89,7 +95,9 @@ export function Navbar() {
                   {/* Brutalist underline */}
                   <span
                     className={`absolute bottom-0 left-0 right-0 h-px bg-primary transition-all duration-300 ${
-                      activeSection === link.href.slice(1) ? "opacity-100" : "opacity-0"
+                      activeSection === link.href.slice(1)
+                        ? "opacity-100"
+                        : "opacity-0"
                     }`}
                   />
                 </button>
@@ -112,7 +120,9 @@ export function Navbar() {
               className="absolute w-5 h-px bg-primary"
             />
             <motion.span
-              animate={isMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 3 }}
+              animate={
+                isMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 3 }
+              }
               className="absolute w-5 h-px bg-primary origin-center"
             />
           </button>
@@ -139,12 +149,18 @@ export function Navbar() {
                   transition={{ delay: index * 0.1, duration: 0.3 }}
                   onClick={() => scrollToSection(link.href)}
                   className={`text-4xl font-sans font-bold tracking-wider transition-all duration-300 ${
-                    activeSection === link.href.slice(1) ? "text-primary" : "text-foreground hover:text-primary/70"
+                    activeSection === link.href.slice(1)
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary/70"
                   }`}
                 >
-                  <span className="font-mono-label text-sm mr-3 text-primary/40">0{index + 1}.</span>
+                  <span className="font-mono-label text-sm mr-3 text-primary/40">
+                    0{index + 1}.
+                  </span>
                   {link.label}
-                  <div className={`h-1 bg-primary/30 mt-2 transition-all duration-300 ${activeSection === link.href.slice(1) ? "w-full" : "w-0"}`} />
+                  <div
+                    className={`h-1 bg-primary/30 mt-2 transition-all duration-300 ${activeSection === link.href.slice(1) ? "w-full" : "w-0"}`}
+                  />
                 </motion.button>
               ))}
 
@@ -156,6 +172,5 @@ export function Navbar() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }
-

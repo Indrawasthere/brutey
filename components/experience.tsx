@@ -1,17 +1,22 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
-import { ArrowUpRight, Building2, Calendar } from "lucide-react"
+import { useState, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { ArrowUpRight, Building2, Calendar } from "lucide-react";
 
 interface Experience {
-  company: string
-  role: string
-  period: string
-  description: string
-  technologies: string[]
-  achievements: string[]
-  location: string
+  company: string;
+  role: string;
+  period: string;
+  description: string;
+  technologies: string[];
+  achievements: string[];
+  location: string;
 }
 
 const experiences: Experience[] = [
@@ -20,10 +25,10 @@ const experiences: Experience[] = [
     role: "Internal IT",
     period: "2025 — Present",
     description:
-      "Leading frontend architecture and mentoring junior developers. Building scalable React applications and implementing best practices across the codebase.",
+      "Leading whole IT department. Building scalable applications with Next.js & React and implementing best practices across divisions.",
     technologies: ["Next.js", "React", "PostgreSQL", "MongoDB"],
     achievements: [
-      "Reduced deployment time by 40%",
+      "Reduced approval time by 40%",
       "Mentored 5+ junior developers",
       "Implemented CI/CD pipelines",
     ],
@@ -57,7 +62,7 @@ const experiences: Experience[] = [
     ],
     location: "Jakarta, Indonesia",
   },
-]
+];
 
 function ExperienceCard({
   experience,
@@ -65,10 +70,10 @@ function ExperienceCard({
   isExpanded,
   onToggle,
 }: {
-  experience: Experience
-  index: number
-  isExpanded: boolean
-  onToggle: () => void
+  experience: Experience;
+  index: number;
+  isExpanded: boolean;
+  onToggle: () => void;
 }) {
   return (
     <motion.div
@@ -188,9 +193,7 @@ function ExperienceCard({
                       className="flex items-center gap-3 p-4 border border-border/50 bg-background/30"
                     >
                       <div className="w-1.5 h-1.5 bg-primary" />
-                      <span className="text-sm font-medium">
-                        {achievement}
-                      </span>
+                      <span className="text-sm font-medium">{achievement}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -221,19 +224,19 @@ function ExperienceCard({
         )}
       </AnimatePresence>
     </motion.div>
-  )
+  );
 }
 
 export function Experience() {
-  const containerRef = useRef<HTMLElement>(null)
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const containerRef = useRef<HTMLElement>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
-  })
+  });
 
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50])
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [0, 1, 1, 0])
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [0, 1, 1, 0]);
 
   return (
     <section
@@ -255,7 +258,7 @@ export function Experience() {
             02 — Experience
           </span>
         </div>
-        
+
         <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl max-w-4xl leading-tight">
           Work{" "}
           <span className="italic font-medium text-accent/90">History</span>
@@ -270,7 +273,9 @@ export function Experience() {
             experience={experience}
             index={index}
             isExpanded={expandedIndex === index}
-            onToggle={() => setExpandedIndex(expandedIndex === index ? null : index)}
+            onToggle={() =>
+              setExpandedIndex(expandedIndex === index ? null : index)
+            }
           />
         ))}
       </div>
@@ -311,6 +316,5 @@ export function Experience() {
         <div className="absolute top-0 right-[25%] w-px h-full bg-linear-to-b from-transparent via-white/5 to-transparent" />
       </div>
     </section>
-  )
+  );
 }
-
