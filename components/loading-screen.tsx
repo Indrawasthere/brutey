@@ -40,7 +40,7 @@ export function LoadingScreen() {
           }}
           className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-[#0a0a0a]"
         >
-          {/* Animated Obsidian Background Texture */}
+          {/* Animated Obsidian Background */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
               className="absolute inset-0 opacity-20"
@@ -62,7 +62,7 @@ export function LoadingScreen() {
             />
           </div>
           <div className="relative z-10 flex flex-col items-center justify-center">
-            {/* Title with subtle animation */}
+            {/* Title */}
             <div className="relative overflow-hidden mb-8 px-4 text-center">
               <motion.h1
                 initial={{ y: 80, opacity: 0 }}
@@ -90,7 +90,6 @@ export function LoadingScreen() {
               </motion.h2>
             </div>
 
-            {/* Minimal Progress Bar */}
             {/* Blade Forging Progress */}
             <div className="w-72 md:w-96 mb-10 relative">
               {/* Blade track */}
@@ -132,7 +131,7 @@ export function LoadingScreen() {
               transition={{ delay: 0.3 }}
               className="mb-3"
             >
-              <span className="font-mono text-xs tracking-[0.45em] text-stone-500 uppercase">
+              <span className="font-sans text-xs tracking-[0.45em] text-stone-500 uppercase">
                 {smoothProgress < 30 && "GATHERING STEEL"}
                 {smoothProgress >= 30 && smoothProgress < 70 && "TEMPERING"}
                 {smoothProgress >= 70 && smoothProgress < 100 && "SHARPENING"}
@@ -181,7 +180,6 @@ export function LoadingScreen() {
               </motion.div>
             </div>
           </div>{" "}
-          {/* This closing div was missing */}
           {/* Subtle floating particles */}
           <div className="absolute inset-0 pointer-events-none">
             {[...Array(6)].map((_, i) => (

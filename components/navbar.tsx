@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-// Helper function untuk jam Jakarta
 const useJakartaTime = () => {
   const [time, setTime] = useState("");
 
@@ -87,7 +86,6 @@ export function Navbar() {
       >
         <nav className="grid grid-cols-3 items-center px-6 py-4 md:px-12 h-20 md:h-24">
           {/* LEFT: LOGO */}
-          {/* LEFT: LOGO */}
           <div className="flex items-center justify-start">
             <a
               href="#"
@@ -95,11 +93,11 @@ export function Navbar() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="group flex items-center gap-5" // Gap gue naikin dikit biar lega
+              className="group flex items-center gap-5"
             >
-              {/* Box Logo - Ukuran dinaikin, Border diilangin */}
+              {/* Box Logo */}
               <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center relative transition-transform duration-500 group-hover:scale-105">
-                {/* Subtle glow pas hover biar tetep ada depth walau gapake border */}
+                {/* Subtle glow*/}
                 <div className="absolute inset-0 bg-primary/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <img
@@ -109,7 +107,7 @@ export function Navbar() {
                 />
               </div>
 
-              {/* Text Fortress - 12px & Bold Tracking */}
+              {/* Text Fortress*/}
               <span className="hidden lg:block font-sans text-[12px] leading-tight tracking-[0.4em] text-stone-400 uppercase group-hover:text-white transition-colors">
                 Sir Fadlan <br />
                 <span className="text-primary font-bold opacity-80 group-hover:opacity-100">
@@ -119,23 +117,23 @@ export function Navbar() {
             </a>
           </div>
 
-          {/* CENTER: NAV LINKS (Lebih Readable) */}
+          {/* CENTER:*/}
           <ul className="hidden md:flex items-center justify-center gap-8">
             {navLinks.map((link, index) => (
               <li key={link.label}>
                 <button
                   onClick={() => scrollToSection(link.href)}
-                  className={`group relative flex items-center font-sans text-[11px] tracking-[0.2em] transition-all duration-300 ${
+                  className={`group relative flex items-center font-sans text-[12px] tracking-[0.2em] transition-all duration-300 ${
                     activeSection === link.href.slice(1)
                       ? "text-primary"
                       : "text-white/40 hover:text-white"
                   }`}
                 >
-                  <span className="font-serif italic text-[10px] mr-1.5 opacity-30 group-hover:opacity-100">
+                  <span className="font-serif italic text-[12px] mr-1.5 opacity-30 group-hover:opacity-100">
                     {toRoman(index)}.
                   </span>
                   {link.label.toUpperCase()}
-                  {/* Underline minimal */}
+                  {/* Underline*/}
                   <span
                     className={`absolute -bottom-1 left-0 h-px bg-primary transition-all duration-500 ${
                       activeSection === link.href.slice(1) ? "w-full" : "w-0"
@@ -147,9 +145,8 @@ export function Navbar() {
           </ul>
 
           {/* RIGHT: REALTIME CLOCK & MOBILE TRIGGER */}
-          {/* RIGHT: REALTIME CLOCK & MOBILE TRIGGER */}
           <div className="flex items-center justify-end gap-6">
-            {/* Clock Container - Ukuran disamain kayak kiri (w-14/16 atau h-14/16) */}
+            {/* Clock Container */}
             <div className="hidden md:flex flex-col items-end justify-center h-14 md:h-16 min-w-30">
               <span className="font-technical text-[10px] text-white/30 tracking-[0.3em] uppercase mb-1">
                 Local Time
@@ -164,7 +161,7 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* Mobile Menu Button - Ukuran disamain juga biar konsisten di mobile */}
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden w-14 h-14 flex flex-col items-center justify-center gap-1.5 transition-colors active:bg-white/5"
@@ -191,7 +188,7 @@ export function Navbar() {
         </nav>
       </motion.header>
 
-      {/* MOBILE MENU OVERLAY (Simplified & Brutalist) */}
+      {/* MOBILE MENU OVERLAY */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div

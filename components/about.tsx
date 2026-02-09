@@ -1,77 +1,46 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-
-const philosophies = [
-  {
-    title: "CODE IS FORTRESS",
-    description:
-      "Every system built with architectural precision, engineered to withstand chaos and time",
-  },
-  {
-    title: "LOGIC IS WEAPON",
-    description:
-      "Sharp algorithms and clean patterns - the ancient blade of computational thinking",
-  },
-  {
-    title: "BUGS ARE CONQUERED",
-    description:
-      "No enemy left standing. Test-driven warfare against imperfection and entropy",
-  },
-  {
-    title: "SIMPLICITY REIGNS",
-    description:
-      "Complexity is the enemy. Brutal elegance through minimalist design philosophy",
-  },
-];
 
 export function About() {
   const containerRef = useRef<HTMLElement>(null);
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.5], [1.1, 1]);
 
   return (
     <section
       id="about"
       ref={containerRef}
-      className="relative py-32 md:py-40 px-6 md:px-12 lg:px-16 overflow-hidden bg-background"
+      className="relative py-24 md:py-40 px-6 md:px-12 lg:px-24 overflow-hidden bg-background"
     >
-      {/* Brutal Grid Background */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      {/* Background Decor */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `
-            linear-gradient(to right, var(--border) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--border) 1px, transparent 1px)
-          `,
-            backgroundSize: "80px 80px",
+            backgroundImage: `linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
           }}
         />
       </div>
 
-      {/* Section Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-7xl mx-auto mb-24 relative"
-      >
-        {/* Brutalist number decoration */}
-        <div className="absolute -left-4 -top-4 md:-left-8 md:-top-8 font-serif text-[120px] md:text-[200px] font-bold text-primary/5 leading-none pointer-events-none">
-          I
-        </div>
-
-        <div className="relative">
-          <div className="flex items-center gap-4 mb-8">
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* SECTION HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 md:mb-24"
+        >
+          <div className="flex items-center gap-4 mb-6">
             <motion.div
               className="w-20 h-px bg-linear-to-r from-primary to-stone-700"
               initial={{ width: 0 }}
@@ -80,223 +49,199 @@ export function About() {
               transition={{ delay: 0.3, duration: 1 }}
             />
             <motion.span
-              className="font-sans text-sm tracking-[0.3em] text-stone-400 uppercase"
+              className="font-sans text-xs md:text-sm tracking-[0.3em] text-stone-400 uppercase font-medium"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
             >
-              I — PHILOSOPHY
+              CHAPTER I — PROFILE
             </motion.span>
           </div>
 
-          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl max-w-5xl leading-[0.95] tracking-tight text-foreground">
-            ENGINEERING
-            <br />
-            <span className="text-primary italic font-light">DIGITAL</span>
-            <br />
-            FORTRESSES
+          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase">
+            ABOUT <span className="text-primary italic font-light">ME</span>
           </h2>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Philosophy Grid - WITH EPIC HOVER EFFECTS! */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 mb-32 border-2 border-border">
-        {philosophies.map((philosophy, index) => (
+        {/* MAIN CONTENT GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          {/* LEFT: IMAGE SECTION */}
           <motion.div
-            key={philosophy.title}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="lg:col-span-5 relative"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            onMouseEnter={() => setHoveredCard(index)}
-            onMouseLeave={() => setHoveredCard(null)}
-            className="group relative p-10 md:p-14 border-border border-r-2 border-b-2 last:border-r-0 md:even:border-r-0 transition-all duration-500 overflow-hidden cursor-pointer"
+            transition={{ duration: 0.8 }}
           >
-            {/* EPIC BACKGROUND COLOR CHANGE EFFECT*/}
-            <motion.div
-              className="absolute inset-0 bg-primary"
-              initial={{ y: "100%" }}
-              animate={{ y: hoveredCard === index ? "0%" : "100%" }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            />
+            {/* Brutalist Frame for Image */}
+            <div className="relative aspect-3/4 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-white/10 bg-stone-900">
+              <motion.img
+                style={{ scale: imageScale }}
+                src="/avatar.png"
+                alt="Muhammad Fadlan"
+                className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+              />
+              {/* Overlay Grainy */}
+              <div className="absolute inset-0 bg-primary/5 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.6)]" />
+            </div>
 
-            {/* Content -  */}
-            <div className="relative">
-              {/* Index number*/}
-              <motion.div
-                className="absolute top-0 right-0 font-serif text-xs tracking-[0.3em]"
-                animate={{
-                  color:
-                    hoveredCard === index
-                      ? "#0a0a0a"
-                      : "rgba(124, 45, 18, 0.4)",
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                [{String(index + 1).padStart(2, "0")}]
-              </motion.div>
+            {/* Corner Accents */}
+            <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-primary" />
+            <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-primary/30" />
 
-              {/* Geometric corner decorations */}
-              <div className="absolute top-0 left-0 w-8 h-8">
-                <motion.div
-                  className="absolute top-0 left-0 w-full h-px transition-colors duration-300"
-                  animate={{
-                    backgroundColor:
-                      hoveredCard === index
-                        ? "#0a0a0a"
-                        : "rgba(124, 45, 18, 0.3)",
-                  }}
-                />
-                <motion.div
-                  className="absolute top-0 left-0 w-px h-full transition-colors duration-300"
-                  animate={{
-                    backgroundColor:
-                      hoveredCard === index
-                        ? "#0a0a0a"
-                        : "rgba(124, 45, 18, 0.3)",
-                  }}
-                />
-              </div>
-
-              <div className="space-y-6">
-                <motion.h3
-                  className="font-serif text-2xl md:text-3xl font-bold tracking-wider uppercase leading-tight"
-                  animate={{
-                    color: hoveredCard === index ? "#0a0a0a" : "#d4d4d8",
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {philosophy.title}
-                </motion.h3>
-
-                <motion.div
-                  className="w-16 h-px transition-colors duration-300"
-                  animate={{
-                    backgroundColor:
-                      hoveredCard === index
-                        ? "#0a0a0a"
-                        : "rgba(124, 45, 18, 0.5)",
-                  }}
-                />
-
-                <motion.p
-                  className="text-sm md:text-base leading-relaxed"
-                  animate={{
-                    color:
-                      hoveredCard === index
-                        ? "rgba(10, 10, 10, 0.8)"
-                        : "#71717a",
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {philosophy.description}
-                </motion.p>
-              </div>
-
-              {/* Bottom corner accent */}
-              <div className="absolute bottom-0 right-0 w-6 h-6">
-                <motion.div
-                  className="absolute bottom-0 right-0 w-full h-px"
-                  animate={{
-                    backgroundColor:
-                      hoveredCard === index
-                        ? "rgba(10, 10, 10, 0.3)"
-                        : "rgba(124, 45, 18, 0.2)",
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.div
-                  className="absolute bottom-0 right-0 w-px h-full"
-                  animate={{
-                    backgroundColor:
-                      hoveredCard === index
-                        ? "rgba(10, 10, 10, 0.3)"
-                        : "rgba(124, 45, 18, 0.2)",
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-              </div>
+            <div className="mt-8 flex items-baseline gap-4">
+              <span className="font-serif italic text-primary text-2xl">
+                MMXXII
+              </span>
+              <span className="label-caps text-stone-500 text-[10px]!">
+                Start Practicing
+              </span>
             </div>
           </motion.div>
-        ))}
-      </div>
 
-      {/* About Statement*/}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="max-w-5xl mx-auto"
-      >
-        <div className="relative border-4 border-border bg-card/80 backdrop-blur-sm">
-          {/* Triple frame effect */}
-          <div className="absolute inset-0 border-2 border-primary/10 m-2 pointer-events-none" />
-          <div className="absolute inset-0 border border-primary/5 m-4 pointer-events-none" />
+          {/* RIGHT: CONTENT SECTION */}
+          <div className="lg:col-span-7 flex flex-col justify-center pt-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h3 className="font-serif text-3xl md:text-5xl leading-[1.1] mb-8 text-foreground tracking-tight">
+                A GUY{" "}
+                <span className="text-primary italic">WHO'S ADDICTED</span> TO
+                CODE.
+              </h3>
 
-          <div className="relative p-12 md:p-20 space-y-8">
-            {/* Quote marks - brutalist */}
-            <div className="font-serif text-6xl md:text-8xl text-primary/20 leading-none">
-              "
-            </div>
+              <div className="space-y-7 text-lg text-stone-400 font-sans leading-relaxed max-w-2xl">
+                <p>
+                  I am{" "}
+                  <span className="text-white font-semibold tracking-tight">
+                    Fadlan
+                  </span>
+                  , a software engineer with a strong foundation in logic-driven
+                  system design and practical engineering. My journey started in
+                  2016, learning and experimenting within constrained
+                  environments—from internet cafés to early mobile
+                  platforms—where I developed a deep appreciation for
+                  efficiency, structure, and problem-solving.
+                </p>
 
-            <div className="space-y-6 text-lg md:text-2xl leading-relaxed font-light">
-              <p className="text-foreground">
-                I forge software with the{" "}
-                <span className="font-medium font-sans italic  text-primary">
-                  precision of medieval engineering
-                </span>{" "}
-                and the vision of modern architecture.
-              </p>
+                <p>
+                  At a young age, I began building real-world systems, including
+                  school enrollment platforms and examination servers. These
+                  early experiences shaped my understanding of responsibility,
+                  scalability, and the importance of reliable systems that
+                  support real users.
+                </p>
 
-              <p className="text-muted-foreground">
-                Every line of code is a stone in the fortress. Every function, a
-                mechanism of war. The approach:{" "}
-                <span className="font-medium text-foreground">
-                  timeless principles meet cutting-edge execution
-                </span>
-                .
-              </p>
-            </div>
+                <p>
+                  Since then, I have worked across various environments—from
+                  government-related projects such as the
+                  <span className="text-white font-medium border-b border-primary/30 text-sm tracking-wide">
+                    {" "}
+                    Ministry of Agriculture
+                  </span>
+                  , to startups and enterprise-scale operations. My work spans
+                  warehouse management systems with RFID integration, internal
+                  platforms, and real-time dashboards designed to support
+                  operational decision-making.
+                </p>
 
-            <div className="pt-8 flex items-center gap-6">
-              <div className="flex-1 h-px bg-primary/30" />
-              <div className="text-center">
-                <div className="font-sans text-xs text-primary/60 tracking-[0.3em] mb-1">
-                  ESTABLISHED
-                </div>
-                <div className="font-sans text-2xl font-bold text-primary">
-                  MMXXII
+                <p>
+                  I am currently pursuing a degree in{" "}
+                  <span className="text-foreground">Information Systems</span>,
+                  at Binus University while continuing to explore software
+                  architecture and applied AI. My focus remains on building
+                  systems that effectively connect software, infrastructure, and
+                  meaningful human impact.
+                </p>
+
+                {/* Tech Arsenal */}
+                <div className="pt-6">
+                  <p className="text-primary font-semibold label-caps mb-4 text-xs! tracking-[0.25em]">
+                    Current Crafting Tools
+                  </p>
+                  <div className="grid grid-cols-2 gap-y-3 gap-x-6 font-technical text-[13px] text-stone-500 uppercase tracking-widest">
+                    <div className="flex items-center gap-3 group/item">
+                      <span className="w-1.5 h-1.5 bg-primary rotate-45 transition-transform group-hover/item:scale-125" />
+                      <span className="transition-colors group-hover/item:text-white">
+                        TypeScript / Next.js
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 group/item">
+                      <span className="w-1.5 h-1.5 bg-primary rotate-45 transition-transform group-hover/item:scale-125" />
+                      <span className="transition-colors group-hover/item:text-white">
+                        Go / Node.js
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 group/item">
+                      <span className="w-1.5 h-1.5 bg-primary rotate-45 transition-transform group-hover/item:scale-125" />
+                      <span className="transition-colors group-hover/item:text-white">
+                        PostgreSQL / Redis
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 group/item">
+                      <span className="w-1.5 h-1.5 bg-primary rotate-45 transition-transform group-hover/item:scale-125" />
+                      <span className="transition-colors group-hover/item:text-white">
+                        Applied AI Engineering
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex-1 h-px bg-primary/30" />
-            </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mt-16 border-t border-white/5 pt-10">
+                <div className="space-y-1">
+                  <span className="label-caps text-[9px]! text-stone-600 block">
+                    Experience
+                  </span>
+                  <span className="font-technical text-primary text-xl tracking-tighter font-bold">
+                    3+ YEARS
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  <span className="label-caps text-[9px]! text-stone-600 block">
+                    Status
+                  </span>
+                  <span className="font-technical text-white text-xl tracking-tighter uppercase font-bold">
+                    Available
+                  </span>
+                </div>
+                <div className="space-y-1 col-span-2 md:col-span-1">
+                  <span className="label-caps text-[9px]! text-stone-600 block">
+                    Current Focus
+                  </span>
+                  <span className="font-technical text-white text-xl tracking-tighter uppercase font-bold">
+                    Web3 & AI
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Floating geometric elements*/}
+      {/* Floating Big Text Parallax */}
       <motion.div
-        style={{ y }}
-        className="absolute top-20 right-10 w-40 h-40 pointer-events-none hidden lg:block"
+        style={{ y: yParallax }}
+        className="absolute -bottom-10 -right-10 pointer-events-none select-none opacity-[0.02] transition-none"
       >
-        <div className="absolute inset-0 border-2 border-primary/10" />
-        <div className="absolute inset-4 border border-primary/5" />
+        <h3 className="font-serif text-[25vw] font-bold leading-none uppercase outline-text">
+          FADLAN
+        </h3>
       </motion.div>
 
-      <motion.div
-        style={{ y: useTransform(scrollYProgress, [0, 1], [-100, 100]) }}
-        className="absolute bottom-40 left-10 w-32 h-32 rotate-45 pointer-events-none hidden lg:block"
-      >
-        <div className="absolute inset-0 border-2 border-border" />
-        <div className="absolute top-1/2 left-0 right-0 h-px bg-border" />
-        <div className="absolute top-0 bottom-0 left-1/2 w-px bg-border" />
-      </motion.div>
-
-      {/* Vertical accent lines */}
-      <div className="absolute top-0 bottom-0 left-[15%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />
-      <div className="absolute top-0 bottom-0 right-[15%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />
+      {/* Style outline */}
+      <style jsx>{`
+        .outline-text {
+          -webkit-text-stroke: 2px white;
+          color: transparent;
+        }
+      `}</style>
     </section>
   );
 }

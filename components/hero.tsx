@@ -9,8 +9,6 @@ import { KnightKTP } from "./KnightKTP";
 function Knight3D({ scrollProgress }: { scrollProgress: any }) {
   const modelRef = useRef<any>(null);
 
-  // Animasi 3D berdasarkan scroll
-  // Knight bakal muter dikit dan turun pas di-scroll
   const rotationY = useTransform(
     scrollProgress,
     [0, 1],
@@ -21,7 +19,6 @@ function Knight3D({ scrollProgress }: { scrollProgress: any }) {
   useFrame((state) => {
     if (modelRef.current) {
       const t = state.clock.getElapsedTime();
-      // Gabungin scroll position sama idle bobbing (floating effect)
       modelRef.current.position.y = positionY.get() + Math.sin(t * 0.5) * 0.05;
       modelRef.current.rotation.y = rotationY.get();
     }
@@ -49,7 +46,6 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Smooth scroll progress buat 3D biar gak kaku
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -63,7 +59,7 @@ export function Hero() {
       ref={containerRef}
       className="relative h-screen w-full overflow-hidden bg-background"
     >
-      {/* 1. TYPOGRAPHY BEHIND */}
+      {/* TYPOGRAPHY BEHIND */}
       <motion.div
         style={{ opacity }}
         className="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none"
@@ -76,7 +72,7 @@ export function Hero() {
         </h1>
       </motion.div>
 
-      {/* 2. 3D MODEL CENTERED */}
+      {/* 3D MODEL CENTERED */}
       <motion.div style={{ y: yParallax }} className="absolute inset-0 z-10">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 35 }}
@@ -90,35 +86,42 @@ export function Hero() {
         </Canvas>
       </motion.div>
 
-      {/* 3. UI OVERLAY */}
+      {/* UI OVERLAY */}
       <motion.div
         style={{ opacity }}
         className="absolute inset-0 z-20 flex flex-col items-center justify-between py-20 px-6 pointer-events-none"
       >
         <div className="flex flex-col items-center gap-2">
           <span className="label-caps text-accent/60 text-[10px]!">
-            Portfolio Vol. 01
+            Portfolio Volume I
           </span>
           <div className="h-10 w-px bg-linear-to-b from-primary to-transparent" />
         </div>
 
-        {/* GLASS CARD FIX: Pake isolation & backface-visibility */}
+        {/* GLASS CARD FIX */}
         <div
           className="w-full max-w-lg mt-auto pointer-events-auto"
           style={{ isolation: "isolate" }}
         >
           <div
-            className="relative overflow-hidden backdrop-blur-xl bg-card/40 border border-white/10 p-6 rounded-sm text-center shadow-2xl transition-all duration-500"
+            className="relative overflow-hidden backdrop-blur-xs bg-card/40 border border-white/10 p-6 rounded-2xl text-center shadow-2xl transition-all duration-500"
             style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }}
           >
-            {/* Gradient glow subtle biar tetep glass walau fade */}
+            {/* Gradient glow subtle */}
             <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent pointer-events-none" />
 
-            <p className="relative z-10 text-muted-foreground font-sans text-sm md:text-base leading-relaxed mb-6">
-              Ancient logic meets modern engineering. <br />
-              Building digital fortresses with deliberate code.
+            {/* Tagline */}
+            <p className="relative z-10 text-white/60 font-sans text-sm md:text-base leading-relaxed">
+              Logic-driven software engineering for real-world systems.
             </p>
-            <div className="relative z-10 grid grid-cols-2 gap-4 border-t border-border/30 pt-4">
+
+            {/* Flavor line */}
+            <p className="relative z-10 mt-2 text-white/30 text-xs tracking-wide">
+              Forged with precision. Built to last.
+            </p>
+
+            {/* Meta */}
+            <div className="relative z-10 grid grid-cols-2 gap-4 border-t border-border/30 pt-4 mt-6">
               <div className="text-center">
                 <span className="label-caps text-white/40 text-[8px]! block">
                   Location
@@ -132,7 +135,7 @@ export function Hero() {
                   Specialization
                 </span>
                 <span className="font-technical text-primary text-xs uppercase tracking-widest">
-                  Software Eng
+                  Software Engineering
                 </span>
               </div>
             </div>

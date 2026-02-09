@@ -19,40 +19,72 @@ interface Project {
 
 const projects: Project[] = [
   {
-    slug: "atreus-internal",
-    title: "ATREUS GLOBAL",
-    subtitle: "Internal IT Infrastructure",
-    year: "2025",
-    tags: ["NEXT.JS", "POSTGRESQL", "MONGODB"],
+    slug: "sipakat-pbj",
+    title: "SIPAKAT-PBJ",
+    subtitle: "Government Procurement Monitoring System",
+    year: "2024",
+    tags: ["REACT", "TYPESCRIPT", "POSTGRESQL", "TAILWIND"],
     link: "#",
+    github: "https://github.com/Indrawasthere/spkmb",
     description:
-      "Built comprehensive internal platform managing company operations, employee systems, and data infrastructure with modern stack.",
-    impact: ["Unified 5+ systems", "90% faster workflows", "Real-time sync"],
+      "Integrated monitoring platform for government procurement processes, providing real-time analytics, audit tracking, and structured vendor collaboration.",
+    impact: [
+      "Transparent procurement oversight",
+      "Real-time analytics & audit trails",
+      "Improved vendor coordination",
+    ],
     index: "I",
   },
   {
-    slug: "rupa-aestetika",
-    title: "RUPA AESTETIKA TECH",
-    subtitle: "Full-Stack Web Applications",
+    slug: "proveit",
+    title: "PROVE IT",
+    subtitle: "Approval & Document Workflow System",
     year: "2024",
-    tags: ["REACT", "NODE.JS", "POSTGRESQL"],
+    tags: ["NEXT.JS", "PRISMA", "POSTGRESQL", "NEXTAUTH"],
     link: "#",
+    github: "https://github.com/Indrawasthere/approvalsystem",
     description:
-      "Developed end-to-end solutions for technology consulting firm, implementing real-time features and performance optimizations.",
-    impact: ["40% perf boost", "Real-time features", "Clean architecture"],
+      "Multi-layer approval workflow system with structured document management, access control, and Google Drive integration.",
+    impact: [
+      "Streamlined approval workflows",
+      "Centralized document management",
+      "Reduced manual processing",
+    ],
     index: "II",
   },
   {
-    slug: "wahana-datarindo",
-    title: "WAHANA DATARINDO",
-    subtitle: "Enterprise Solutions",
-    year: "2023-2024",
-    tags: ["LARAVEL", "REACT", "MYSQL"],
+    slug: "hyra",
+    title: "HYRA",
+    subtitle: "AI-Assisted HR Information System",
+    year: "2025",
+    tags: ["REACT", "FASTAPI", "MONGODB", "AI"],
     link: "#",
+    github: "https://github.com/Indrawasthere/hyra",
     description:
-      "Built responsive enterprise applications for data management solutions, collaborating with design team for pixel-perfect implementations.",
-    impact: ["Multiple clients", "Scalable systems", "Best practices"],
+      "AI-powered HRIS designed to support attendance analytics, CV screening, and salary recommendations using machine learning models.",
+    impact: [
+      "Automated HR analysis",
+      "Data-driven hiring support",
+      "Reduced HR operational overhead",
+    ],
     index: "III",
+  },
+  {
+    slug: "orca-pos",
+    title: "ORCA POS",
+    subtitle: "Enterprise Point of Sale System",
+    year: "2025",
+    tags: ["REACT", "GOLANG", "POSTGRESQL"],
+    link: "#",
+    github: "https://github.com/Indrawasthere/pointsale",
+    description:
+      "Enterprise-grade point of sale system with multi-role access, kitchen display integration, and scalable backend services.",
+    impact: [
+      "Multi-role & multi-branch support",
+      "Operational visibility",
+      "High transaction reliability",
+    ],
+    index: "IV",
   },
 ];
 
@@ -107,15 +139,13 @@ export function Works() {
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
             >
-              IV — CRAFTMASTER
+              CHAPTER IV — FEATURES PROJECTS
             </motion.span>
           </div>
 
-          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl max-w-5xl leading-[0.95] tracking-tight text-foreground">
-            FORTRESSES
-            <br />
+          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase">
+            SYSTEMS{" "}
             <span className="text-primary italic font-light">BUILT</span>
-            <br />
           </h2>
         </div>
       </motion.div>
@@ -138,7 +168,7 @@ export function Works() {
                 setExpandedIndex(expandedIndex === index ? null : index)
               }
             >
-              {/* Project number - large background */}
+              {/* Project number */}
               <div className="absolute top-4 right-4 md:top-8 md:right-8 font-serif text-6xl md:text-8xl font-bold text-primary/5 leading-none pointer-events-none">
                 {project.index}
               </div>
@@ -163,7 +193,7 @@ export function Works() {
 
                 {/* Title */}
                 <div>
-                  <h3 className="font-sans text-3xl md:text-5xl lg:text-6xl font-bold tracking-wider uppercase mb-3 group-hover:text-primary/90 transition-colors duration-300">
+                  <h3 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold tracking-wider uppercase mb-3 group-hover:text-primary/90 transition-colors duration-300">
                     {project.title}
                   </h3>
                   <p className="text-lg md:text-xl text-muted-foreground font-light">

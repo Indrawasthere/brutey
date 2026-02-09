@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Download, FileText, ArrowUpRight, Shield, Target } from "lucide-react";
+import {
+  Download,
+  FileText,
+  ArrowUpRight,
+  Shield,
+  Target,
+  ExternalLink,
+} from "lucide-react";
 
 export function Resume() {
   const [downloadHovered, setDownloadHovered] = useState(false);
@@ -56,21 +63,19 @@ export function Resume() {
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
             >
-              V — RESUME
+              CHAPTER V — RESUME
             </motion.span>
           </div>
 
-          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl max-w-5xl leading-[0.95] tracking-tight text-foreground">
-            BATTLE
-            <br />
-            <span className="text-primary italic font-light">RECORDS</span>
-            <br />
+          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase">
+            CURRICULUM{" "}
+            <span className="text-primary italic font-light">VITAE</span>
           </h2>
         </div>
       </motion.div>
 
-      {/* Resume Cards - EPIC HOVER EFFECTS! */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 mb-24 border-2 border-border">
+      {/* Resume Cards */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 mb-24 border-2 border-border group/cards">
         {/* Download Resume Card */}
         <motion.a
           href="/fadlan_resume.pdf"
@@ -79,13 +84,26 @@ export function Resume() {
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          whileHover={{ scale: 1.02 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{
+            duration: 0.6,
+            delay: 0.2,
+            hover: { duration: 0.3 },
+          }}
           onMouseEnter={() => setDownloadHovered(true)}
           onMouseLeave={() => setDownloadHovered(false)}
-          className="group relative p-10 md:p-14 border-r-2 md:border-r-2 border-b-2 md:border-b-0 border-border transition-all duration-500 overflow-hidden cursor-pointer"
+          className="relative p-10 md:p-14 border-r-2 md:border-r-2 border-b-2 md:border-b-0 border-border overflow-hidden cursor-pointer bg-card"
         >
-          {/* EPIC BACKGROUND - diagonal sweep */}
+          {/* Background Glow Effect */}
+          <motion.div
+            className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: downloadHovered ? 1 : 0 }}
+            transition={{ duration: 0.4 }}
+          />
+
+          {/* Main Background Sweep */}
           <motion.div
             className="absolute inset-0 bg-primary"
             initial={{ x: "-100%", y: "100%" }}
@@ -93,14 +111,17 @@ export function Resume() {
               x: downloadHovered ? "0%" : "-100%",
               y: downloadHovered ? "0%" : "100%",
             }}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
           />
 
-          {/* Content */}
-          <div className="relative">
-            {/* Index */}
+          {/* Content Container */}
+          <div className="relative z-10">
+            {/* Top Right Index */}
             <motion.div
-              className="absolute top-0 right-0 font-sans text-xs tracking-[0.3em]"
+              className="absolute top-0 right-0 font-sans text-xs tracking-[0.3em] font-bold"
               animate={{
                 color: downloadHovered ? "#0a0a0a" : "rgba(124, 45, 18, 0.4)",
               }}
@@ -109,7 +130,7 @@ export function Resume() {
               [01]
             </motion.div>
 
-            {/* Corner accents */}
+            {/* Corner Accents */}
             <div className="absolute top-0 left-0 w-8 h-8">
               <motion.div
                 className="absolute top-0 left-0 w-full h-px"
@@ -131,53 +152,61 @@ export function Resume() {
               />
             </div>
 
-            {/* Content */}
+            {/* Main Content */}
             <div className="flex flex-col gap-6">
-              {/* Icon with bounce */}
+              {/* Icon Container */}
               <motion.div
                 animate={{
-                  scale: downloadHovered ? 1.1 : 1,
-                  y: downloadHovered ? -5 : 0,
+                  scale: downloadHovered ? 1.05 : 1,
+                  rotate: downloadHovered ? 5 : 0,
                 }}
-                transition={{ duration: 0.3 }}
-                className="w-16 h-16 border-2 flex items-center justify-center transition-colors duration-300"
-                style={{
-                  borderColor: downloadHovered
-                    ? "#0a0a0a"
-                    : "rgba(124, 45, 18, 0.3)",
-                }}
+                transition={{ duration: 0.4 }}
+                className="relative"
               >
+                <div className="absolute inset-0 bg-primary/10 blur-md scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <motion.div
                   animate={{
-                    color: downloadHovered
+                    borderColor: downloadHovered
                       ? "#0a0a0a"
-                      : "rgba(124, 45, 18, 0.7)",
+                      : "rgba(124, 45, 18, 0.3)",
                   }}
+                  className="relative w-16 h-16 border-2 flex items-center justify-center bg-card/50 backdrop-blur-sm"
                 >
-                  <Download className="w-8 h-8" />
+                  <motion.div
+                    animate={{
+                      color: downloadHovered
+                        ? "#0a0a0a"
+                        : "rgba(124, 45, 18, 0.7)",
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Download className="w-8 h-8" />
+                  </motion.div>
                 </motion.div>
               </motion.div>
 
-              {/* Title */}
-              <motion.h3
-                className="font-sans text-3xl md:text-4xl font-bold tracking-wider uppercase"
-                animate={{
-                  color: downloadHovered ? "#0a0a0a" : "#d4d4d8",
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                FULL RESUME
-              </motion.h3>
+              {/* Title Section */}
+              <div className="space-y-3">
+                <motion.h3
+                  className="font-sans text-3xl md:text-4xl font-bold tracking-wider uppercase"
+                  animate={{
+                    color: downloadHovered ? "#0a0a0a" : "#d4d4d8",
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  FULL RESUME
+                </motion.h3>
 
-              <motion.div
-                className="w-16 h-px"
-                animate={{
-                  backgroundColor: downloadHovered
-                    ? "#0a0a0a"
-                    : "rgba(124, 45, 18, 0.5)",
-                }}
-                transition={{ duration: 0.3 }}
-              />
+                <motion.div
+                  className="w-16 h-px"
+                  animate={{
+                    backgroundColor: downloadHovered
+                      ? "#0a0a0a"
+                      : "rgba(124, 45, 18, 0.5)",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
 
               {/* Description */}
               <motion.p
@@ -191,7 +220,7 @@ export function Resume() {
                 ready for printing or sharing with commanders.
               </motion.p>
 
-              {/* Stats */}
+              {/* Stats Row */}
               <div className="flex items-center gap-6 pt-4">
                 <div className="flex items-center gap-2">
                   <motion.div
@@ -204,7 +233,7 @@ export function Resume() {
                     <FileText className="w-4 h-4" />
                   </motion.div>
                   <motion.span
-                    className="font-sans text-xs tracking-wider"
+                    className="font-sans text-xs tracking-wider font-medium"
                     animate={{
                       color: downloadHovered ? "#0a0a0a" : "#d4d4d8",
                     }}
@@ -212,36 +241,55 @@ export function Resume() {
                     2 PAGES
                   </motion.span>
                 </div>
-                <div className="w-px h-4 bg-border" />
+                <div
+                  className="w-px h-4"
+                  style={{
+                    background: downloadHovered
+                      ? "#0a0a0a"
+                      : "rgba(124, 45, 18, 0.3)",
+                  }}
+                />
                 <motion.span
-                  className="label-caps text-[10px]"
+                  className="text-[10px] tracking-[0.2em] font-sans"
                   animate={{
                     color: downloadHovered
                       ? "rgba(10, 10, 10, 0.8)"
                       : "rgba(124, 45, 18, 0.8)",
                   }}
                 >
-                  UPDATED 2025
+                  UPDATED 2026
                 </motion.span>
               </div>
 
-              {/* Arrow */}
-              <div className="flex items-center gap-3 mt-2">
+              {/* Call to Action */}
+              <motion.div
+                className="flex items-center gap-3 mt-2 group/cta"
+                animate={{
+                  y: downloadHovered ? -2 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+              >
                 <motion.div
                   animate={{
                     color: downloadHovered
                       ? "#0a0a0a"
                       : "rgba(124, 45, 18, 0.5)",
                   }}
+                  className="relative"
                 >
                   <Shield className="w-4 h-4" />
+                  <motion.div
+                    className="absolute inset-0 bg-primary/20 blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: downloadHovered ? 1 : 0 }}
+                  />
                 </motion.div>
                 <motion.span
-                  className="label-caps"
+                  className="text-xs tracking-[0.2em] uppercase font-sans"
                   animate={{
                     color: downloadHovered
-                      ? "rgba(10, 10, 10, 0.6)"
-                      : "rgba(124, 45, 18, 0.6)",
+                      ? "rgba(10, 10, 10, 0.8)"
+                      : "rgba(124, 45, 18, 0.8)",
                   }}
                 >
                   DOWNLOAD PDF
@@ -255,52 +303,71 @@ export function Resume() {
                       : "rgba(124, 45, 18, 0.5)",
                   }}
                   transition={{ duration: 0.3 }}
+                  className="relative"
                 >
                   <ArrowUpRight className="w-5 h-5" />
+                  <motion.div
+                    className="absolute inset-0 bg-primary/20 blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: downloadHovered ? 1 : 0 }}
+                  />
                 </motion.div>
-              </div>
+              </motion.div>
             </div>
 
-            {/* Bottom corner */}
+            {/* Bottom Corner */}
             <div className="absolute bottom-0 right-0 w-6 h-6">
               <motion.div
                 className="absolute bottom-0 right-0 w-full h-px"
                 animate={{
-                  opacity: downloadHovered ? 1 : 0,
+                  width: downloadHovered ? "100%" : "0%",
                   backgroundColor: downloadHovered
-                    ? "rgba(10, 10, 10, 0.3)"
+                    ? "rgba(10, 10, 10, 0.5)"
                     : "rgba(124, 45, 18, 0.3)",
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, delay: downloadHovered ? 0.1 : 0 }}
               />
               <motion.div
                 className="absolute bottom-0 right-0 w-px h-full"
                 animate={{
-                  opacity: downloadHovered ? 1 : 0,
+                  height: downloadHovered ? "100%" : "0%",
                   backgroundColor: downloadHovered
-                    ? "rgba(10, 10, 10, 0.3)"
+                    ? "rgba(10, 10, 10, 0.5)"
                     : "rgba(124, 45, 18, 0.3)",
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, delay: downloadHovered ? 0.2 : 0 }}
               />
             </div>
           </div>
         </motion.a>
 
-        {/* Preview Card - mirrored effect */}
+        {/* Preview Card */}
         <motion.a
           href="/fadlan_resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          whileHover={{ scale: 1.02 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{
+            duration: 0.6,
+            delay: 0.3,
+            hover: { duration: 0.3 },
+          }}
           onMouseEnter={() => setPreviewHovered(true)}
           onMouseLeave={() => setPreviewHovered(false)}
-          className="group relative p-10 md:p-14 border-b-2 md:border-b-0 border-border transition-all duration-500 overflow-hidden cursor-pointer"
+          className="relative p-10 md:p-14 border-b-2 md:border-b-0 border-border overflow-hidden cursor-pointer bg-card"
         >
-          {/* EPIC BACKGROUND - diagonal sweep from opposite */}
+          {/* Background Glow Effect */}
+          <motion.div
+            className="absolute inset-0 bg-linear-to-bl from-primary/5 to-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: previewHovered ? 1 : 0 }}
+            transition={{ duration: 0.4 }}
+          />
+
+          {/* Main Background Sweep */}
           <motion.div
             className="absolute inset-0 bg-primary"
             initial={{ x: "100%", y: "100%" }}
@@ -308,13 +375,17 @@ export function Resume() {
               x: previewHovered ? "0%" : "100%",
               y: previewHovered ? "0%" : "100%",
             }}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
           />
 
-          {/* Content - same pattern as download card */}
-          <div className="relative">
+          {/* Content Container */}
+          <div className="relative z-10">
+            {/* Top Left Index */}
             <motion.div
-              className="absolute top-0 right-0 font-sans text-xs tracking-[0.3em]"
+              className="absolute top-0 left-0 font-sans text-xs tracking-[0.3em] font-bold"
               animate={{
                 color: previewHovered ? "#0a0a0a" : "rgba(124, 45, 18, 0.4)",
               }}
@@ -323,6 +394,7 @@ export function Resume() {
               [02]
             </motion.div>
 
+            {/* Corner Accents */}
             <div className="absolute top-0 right-0 w-8 h-8">
               <motion.div
                 className="absolute top-0 right-0 w-full h-px"
@@ -344,51 +416,63 @@ export function Resume() {
               />
             </div>
 
+            {/* Main Content */}
             <div className="flex flex-col gap-6">
+              {/* Icon Container */}
               <motion.div
                 animate={{
-                  scale: previewHovered ? 1.1 : 1,
-                  y: previewHovered ? -5 : 0,
+                  scale: previewHovered ? 1.05 : 1,
+                  rotate: previewHovered ? -5 : 0,
                 }}
-                transition={{ duration: 0.3 }}
-                className="w-16 h-16 border-2 flex items-center justify-center transition-colors duration-300"
-                style={{
-                  borderColor: previewHovered
-                    ? "#0a0a0a"
-                    : "rgba(124, 45, 18, 0.3)",
-                }}
+                transition={{ duration: 0.4 }}
+                className="relative"
               >
+                <div className="absolute inset-0 bg-primary/10 blur-md scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <motion.div
                   animate={{
-                    color: previewHovered
+                    borderColor: previewHovered
                       ? "#0a0a0a"
-                      : "rgba(124, 45, 18, 0.7)",
+                      : "rgba(124, 45, 18, 0.3)",
                   }}
+                  className="relative w-16 h-16 border-2 flex items-center justify-center bg-card/50 backdrop-blur-sm"
                 >
-                  <FileText className="w-8 h-8" />
+                  <motion.div
+                    animate={{
+                      color: previewHovered
+                        ? "#0a0a0a"
+                        : "rgba(124, 45, 18, 0.7)",
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ExternalLink className="w-8 h-8" />
+                  </motion.div>
                 </motion.div>
               </motion.div>
 
-              <motion.h3
-                className="font-sans text-3xl md:text-4xl font-bold tracking-wider uppercase"
-                animate={{
-                  color: previewHovered ? "#0a0a0a" : "#d4d4d8",
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                QUICK PREVIEW
-              </motion.h3>
+              {/* Title Section */}
+              <div className="space-y-3">
+                <motion.h3
+                  className="font-sans text-3xl md:text-4xl font-bold tracking-wider uppercase"
+                  animate={{
+                    color: previewHovered ? "#0a0a0a" : "#d4d4d8",
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  QUICK PREVIEW
+                </motion.h3>
 
-              <motion.div
-                className="w-16 h-px"
-                animate={{
-                  backgroundColor: previewHovered
-                    ? "#0a0a0a"
-                    : "rgba(124, 45, 18, 0.5)",
-                }}
-                transition={{ duration: 0.3 }}
-              />
+                <motion.div
+                  className="w-16 h-px"
+                  animate={{
+                    backgroundColor: previewHovered
+                      ? "#0a0a0a"
+                      : "rgba(124, 45, 18, 0.5)",
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
 
+              {/* Description */}
               <motion.p
                 className="text-sm md:text-base leading-relaxed"
                 animate={{
@@ -397,28 +481,82 @@ export function Resume() {
                 transition={{ duration: 0.3 }}
               >
                 View resume directly in browser. Perfect for quick reference or
-                sharing link with recruiters on the battlefield.
+                sharing link with recruiters.
               </motion.p>
 
-              <div className="flex items-center gap-3 pt-4">
+              {/* Stats Row */}
+              <div className="flex items-center gap-6 pt-4">
+                <div className="flex items-center gap-2">
+                  <motion.div
+                    animate={{
+                      color: previewHovered
+                        ? "#0a0a0a"
+                        : "rgba(124, 45, 18, 0.5)",
+                    }}
+                  >
+                    <Target className="w-4 h-4" />
+                  </motion.div>
+                  <motion.span
+                    className="font-sans text-xs tracking-wider font-medium"
+                    animate={{
+                      color: previewHovered ? "#0a0a0a" : "#d4d4d8",
+                    }}
+                  >
+                    INSTANT VIEW
+                  </motion.span>
+                </div>
+                <div
+                  className="w-px h-4"
+                  style={{
+                    background: previewHovered
+                      ? "#0a0a0a"
+                      : "rgba(124, 45, 18, 0.3)",
+                  }}
+                />
+                <motion.span
+                  className="text-[10px] tracking-[0.2em] font-sans"
+                  animate={{
+                    color: previewHovered
+                      ? "rgba(10, 10, 10, 0.8)"
+                      : "rgba(124, 45, 18, 0.8)",
+                  }}
+                >
+                  NO DOWNLOAD
+                </motion.span>
+              </div>
+
+              {/* Call to Action */}
+              <motion.div
+                className="flex items-center gap-3 mt-2 group/cta"
+                animate={{
+                  y: previewHovered ? -2 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+              >
                 <motion.div
                   animate={{
                     color: previewHovered
                       ? "#0a0a0a"
                       : "rgba(124, 45, 18, 0.5)",
                   }}
+                  className="relative"
                 >
-                  <Target className="w-4 h-4" />
+                  <FileText className="w-4 h-4" />
+                  <motion.div
+                    className="absolute inset-0 bg-primary/20 blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: previewHovered ? 1 : 0 }}
+                  />
                 </motion.div>
                 <motion.span
-                  className="label-caps"
+                  className="text-xs tracking-[0.2em] uppercase font-sans"
                   animate={{
                     color: previewHovered
-                      ? "rgba(10, 10, 10, 0.6)"
-                      : "rgba(124, 45, 18, 0.6)",
+                      ? "rgba(10, 10, 10, 0.8)"
+                      : "rgba(124, 45, 18, 0.8)",
                   }}
                 >
-                  OPEN PREVIEW
+                  VIEW IN BROWSER
                 </motion.span>
                 <motion.div
                   animate={{
@@ -429,39 +567,46 @@ export function Resume() {
                       : "rgba(124, 45, 18, 0.5)",
                   }}
                   transition={{ duration: 0.3 }}
+                  className="relative"
                 >
                   <ArrowUpRight className="w-5 h-5" />
+                  <motion.div
+                    className="absolute inset-0 bg-primary/20 blur-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: previewHovered ? 1 : 0 }}
+                  />
                 </motion.div>
-              </div>
+              </motion.div>
             </div>
 
+            {/* Bottom Corner */}
             <div className="absolute bottom-0 left-0 w-6 h-6">
               <motion.div
                 className="absolute bottom-0 left-0 w-full h-px"
                 animate={{
-                  opacity: previewHovered ? 1 : 0,
+                  width: previewHovered ? "100%" : "0%",
                   backgroundColor: previewHovered
-                    ? "rgba(10, 10, 10, 0.3)"
+                    ? "rgba(10, 10, 10, 0.5)"
                     : "rgba(124, 45, 18, 0.3)",
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, delay: previewHovered ? 0.1 : 0 }}
               />
               <motion.div
                 className="absolute bottom-0 left-0 w-px h-full"
                 animate={{
-                  opacity: previewHovered ? 1 : 0,
+                  height: previewHovered ? "100%" : "0%",
                   backgroundColor: previewHovered
-                    ? "rgba(10, 10, 10, 0.3)"
+                    ? "rgba(10, 10, 10, 0.5)"
                     : "rgba(124, 45, 18, 0.3)",
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, delay: previewHovered ? 0.2 : 0 }}
               />
             </div>
           </div>
         </motion.a>
       </div>
 
-      {/* Summary Stats - Monolithic block with count-up animation */}
+      {/* Enhanced Stats Block */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -469,60 +614,127 @@ export function Resume() {
         transition={{ duration: 0.8, delay: 0.4 }}
         className="max-w-7xl mx-auto"
       >
-        <div className="relative border-4 border-border bg-card/80 backdrop-blur-sm">
-          <div className="absolute inset-0 border-2 border-primary/10 m-2 pointer-events-none" />
-          <div className="absolute inset-0 border border-primary/5 m-4 pointer-events-none" />
+        <div className="relative border-4 border-border bg-card/80 backdrop-blur-sm overflow-hidden group/stats">
+          {/* Animated Border Glow */}
+          <motion.div
+            className="absolute inset-0 border-2 border-primary/20 m-2 pointer-events-none"
+            animate={{
+              borderColor: [
+                "rgba(124, 45, 18, 0.2)",
+                "rgba(124, 45, 18, 0.4)",
+                "rgba(124, 45, 18, 0.2)",
+              ],
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
+
+          {/* Floating Particles */}
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-primary/30 rounded-full"
+              initial={{
+                x: Math.random() * 100 + "%",
+                y: Math.random() * 100 + "%",
+                opacity: 0,
+              }}
+              animate={{
+                y: ["0%", "-100%", "0%"],
+                opacity: [0, 0.5, 0],
+              }}
+              transition={{
+                duration: 2 + Math.random(),
+                repeat: Infinity,
+                delay: i * 0.5,
+              }}
+            />
+          ))}
 
           {/* Decorative corners */}
-          <div className="absolute top-0 left-0 w-10 h-10">
-            <div className="absolute top-0 left-0 w-full h-px bg-primary/40" />
-            <div className="absolute top-0 left-0 w-px h-full bg-primary/40" />
+          <div className="absolute top-0 left-0 w-12 h-12">
+            <motion.div
+              className="absolute top-0 left-0 w-full h-px bg-primary/40"
+              animate={{ width: ["0%", "100%", "100%"] }}
+              transition={{ duration: 1, delay: 0.5 }}
+            />
+            <motion.div
+              className="absolute top-0 left-0 w-px h-full bg-primary/40"
+              animate={{ height: ["0%", "100%", "100%"] }}
+              transition={{ duration: 1, delay: 0.6 }}
+            />
           </div>
-          <div className="absolute top-0 right-0 w-10 h-10">
-            <div className="absolute top-0 right-0 w-full h-px bg-primary/40" />
-            <div className="absolute top-0 right-0 w-px h-full bg-primary/40" />
-          </div>
-          <div className="absolute bottom-0 left-0 w-10 h-10">
-            <div className="absolute bottom-0 left-0 w-full h-px bg-primary/40" />
-            <div className="absolute bottom-0 left-0 w-px h-full bg-primary/40" />
-          </div>
-          <div className="absolute bottom-0 right-0 w-10 h-10">
-            <div className="absolute bottom-0 right-0 w-full h-px bg-primary/40" />
-            <div className="absolute bottom-0 right-0 w-px h-full bg-primary/40" />
+          <div className="absolute top-0 right-0 w-12 h-12">
+            <motion.div
+              className="absolute top-0 right-0 w-full h-px bg-primary/40"
+              animate={{ width: ["0%", "100%", "100%"] }}
+              transition={{ duration: 1, delay: 0.7 }}
+            />
+            <motion.div
+              className="absolute top-0 right-0 w-px h-full bg-primary/40"
+              animate={{ height: ["0%", "100%", "100%"] }}
+              transition={{ duration: 1, delay: 0.8 }}
+            />
           </div>
 
           <div className="relative p-12 md:p-16">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
               {[
                 { value: "3+", label: "YEARS EXPERIENCE" },
-                { value: "25+", label: "PROJECTS SHIPPED" },
+                { value: "15+", label: "PROJECTS SHIPPED" },
                 { value: "10+", label: "TECHNOLOGIES" },
-                { value: "100%", label: "CLIENT SATISFACTION" },
+                { value: "100%", label: "SATISFACTION" },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
-                  className="text-center border-r-2 border-border last:border-r-0 md:last:border-r-0"
+                  transition={{
+                    delay: 0.5 + index * 0.1,
+                    duration: 0.5,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 10,
+                  }}
+                  className="text-center border-r-2 border-border last:border-r-0 md:last:border-r-0 relative group/stat"
                 >
-                  <motion.div
-                    className="font-serif text-4xl md:text-6xl font-bold text-primary mb-3"
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      delay: 0.6 + index * 0.1,
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 15,
-                    }}
-                  >
-                    {stat.value}
-                  </motion.div>
-                  <div className="font-sans text-[10px] tracking-[0.25em] text-muted-foreground uppercase">
-                    {stat.label}
+                  {/* Hover Effect */}
+                  <motion.div className="absolute inset-0 bg-primary/5 rounded-lg opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300" />
+
+                  <div className="relative">
+                    {/* Icon */}
+                    <motion.div
+                      className="text-2xl mb-3 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300"
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.2,
+                      }}
+                    >
+                      {stat.icon}
+                    </motion.div>
+
+                    {/* Value with Count Up Effect */}
+                    <motion.div
+                      className="font-serif text-4xl md:text-6xl font-bold text-primary mb-3"
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        delay: 0.6 + index * 0.1,
+                        type: "spring",
+                        stiffness: 150,
+                        damping: 12,
+                      }}
+                    >
+                      {stat.value}
+                    </motion.div>
+
+                    {/* Label */}
+                    <div className="font-sans text-[10px] tracking-[0.25em] text-muted-foreground uppercase">
+                      {stat.label}
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -531,9 +743,9 @@ export function Resume() {
         </div>
       </motion.div>
 
-      {/* Vertical accent lines */}
-      <div className="absolute top-0 bottom-0 left-[15%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />
-      <div className="absolute top-0 bottom-0 right-[15%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />
+      {/* Floating Background Elements */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl opacity-30" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl opacity-20" />
     </section>
   );
 }

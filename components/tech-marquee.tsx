@@ -98,7 +98,7 @@ export function TechMarquee() {
         />
       </div>
 
-      {/* Section Header - More brutal */}
+      {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -127,15 +127,12 @@ export function TechMarquee() {
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
             >
-              III — ARSENAL
+              CHAPTER III — TECHNOLOGIES USED
             </motion.span>
           </div>
 
-          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl max-w-5xl leading-[0.95] tracking-tight text-foreground">
-            WEAPON
-            <br />
-            <span className="text-primary italic font-light">CHOICE</span>
-            <br />
+          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase">
+            TECH <span className="text-primary italic font-light">ARSENAL</span>
           </h2>
         </div>
       </motion.div>
@@ -145,52 +142,6 @@ export function TechMarquee() {
         <MarqueeRow items={techItems} direction="left" />
         <MarqueeRow items={concepts} direction="right" />
       </div>
-
-      {/* Bottom decorative section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="px-6 md:px-12 lg:px-16 mt-16"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="relative border-4 border-border bg-card/80 backdrop-blur-sm p-10 md:p-14">
-            {/* Triple frame effect */}
-            <div className="absolute inset-0 border-2 border-primary/10 m-2 pointer-events-none" />
-            <div className="absolute inset-0 border border-primary/5 m-4 pointer-events-none" />
-
-            {/* Corner decorations */}
-            <div className="absolute top-0 left-0 w-8 h-8">
-              <div className="absolute top-0 left-0 w-full h-px bg-primary/40" />
-              <div className="absolute top-0 left-0 w-px h-full bg-primary/40" />
-            </div>
-            <div className="absolute top-0 right-0 w-8 h-8">
-              <div className="absolute top-0 right-0 w-full h-px bg-primary/40" />
-              <div className="absolute top-0 right-0 w-px h-full bg-primary/40" />
-            </div>
-            <div className="absolute bottom-0 left-0 w-8 h-8">
-              <div className="absolute bottom-0 left-0 w-full h-px bg-primary/40" />
-              <div className="absolute bottom-0 left-0 w-px h-full bg-primary/40" />
-            </div>
-            <div className="absolute bottom-0 right-0 w-8 h-8">
-              <div className="absolute bottom-0 right-0 w-full h-px bg-primary/40" />
-              <div className="absolute bottom-0 right-0 w-px h-full bg-primary/40" />
-            </div>
-
-            <div className="relative text-center space-y-6">
-              <div className="font-serif text-2xl md:text-4xl font-bold tracking-tight">
-                "EVERY TOOL IS A WEAPON"
-              </div>
-              <div className="w-20 h-px bg-primary/50 mx-auto" />
-              <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Master craftsman's arsenal: battle-tested technologies forged in
-                the fires of production, wielded with precision and purpose.
-              </p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Vertical accent lines */}
       <div className="absolute top-0 bottom-0 left-[8%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />

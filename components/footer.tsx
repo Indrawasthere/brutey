@@ -27,7 +27,7 @@ export function Footer() {
 
   return (
     <footer className="relative bg-background border-t-4 border-border">
-      {/* Main CTA - Brutalist Redesign */}
+      {/* Main CTA */}
       <motion.a
         href="mailto:mhmdfdln14@gmail.com"
         className="relative block overflow-hidden group"
@@ -73,7 +73,7 @@ export function Footer() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.5 }}
                 >
-                  VII — CONTACT
+                  CHAPTER VII — CONTACT
                 </motion.span>
               </div>
 
@@ -81,44 +81,62 @@ export function Footer() {
               <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
                 <div className="flex-1">
                   <h2
-                    className={`font-serif text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight leading-[0.9] transition-colors duration-300 ${isHovered ? "text-background" : "text-foreground"}`}
+                    className={`font-serif text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight leading-[0.9] transition-colors duration-300 ${
+                      isHovered ? "text-background" : "text-foreground"
+                    }`}
                   >
                     LET'S BUILD
                     <br />
                     <span
-                      className={`italic font-light transition-colors duration-300 ${isHovered ? "text-background/80" : "text-primary"}`}
+                      className={`italic font-light transition-colors duration-300 ${
+                        isHovered ? "text-background/80" : "text-primary"
+                      }`}
                     >
                       TOGETHER
                     </span>
                   </h2>
 
-                  <div className="mt-12 flex items-center gap-4">
-                    <Sword
-                      className={`w-6 h-6 transition-colors duration-300 ${isHovered ? "text-background" : "text-primary"}`}
-                    />
+                  {/* */}
+                  <div className="mt-12 flex items-center gap-5 group/text">
+                    <div className="relative flex items-center justify-center"></div>
+
+                    {/* */}
                     <p
-                      className={`text-lg md:text-xl font-light transition-colors duration-300 ${isHovered ? "text-background/70" : "text-muted-foreground"}`}
-                    >
-                      Ready to forge the next digital fortress
-                    </p>
+                      className={`text-lg md:text-2xl font-light leading-none transition-colors duration-300 ${
+                        isHovered
+                          ? "text-background/70"
+                          : "text-muted-foreground"
+                      }`}
+                    ></p>
                   </div>
                 </div>
 
                 {/* Geometric Arrow Box */}
-                <div className="relative">
+                <div className="relative pt-12 md:pt-0">
+                  {/**/}
                   <motion.div
-                    className={`w-32 h-32 md:w-40 md:h-40 border-4 flex items-center justify-center transition-all duration-500 ${isHovered ? "border-background rotate-90 scale-110" : "border-primary/30"}`}
+                    className={`w-32 h-32 md:w-40 md:h-40 border-4 flex items-center justify-center transition-all duration-500 ${
+                      isHovered
+                        ? "border-background rotate-90 scale-110"
+                        : "border-primary/30"
+                    }`}
                   >
                     <ArrowUpRight
-                      className={`w-16 h-16 md:w-20 md:h-20 transition-colors duration-300 ${isHovered ? "text-background" : "text-primary"}`}
+                      className={`w-16 h-16 md:w-20 md:h-20 transition-colors duration-300 ${
+                        isHovered ? "text-background" : "text-primary"
+                      }`}
                     />
                   </motion.div>
                   {/* Decor Corners */}
                   <div
-                    className={`absolute -top-4 -left-4 w-8 h-8 border-l-4 border-t-4 transition-colors duration-300 ${isHovered ? "border-background/40" : "border-primary/20"}`}
+                    className={`absolute -top-4 -left-4 w-8 h-8 border-l-4 border-t-4 transition-colors duration-300 ${
+                      isHovered ? "border-background/40" : "border-primary/20"
+                    }`}
                   />
                   <div
-                    className={`absolute -bottom-4 -right-4 w-8 h-8 border-r-4 border-b-4 transition-colors duration-300 ${isHovered ? "border-background/40" : "border-primary/20"}`}
+                    className={`absolute -bottom-4 -right-4 w-8 h-8 border-r-4 border-b-4 transition-colors duration-300 ${
+                      isHovered ? "border-background/40" : "border-primary/20"
+                    }`}
                   />
                 </div>
               </div>
@@ -166,7 +184,7 @@ export function Footer() {
                   CRAFTED WITH
                 </div>
                 <div className="font-sans text-sm font-bold uppercase tracking-wider text-primary">
-                  PRECISION & FIRE
+                  FIRE & TEARS
                 </div>
               </div>
             </div>
