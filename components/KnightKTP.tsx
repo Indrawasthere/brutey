@@ -55,18 +55,15 @@ export function KnightKTP({
   ...props
 }: KnightKTPProps) {
   const group = useRef<THREE.Group>(null);
-  const { scene, animations } = useGLTF("/models/knight.glb");
+  const { scene, animations } = useGLTF("/models/knight-opt.glb");
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone) as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
-  // Optimasi material untuk portrait
   useEffect(() => {
-    // Material untuk roses/cloak
     materials.roses_mat.metalness = 0.3;
     materials.roses_mat.roughness = 0.6;
 
-    // Material untuk armor
     materials.center_armor_mat.metalness = 0.8;
     materials.center_armor_mat.roughness = 0.2;
     materials.top_armor_mat.metalness = 0.7;
@@ -89,9 +86,8 @@ export function KnightKTP({
       const action = actions[animation];
       action?.reset().fadeIn(0.5).play();
 
-      // Slow down animation speed untuk portrait
       if (action) {
-        action.timeScale = 0.8;
+        action.timeScale = 0.4;
       }
 
       return () => {
@@ -100,7 +96,6 @@ export function KnightKTP({
     }
   }, [actions, animation]);
 
-  // Position khusus untuk portrait KTP
   const portraitPosition = showFullBody ? [-1.2, 0, 0] : [-0.2, 0, 0];
   const portraitScale = showFullBody ? 0.8 : 2.0;
 
@@ -173,4 +168,4 @@ export function KnightKTP({
   );
 }
 
-useGLTF.preload("/models/knight.glb");
+useGLTF.preload("/models/knight-opt.glb");

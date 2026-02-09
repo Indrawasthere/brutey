@@ -8,7 +8,6 @@ import { PageTransition } from "@/components/page-transition";
 import { CustomCursor } from "@/components/custom-cursor";
 import FocusMain from "@/components/focus-main";
 
-// Medieval Serif - Display headings
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -17,7 +16,6 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
-// Clean Sans - Everything else
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -26,7 +24,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Muhammad Fadlan — Software Engineer",
-  description: "Ancient logic meets modern engineering. Building digital fortresses with code.",
+  description:
+    "Ancient logic meets modern engineering. Building digital fortresses with code.",
   generator: "Next.js",
   metadataBase: new URL("https://mfadlans.xyz"),
   openGraph: {
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
     description: "Ancient logic meets modern engineering",
     url: "https://mfadlans.xyz",
     siteName: "Muhammad Fadlan",
-    images: ["/og-image.png"],
+    images: ["/dacode.png"],
     locale: "en_US",
     type: "website",
   },
@@ -56,37 +55,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="en" 
+    <html
+      lang="en"
       className={`${playfair.variable} ${inter.variable}`}
-      // SOLUSI UTAMA: Menghilangkan error Hydration Mismatch dari ThemeProvider/forcedTheme
-      suppressHydrationWarning 
+      suppressHydrationWarning
     >
       <body className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30">
-        <ThemeProvider 
-          attribute="class" 
-          defaultTheme="dark" 
-          enableSystem={false} // Dimatikan karena kita pake forcedTheme
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
           forcedTheme="dark"
         >
           {/* Main accessibility helper */}
           <FocusMain />
-          
-          {/* Atmospheric Overlays: 
-              Pastikan CSS noise-overlay & vignette-overlay pake pointer-events-none 
+
+          {/* Atmospheric Overlays:
+
           */}
           <div className="noise-overlay fixed inset-0 z-[9999] pointer-events-none opacity-[0.05]" />
           <div className="vignette-overlay fixed inset-0 z-[9998] pointer-events-none" />
-          
+
           {/* Custom cursor stays on top */}
           <CustomCursor />
-          
+
           <PageTransition>
-            <main className="relative min-h-screen">
-              {children}
-            </main>
+            <main className="relative">{children}</main>
           </PageTransition>
-          
+
           <Analytics />
         </ThemeProvider>
       </body>

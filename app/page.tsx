@@ -8,21 +8,25 @@ import { Resume } from "@/components/resume";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { LoadingScreen } from "@/components/loading-screen";
 
 export default function Home() {
   return (
-    <SmoothScroll>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <TechMarquee />
-        <Works />
-        <Resume />
-        <Contact />
-        <Footer />
-      </main>
-    </SmoothScroll>
+    <>
+      <LoadingScreen />
+      <SmoothScroll>
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <TechMarquee />
+          <Works />
+          <Resume />
+          <Contact />
+          <Footer />
+        </main>
+      </SmoothScroll>
+    </>
   );
 }
