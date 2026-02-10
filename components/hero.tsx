@@ -3,18 +3,23 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import dynamic from "next/dynamic";
-import { Hero3D } from "./hero-3d";
 
-const Knight3DLazy = dynamic(() => import("./Knight3DOptimized"), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-background" />,
-});
+// ═══════════════════════════════════════════════════════════════
+// LAZY LOAD 3D - Hanya jalan di Desktop
+// ═══════════════════════════════════════════════════════════════
+const Hero3D = dynamic(
+  () => import("./hero-3d").then((m) => ({ default: m.Hero3D })),
+  {
+    ssr: false,
+    loading: () => <div className="absolute inset-0 bg-background" />,
+  },
+);
 
+// ═══════════════════════════════════════════════════════════════
+// HELPER HOOKS (Hydration Safe)
+// ═══════════════════════════════════════════════════════════════
 function useWindowSize() {
-  const [windowSize, setWindowSize] = useState({
-    width: typeof window !== "undefined" ? window.innerWidth : 1024,
-    height: typeof window !== "undefined" ? window.innerHeight : 768,
-  });
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     function handleResize() {
@@ -23,10 +28,8 @@ function useWindowSize() {
         height: window.innerHeight,
       });
     }
-
     window.addEventListener("resize", handleResize);
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -38,23 +41,47 @@ function useMediaQuery(query: string) {
 
   useEffect(() => {
     const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
-
     const listener = () => setMatches(media.matches);
+    setMatches(media.matches);
     media.addEventListener("change", listener);
-
     return () => media.removeEventListener("change", listener);
-  }, [matches, query]);
+  }, [query]);
 
   return matches;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═══════════════════════════════════════════════════════════════
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const [load3D, setLoad3D] = useState(false);
+
+  // Hook Window & Media
+  const { width } = useWindowSize();
+  const prefersReducedMotion = useMediaQuery(
+    "(prefers-reduced-motion: reduce)",
+  );
+  const isLandscape = useMediaQuery(
+    "(orientation: landscape) and (max-height: 500px)",
+  );
+
+  // Hydration fix
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Responsive logic
+  const isMobile = isMounted ? width < 768 : false;
+  const isTablet = isMounted ? width >= 768 && width < 1024 : false;
+  const isSmallMobile = isMounted ? width < 640 : false;
+  const shouldUse3D =
+    isMounted && !isMobile && !isTablet && !prefersReducedMotion;
+
+  // useScroll Fix (Cek target hanya jika mounted)
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: isMounted ? (containerRef as any) : undefined,
     offset: ["start start", "end start"],
   });
 
@@ -66,238 +93,141 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  const { width } = useWindowSize();
-  const isMobile = width < 768;
-  const isSmallMobile = width < 640;
-  const isLandscape = useMediaQuery(
-    "(orientation: landscape) and (max-height: 500px)",
-  );
-  const prefersReducedMotion = useMediaQuery(
-    "(prefers-reduced-motion: reduce)",
-  );
-
-  const [load3D, setLoad3D] = useState(false);
-
+  // Trigger 3D Loading
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoad3D(true);
-    }, 500);
+    if (shouldUse3D) {
+      const timer = setTimeout(() => setLoad3D(true), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldUse3D]);
 
-    return () => clearTimeout(timer);
-  }, []);
+  // Safety Return (SSR/Loading state)
+  if (!isMounted) {
+    return <section className="h-screen w-full bg-background" />;
+  }
 
   return (
     <section
       ref={containerRef}
       className="relative h-screen w-full overflow-hidden bg-background"
     >
-      {/* LARGE TYPOGRAPHY */}
-      <motion.div
-        style={{ opacity }}
-        className="hidden sm:flex absolute inset-0 z-0 flex-col items-center justify-center pointer-events-none select-none"
-      >
-        <h1 className="font-serif text-center text-[12vw] sm:text-[14vw] md:text-[16vw] lg:text-[18vw] leading-[0.85] sm:leading-[0.8] md:leading-[0.75] font-bold tracking-tighter uppercase text-foreground/80">
-          <motion.span
-            initial={
-              prefersReducedMotion ? { opacity: 1 } : { y: 80, opacity: 0 }
-            }
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.8,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.3,
-            }}
-            className="block"
-          >
-            MUHAMMAD
-          </motion.span>
-          <motion.span
-            initial={
-              prefersReducedMotion ? { opacity: 1 } : { y: 60, opacity: 0 }
-            }
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.8,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.4,
-            }}
-            className="block italic font-light text-primary brightness-110"
-          >
-            FADLAN
-          </motion.span>
-        </h1>
-      </motion.div>
-
-      {/* MOBILE-ONLY TITLE */}
-      <motion.div
-        style={{ opacity }}
-        className="sm:hidden absolute top-24 left-0 right-0 z-30 pointer-events-none"
-      >
-        <h1 className="font-serif text-center px-6">
-          <motion.span
-            initial={
-              prefersReducedMotion ? { opacity: 1 } : { x: -30, opacity: 0 }
-            }
-            animate={{ x: 0, opacity: 1 }}
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.6,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.2,
-            }}
-            className="block text-5xl font-bold tracking-tight text-white/90 uppercase"
-          >
-            MUHAMMAD
-          </motion.span>
-          <motion.span
-            initial={
-              prefersReducedMotion ? { opacity: 1 } : { x: -30, opacity: 0 }
-            }
-            animate={{ x: 0, opacity: 1 }}
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.6,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.3,
-            }}
-            className="block text-6xl font-light italic text-primary brightness-110 -mt-2"
-          >
-            FADLAN
-          </motion.span>
-        </h1>
-
-        {/* Mobile subtitle */}
-        <motion.p
-          initial={
-            prefersReducedMotion ? { opacity: 1 } : { y: 20, opacity: 0 }
-          }
-          animate={{ y: 0, opacity: 1 }}
-          transition={{
-            duration: prefersReducedMotion ? 0 : 0.6,
-            delay: 0.5,
-          }}
-          className="mt-3 text-center text-sm text-white/50 tracking-widest uppercase font-sans"
-        ></motion.p>
-      </motion.div>
-
-      {/* 3D MODEL - Responsive camera & performance */}
-      <motion.div style={{ y: yParallax }} className="absolute inset-0 z-10">
-        <Hero3D
-          scrollProgress={smoothProgress}
-          isMobile={isMobile}
-          yParallax={yParallax}
-          load3D={load3D}
-        />
-      </motion.div>
-
-      {/* UI OVERLAY */}
-      <motion.div
-        style={{ opacity }}
-        className="absolute inset-0 z-20 flex flex-col items-center justify-between py-12 sm:py-20 px-4 sm:px-6 pointer-events-none"
-      >
-        {/* Top indicator - Hidden on landscape mobile */}
-        {!isLandscape && (
-          <div className="flex flex-col items-center gap-2">
-            <span className="label-caps text-accent/60 text-[9px] sm:text-[10px] tracking-wider">
-              Portfolio Volume I
-            </span>
-            <div className="h-8 sm:h-10 w-px bg-gradient-to-b from-primary to-transparent" />
-          </div>
-        )}
-
-        {/* GLASS CARD - Responsive padding & spacing */}
-        <div
-          className={`w-full max-w-lg pointer-events-auto px-4 sm:px-0 ${
-            isLandscape
-              ? "mt-auto mb-2"
-              : isSmallMobile
-                ? "mt-auto mb-20"
-                : "mt-auto mb-4"
-          }`}
-          style={{ isolation: "isolate" }}
+      {/* 1. LARGE TYPOGRAPHY - Desktop Only */}
+      {!isMobile && (
+        <motion.div
+          style={{ opacity }}
+          className="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none hidden sm:flex"
         >
-          <motion.div
-            initial={
-              prefersReducedMotion ? { opacity: 1 } : { y: 30, opacity: 0 }
-            }
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              duration: prefersReducedMotion ? 0 : 0.8,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.6,
-            }}
-            className="relative overflow-hidden backdrop-blur-sm bg-card/40 border border-white/10 p-5 sm:p-6 rounded-2xl text-center shadow-2xl"
-            style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }}
-          >
-            {/* Gradient glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+          <h1 className="font-serif text-center text-[12vw] lg:text-[18vw] leading-[0.75] font-bold tracking-tighter uppercase text-foreground/80">
+            <motion.span
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+                delay: 0.3,
+              }}
+              className="block"
+            >
+              MUHAMMAD
+            </motion.span>
+            <motion.span
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+                delay: 0.4,
+              }}
+              className="block italic font-light text-primary brightness-110"
+            >
+              FADLAN
+            </motion.span>
+          </h1>
+        </motion.div>
+      )}
 
-            {/* Intro */}
-            <p className="relative z-10 text-white/80 font-sans text-sm sm:text-base md:text-lg font-medium">
-              I'm Fadlan
-            </p>
-
-            {/* Main tagline */}
-            <p className="relative z-10 mt-3 text-white/60 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-              Just a guy addicted to code, turning caffeine and tears into
-              production-grade systems.
-            </p>
-
-            {/* Role line */}
-            <p className="relative z-10 mt-2 text-white/40 text-[10px] sm:text-xs tracking-wide">
-              Software Engineer focused on what actually works.
-            </p>
-
-            {/* Meta - Responsive grid */}
-            <div className="relative z-10 grid grid-cols-2 gap-3 sm:gap-4 border-t border-border/30 pt-4 mt-5 sm:mt-6">
-              <div className="text-center">
-                <span className="label-caps text-white/40 text-[7px] sm:text-[8px] block mb-1">
-                  Location
-                </span>
-                <span className="font-technical text-white text-[11px] sm:text-xs">
-                  JAKARTA, ID
-                </span>
-              </div>
-              <div className="text-center">
-                <span className="label-caps text-white/40 text-[7px] sm:text-[8px] block mb-1">
-                  Specialization
-                </span>
-                <span className="font-technical text-primary text-[11px] sm:text-xs uppercase tracking-wider">
-                  Software Engineering
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator - Hidden in landscape, adjusted spacing */}
-        {!isLandscape && (
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className={`flex flex-col items-center gap-3 ${
-              isSmallMobile ? "mt-4" : "mt-6 md:mt-10"
-            } mb-safe`}
-            aria-label="Scroll down"
-          >
-            <span className="label-caps text-white/30 text-[8px] sm:text-[9px] tracking-widest">
-              SCROLL TO INITIATE
+      {/* 2. MOBILE TITLE */}
+      {isMobile && (
+        <motion.div
+          style={{ opacity }}
+          className="absolute top-24 left-0 right-0 z-30 pointer-events-none"
+        >
+          <h1 className="font-serif text-center px-6">
+            <span className="block text-5xl font-bold tracking-tight text-white/90 uppercase">
+              MUHAMMAD
             </span>
-            <div className="w-5 h-8 border border-border/50 rounded-full flex justify-center p-1">
-              <motion.div
-                animate={prefersReducedMotion ? {} : { y: [0, 12, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="w-1 h-1.5 bg-primary rounded-full"
-              />
+            <span className="block text-6xl font-light italic text-primary brightness-110 -mt-2">
+              FADLAN
+            </span>
+          </h1>
+        </motion.div>
+      )}
+
+      {/* 3. 3D OR STATIC FALLBACK */}
+      {shouldUse3D && load3D ? (
+        <motion.div style={{ y: yParallax }} className="absolute inset-0 z-10">
+          <Hero3D
+            scrollProgress={smoothProgress}
+            isMobile={false}
+            yParallax={yParallax}
+            load3D={true}
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.8 }}
+          className="absolute inset-0 z-10 flex items-center justify-center"
+          style={{ y: yParallax }}
+        >
+          <img
+            src="/knight-poster.webp"
+            alt="Knight Fallback"
+            className="w-full h-full object-cover opacity-60 grayscale"
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/80" />
+        </motion.div>
+      )}
+
+      {/* 4. GLASS CARD INFO */}
+      <motion.div
+        style={{ opacity }}
+        className="absolute inset-0 z-20 flex flex-col items-center justify-end py-20 px-6 pointer-events-none"
+      >
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="w-full max-w-lg pointer-events-auto backdrop-blur-sm bg-card/40 border border-white/10 p-6 rounded-2xl text-center shadow-2xl"
+        >
+          <p className="text-white/80 font-sans text-lg font-medium">
+            I'm Fadlan
+          </p>
+          <p className="mt-3 text-white/60 text-sm leading-relaxed">
+            Just a guy addicted to code, turning caffeine and tears into
+            production-grade systems.
+          </p>
+          <div className="grid grid-cols-2 gap-4 border-t border-border/30 pt-4 mt-6">
+            <div className="text-center">
+              <span className="text-[8px] text-white/40 block uppercase tracking-widest">
+                Location
+              </span>
+              <span className="text-xs text-white">JAKARTA, ID</span>
             </div>
-          </motion.div>
-        )}
+            <div className="text-center">
+              <span className="text-[8px] text-white/40 block uppercase tracking-widest">
+                Specialization
+              </span>
+              <span className="text-xs text-primary uppercase">
+                Software Engineering
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
 
-      {/* Vignette overlay */}
+      {/* 5. VIGNETTE OVERLAY */}
       <div className="absolute inset-0 z-15 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_30%,var(--background)_90%)]" />
     </section>
   );

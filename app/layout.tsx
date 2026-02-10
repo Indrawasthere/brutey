@@ -130,39 +130,43 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${playfair.variable} ${inter.variable}`}
-      suppressHydrationWarning
+      suppressHydrationWarning // Sudah ada, mantap
     >
       <head>
         {/* Resource Hints for Performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="preload" href="/models/knight-opt.glb" as="fetch" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          href="/models/knight-ultra.glb"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
       </head>
-      <body className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30">
+      {/* UPDATE DI SINI: Tambahkan suppressHydrationWarning */}
+      <body
+        className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30"
+        suppressHydrationWarning
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
           forcedTheme="dark"
         >
-          {/* Accessibility */}
           <FocusMain />
 
-          {/* Atmosphere */}
           <div className="noise-overlay fixed inset-0 z-9999 pointer-events-none opacity-[0.05]" />
           <div className="vignette-overlay fixed inset-0 z-9998 pointer-events-none" />
 
-          {/* Cursor */}
           <CustomCursor />
 
-          {/* Content */}
           <PageTransition>
             <main id="main-content" className="relative">
               {children}
             </main>
           </PageTransition>
 
-          {/* Analytics */}
           <Analytics />
         </ThemeProvider>
       </body>

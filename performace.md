@@ -285,7 +285,7 @@ export default function Home() {
 
 ### 5. OPTIMIZE 3D MODEL FILE (Est. +10 points)
 
-**Problem:** knight-opt.glb probably still large
+**Problem:** knight-ultra.glb probably still large
 
 **Run compression:**
 ```bash
@@ -293,7 +293,7 @@ export default function Home() {
 npm install -g gltf-pipeline
 
 # Compress model
-gltf-pipeline -i public/models/knight-opt.glb -o public/models/knight-compressed.glb -d
+gltf-pipeline -i public/models/knight-ultra.glb -o public/models/knight-compressed.glb -d
 ```
 
 **Use Draco compression:**

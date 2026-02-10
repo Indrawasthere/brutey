@@ -4,7 +4,7 @@ A brutalist-inspired portfolio website showcasing professional experience, proje
 
 🌐 **Live Site**: [mfadlans.xyz](https://mfadlans.xyz)
 
-## 🎯 Project Overview
+## Project Overview
 
 This portfolio is designed as a single-page application with a brutalist design philosophy—bold typography, stark contrasts, and geometric precision. It features an interactive 3D knight model, smooth scroll animations powered by Lenis, custom cursor interactions, and comprehensive SEO optimization.
 
@@ -20,7 +20,7 @@ This portfolio is designed as a single-page application with a brutalist design 
 - **Analytics** — Vercel Analytics integration
 - **Dark Theme** — Forced dark mode with noise and vignette overlays
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Core Framework
 - **Next.js 16.1.6** — React framework with App Router
@@ -59,7 +59,7 @@ This portfolio is designed as a single-page application with a brutalist design 
 - **@vercel/analytics** — Vercel Analytics
 - **Vercel** — Deployment platform
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 brutal-portfo/
@@ -103,7 +103,7 @@ brutal-portfo/
 └── tsconfig.json            # TypeScript configuration
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -114,7 +114,7 @@ brutal-portfo/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Indrawasthere/brutal-portfo.git
+git clone https://github.com/Indrawasthere/brutey.git
 cd brutal-portfo
 ```
 
@@ -148,7 +148,7 @@ pnpm start    # Start production server
 pnpm lint     # Run ESLint
 ```
 
-## 🎨 Design System
+## Design System
 
 ### Color Palette
 - **Primary**: Custom accent color (configurable via CSS variables)
@@ -168,7 +168,7 @@ pnpm lint     # Run ESLint
 - High contrast and negative space
 - Noise and vignette overlays for atmosphere
 
-## 📱 Sections Overview
+## Sections Overview
 
 ### 1. Hero
 - 3D interactive knight model with scroll-based rotation
@@ -214,7 +214,7 @@ pnpm lint     # Run ESLint
 - Copyright and attribution
 - Additional links
 
-## 🔧 Configuration
+## Configuration
 
 ### Customizing Content
 
@@ -256,7 +256,7 @@ Create `.env.local` in the root directory:
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
-## 🎭 3D Model Setup
+## 3D Model Setup
 
 The 3D knight model is loaded from `public/models/`. To use your own model:
 
@@ -264,7 +264,7 @@ The 3D knight model is loaded from `public/models/`. To use your own model:
 2. Update the path in `components/KnightKTP.tsx`
 3. Adjust scale, position, and animation parameters as needed
 
-## 🌐 Deployment
+## Deployment
 
 ### Vercel (Recommended)
 
@@ -284,7 +284,7 @@ pnpm build
 
 The `out/` or `.next/` directory can be deployed to any static hosting service.
 
-## 📊 Performance Optimizations
+## Performance Optimizations
 
 - Image optimization with Next.js Image component
 - Font optimization with `next/font`
@@ -293,7 +293,7 @@ The `out/` or `.next/` directory can be deployed to any static hosting service.
 - CSS-in-JS with zero runtime overhead (Tailwind)
 - Vercel Analytics for performance monitoring
 
-## ♿ Accessibility
+## Accessibility
 
 - Semantic HTML structure
 - Focus management with `focus-main.tsx`
@@ -302,7 +302,7 @@ The `out/` or `.next/` directory can be deployed to any static hosting service.
 - Skip-to-content functionality
 - Proper heading hierarchy
 
-## 🔒 SEO Features
+## SEO Features
 
 - Comprehensive metadata configuration
 - Open Graph tags for social sharing
@@ -311,15 +311,15 @@ The `out/` or `.next/` directory can be deployed to any static hosting service.
 - Sitemap generation (Next.js default)
 - Robots.txt configuration
 
-## 📄 License
+## License
 
-This project is private and proprietary. All rights reserved © 2025 Muhammad Fadlan Hafiz.
+This project is private and proprietary. All rights reserved © 2026 Muhammad Fadlan Hafiz.
 
-## 🤝 Contributing
+## Contributing
 
 This is a personal portfolio project. However, if you find bugs or have suggestions, feel free to open an issue.
 
-## 📬 Contact
+## Contact
 
 - **Email**: Contact via website form
 - **LinkedIn**: [muhammadfadlanh](https://linkedin.com/in/muhammadfadlanh)
