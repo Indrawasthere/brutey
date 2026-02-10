@@ -136,12 +136,6 @@ export default function RootLayout({
         {/* Resource Hints for Performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link
-          rel="preload"
-          href="/models/knight-ultra.glb"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
       </head>
       {/* UPDATE DI SINI: Tambahkan suppressHydrationWarning */}
       <body
