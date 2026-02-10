@@ -60,7 +60,6 @@ const Footer = dynamic(
 export default function Home() {
   return (
     <>
-      <LoadingScreen />
       <SmoothScroll>
         <Navbar />
         <main className="bg-black min-h-screen no-scrollbar">
