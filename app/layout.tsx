@@ -132,6 +132,12 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Resource Hints for Performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="preload" href="/models/knight-opt.glb" as="fetch" crossOrigin="anonymous" />
+      </head>
       <body className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30">
         <ThemeProvider
           attribute="class"

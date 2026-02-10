@@ -1,7 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+const AVATAR_BLUR_DATAURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAECAIAAADETxJQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMUlEQVR4nGP49+ffy5dvViydz+Dt5RcW4BcbHcWgp63cXRHKzsTA0FJfnJEcZmpqAACHCA+aNrwEHAAAAABJRU5ErkJggg==";
 
 export function About() {
   const containerRef = useRef<HTMLElement>(null);
@@ -85,12 +88,21 @@ export function About() {
             transition={{ duration: 0.8 }}
           >
             <div className="relative aspect-3/4 overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-white/10 bg-stone-900">
-              <motion.img
-                style={{ scale: imageScale }}
+              <Image
                 src="/avatar.png"
                 alt="Muhammad Fadlan"
-                loading="lazy"
+                fill
+                quality={75}
+                priority={false}
+                placeholder="blur"
+                blurDataURL={AVATAR_BLUR_DATAURL}
                 className="w-full h-full object-cover opacity-80 will-change-transform"
+                sizes="(max-width: 768px) 100vw, 500px"
+                style={{ scale: undefined }}
+              />
+              <motion.div
+                style={{ scale: imageScale }}
+                className="absolute inset-0"
               />
               <div className="absolute inset-0 bg-primary/5 mix-blend-multiply pointer-events-none" />
               <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.6)]" />

@@ -1,12 +1,15 @@
 "use client";
 
-import { useRef, Suspense, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Preload } from "@react-three/drei";
-import { KnightKTP } from "./KnightKTP";
+import dynamic from "next/dynamic";
+import { Hero3D } from "./hero-3d";
 
-// Custom hook buat window size
+const Knight3DLazy = dynamic(() => import("./Knight3DOptimized"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-background" />,
+});
+
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: typeof window !== "undefined" ? window.innerWidth : 1024,
@@ -30,7 +33,6 @@ function useWindowSize() {
   return windowSize;
 }
 
-// Custom hook buat media query
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(false);
 
@@ -49,49 +51,6 @@ function useMediaQuery(query: string) {
   return matches;
 }
 
-function Knight3D({
-  scrollProgress,
-  isMobile,
-}: {
-  scrollProgress: any;
-  isMobile: boolean;
-}) {
-  const modelRef = useRef<any>(null);
-
-  const rotationY = useTransform(
-    scrollProgress,
-    [0, 1],
-    [Math.PI, Math.PI + 0.8],
-  );
-  const positionY = useTransform(scrollProgress, [0, 1], [-0.2, -0.8]);
-
-  useFrame((state) => {
-    if (modelRef.current) {
-      const t = state.clock.getElapsedTime();
-      modelRef.current.position.y = positionY.get() + Math.sin(t * 0.5) * 0.05;
-      modelRef.current.rotation.y = rotationY.get();
-    }
-  });
-
-  return (
-    <>
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[0, 5, 5]} intensity={isMobile ? 1.2 : 1.5} />
-      <Suspense fallback={null}>
-        <group ref={modelRef}>
-          <KnightKTP
-            showFullBody={false}
-            animation="Idle"
-            scale={isMobile ? 2 : 2.5}
-          />
-        </group>
-      </Suspense>
-      <Environment preset="studio" />
-      <Preload all />
-    </>
-  );
-}
-
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -107,7 +66,6 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // Media queries & window size
   const { width } = useWindowSize();
   const isMobile = width < 768;
   const isSmallMobile = width < 640;
@@ -118,12 +76,22 @@ export function Hero() {
     "(prefers-reduced-motion: reduce)",
   );
 
+  const [load3D, setLoad3D] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoad3D(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section
       ref={containerRef}
       className="relative h-screen w-full overflow-hidden bg-background"
     >
-      {/* LARGE TYPOGRAPHY - Hidden on small mobile, shown sm+ */}
+      {/* LARGE TYPOGRAPHY */}
       <motion.div
         style={{ opacity }}
         className="hidden sm:flex absolute inset-0 z-0 flex-col items-center justify-center pointer-events-none select-none"
@@ -160,7 +128,7 @@ export function Hero() {
         </h1>
       </motion.div>
 
-      {/* MOBILE-ONLY TITLE - Compact positioning */}
+      {/* MOBILE-ONLY TITLE */}
       <motion.div
         style={{ opacity }}
         className="sm:hidden absolute top-24 left-0 right-0 z-30 pointer-events-none"
@@ -212,19 +180,12 @@ export function Hero() {
 
       {/* 3D MODEL - Responsive camera & performance */}
       <motion.div style={{ y: yParallax }} className="absolute inset-0 z-10">
-        <Canvas
-          camera={{
-            position: [0, 0, isMobile ? 6 : 5],
-            fov: isMobile ? 45 : 35,
-          }}
-          gl={{
-            antialias: !isMobile,
-            alpha: true,
-            powerPreference: isMobile ? "default" : "high-performance",
-          }}
-        >
-          <Knight3D scrollProgress={smoothProgress} isMobile={isMobile} />
-        </Canvas>
+        <Hero3D
+          scrollProgress={smoothProgress}
+          isMobile={isMobile}
+          yParallax={yParallax}
+          load3D={load3D}
+        />
       </motion.div>
 
       {/* UI OVERLAY */}

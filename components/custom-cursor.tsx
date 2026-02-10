@@ -7,8 +7,17 @@ export function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(true)
 
   useEffect(() => {
+    const hasPointer = window.matchMedia('(pointer: fine)').matches
+    const isDesktop = window.innerWidth >= 1024
+    setIsMobile(!(hasPointer && isDesktop))
+  }, [])
+
+  useEffect(() => {
+    if (isMobile) return
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
       setIsVisible(true)
@@ -44,7 +53,9 @@ export function CustomCursor() {
       document.removeEventListener("mouseover", handleHoverStart)
       document.removeEventListener("mouseout", handleHoverEnd)
     }
-  }, [])
+  }, [isMobile])
+
+  if (isMobile) return null
 
   return (
     <>

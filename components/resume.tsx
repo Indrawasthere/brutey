@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   Download,
@@ -10,6 +10,15 @@ import {
   Target,
   ExternalLink,
 } from "lucide-react";
+
+const PARTICLE_POSITIONS = [
+  { x: 30, y: 35 },
+  { x: 75, y: 20 },
+  { x: 45, y: 60 },
+  { x: 85, y: 80 },
+] as const;
+
+const PARTICLE_DURATIONS = [2.5, 3, 2.8, 3.2] as const;
 
 export function Resume() {
   const [downloadHovered, setDownloadHovered] = useState(false);
@@ -632,13 +641,13 @@ export function Resume() {
           />
 
           {/* Floating Particles */}
-          {[...Array(4)].map((_, i) => (
+          {PARTICLE_POSITIONS.map((pos, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-primary/30 rounded-full"
               initial={{
-                x: Math.random() * 100 + "%",
-                y: Math.random() * 100 + "%",
+                x: pos.x + "%",
+                y: pos.y + "%",
                 opacity: 0,
               }}
               animate={{
@@ -646,7 +655,7 @@ export function Resume() {
                 opacity: [0, 0.5, 0],
               }}
               transition={{
-                duration: 2 + Math.random(),
+                duration: PARTICLE_DURATIONS[i],
                 repeat: Infinity,
                 delay: i * 0.5,
               }}

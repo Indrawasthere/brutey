@@ -1,7 +1,7 @@
 "use client";
 
 import * as THREE from "three";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { useGraph } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF, SkeletonUtils } from "three-stdlib";
@@ -14,7 +14,6 @@ interface GLTFAction extends THREE.AnimationClip {
 type GLTFResult = GLTF & {
   nodes: {
     Object_4: THREE.Mesh;
-    Object_5: THREE.Mesh;
     Object_10: THREE.SkinnedMesh;
     Object_12: THREE.SkinnedMesh;
     Object_14: THREE.SkinnedMesh;
@@ -56,110 +55,251 @@ export function KnightKTP({
 }: KnightKTPProps) {
   const group = useRef<THREE.Group>(null);
   const { scene, animations } = useGLTF("/models/knight-opt.glb");
-  const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
+  const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone) as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
+  // Material tweaks with safety checks
   useEffect(() => {
-    materials.roses_mat.metalness = 0.3;
-    materials.roses_mat.roughness = 0.6;
+    if (!materials) return;
 
-    materials.center_armor_mat.metalness = 0.8;
-    materials.center_armor_mat.roughness = 0.2;
-    materials.top_armor_mat.metalness = 0.7;
-    materials.top_armor_mat.roughness = 0.3;
+    const applyMaterialProperties = (
+      material: THREE.Material | undefined,
+      props: any,
+    ) => {
+      if (material && material instanceof THREE.MeshStandardMaterial) {
+        Object.assign(material, props);
+      }
+    };
 
-    materials.sword_mat.metalness = 0.9;
-    materials.sword_mat.roughness = 0.1;
+    applyMaterialProperties(materials.roses_mat, {
+      metalness: 0.3,
+      roughness: 0.6,
+    });
 
-    Object.values(materials).forEach((material) => {
-      material.envMapIntensity = 0.8;
-      material.needsUpdate = true;
+    applyMaterialProperties(materials.center_armor_mat, {
+      metalness: 0.8,
+      roughness: 0.2,
+    });
+
+    applyMaterialProperties(materials.top_armor_mat, {
+      metalness: 0.7,
+      roughness: 0.3,
+    });
+
+    applyMaterialProperties(materials.sword_mat, {
+      metalness: 0.9,
+      roughness: 0.1,
+    });
+
+    // Apply to all materials
+    Object.values(materials).forEach((material: THREE.Material) => {
+      if (material instanceof THREE.MeshStandardMaterial) {
+        material.envMapIntensity = 0.8;
+        material.needsUpdate = true;
+      }
     });
   }, [materials]);
 
+  // Animation handling with safety
   useEffect(() => {
-    if (actions[animation]) {
-      const action = actions[animation];
-      action?.reset().fadeIn(0.5).play();
+    if (!actions || Object.keys(actions).length === 0) return;
 
-      if (action) {
-        action.timeScale = 0.4;
+    let action = actions[animation];
+
+    // Fallback to first available action
+    if (!action) {
+      const availableActions = Object.keys(actions);
+      if (availableActions.length > 0) {
+        action = actions[availableActions[0] as ActionName];
       }
-
-      return () => {
-        action?.fadeOut(0.5);
-      };
     }
+
+    if (!action) return;
+
+    action.reset().fadeIn(0.5).play();
+    action.timeScale = 0.4;
+
+    return () => {
+      action?.fadeOut(0.5);
+    };
   }, [actions, animation]);
 
   const portraitPosition = showFullBody ? [-1.2, 0, 0] : [-0.2, 0, 0];
   const portraitScale = showFullBody ? 0.8 : 2.0;
 
+  // Safe rendering with null checks
   return (
     <group ref={group} {...props} dispose={null}>
       <group
         position={[portraitPosition[0], portraitPosition[1], 0]}
-        rotation={[0, Math.PI, 0]} // Selalu hadap ke depan
+        rotation={[0, Math.PI, 0]}
         scale={portraitScale}
       >
-        {/* Knight skeleton and body parts */}
-        <primitive object={nodes.GLTF_created_0_rootJoint} />
+        {/* Knight skeleton */}
+        {nodes.GLTF_created_0_rootJoint && (
+          <primitive object={nodes.GLTF_created_0_rootJoint} />
+        )}
 
-        {/* Roses decoration*/}
-        <group
-          position={[0.248, 1.783, 0.363]}
-          rotation={[2.443, -1.393, -0.88]}
-          scale={0.496}
-        >
-          <mesh
-            geometry={nodes.Object_4.geometry}
-            material={materials.roses_mat}
-            castShadow
-            receiveShadow
-          />
-          <mesh
-            geometry={nodes.Object_5.geometry}
-            material={materials.roses_mat}
-            castShadow
-            receiveShadow
-          />
-        </group>
+        {/* Roses decoration - only render if Object_4 exists */}
+        {nodes.Object_4 && (
+          <group
+            position={[0.248, 1.783, 0.363]}
+            rotation={[2.443, -1.393, -0.88]}
+            scale={0.496}
+          >
+            <mesh
+              geometry={nodes.Object_4.geometry}
+              material={materials.roses_mat}
+              castShadow
+              receiveShadow
+            />
+            {/* Object_5 mungkin tidak ada dalam model Anda */}
+          </group>
+        )}
 
-        {/* Skinned meshes */}
-        {[
-          { node: nodes.Object_10, material: materials.cloak_mat },
-          { node: nodes.Object_12, material: materials.center_armor_mat },
-          { node: nodes.Object_14, material: materials.center_armor_mat },
-          { node: nodes.Object_16, material: materials.eye_plug_mat },
-          { node: nodes.Object_18, material: materials.top_armor_mat },
-          { node: nodes.Object_20, material: materials.top_armor_mat },
-          { node: nodes.Object_24, material: materials.center_armor_mat },
-          { node: nodes.Object_25, material: materials.details_mat },
-          { node: nodes.Object_27, material: materials.center_armor_mat },
-          { node: nodes.Object_28, material: materials.details_mat },
-          { node: nodes.Object_29, material: materials.top_armor_mat },
-          { node: nodes.Object_31, material: materials.details_mat },
-        ].map(({ node, material }, index) => (
+        {/* Skinned meshes with safe checks */}
+        {nodes.Object_10 && materials.cloak_mat && (
           <skinnedMesh
-            key={index}
-            geometry={node.geometry}
-            material={material}
-            skeleton={node.skeleton}
+            geometry={nodes.Object_10.geometry}
+            material={materials.cloak_mat}
+            skeleton={nodes.Object_10.skeleton}
             castShadow
             receiveShadow
           />
-        ))}
+        )}
+
+        {nodes.Object_12 && materials.center_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_12.geometry}
+            material={materials.center_armor_mat}
+            skeleton={nodes.Object_12.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_14 && materials.center_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_14.geometry}
+            material={materials.center_armor_mat}
+            skeleton={nodes.Object_14.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_16 && materials.eye_plug_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_16.geometry}
+            material={materials.eye_plug_mat}
+            skeleton={nodes.Object_16.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_18 && materials.top_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_18.geometry}
+            material={materials.top_armor_mat}
+            skeleton={nodes.Object_18.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_20 && materials.top_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_20.geometry}
+            material={materials.top_armor_mat}
+            skeleton={nodes.Object_20.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_22 && materials.bottom_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_22.geometry}
+            material={materials.bottom_armor_mat}
+            skeleton={nodes.Object_22.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_24 && materials.center_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_24.geometry}
+            material={materials.center_armor_mat}
+            skeleton={nodes.Object_24.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_25 && materials.details_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_25.geometry}
+            material={materials.details_mat}
+            skeleton={nodes.Object_25.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_27 && materials.center_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_27.geometry}
+            material={materials.center_armor_mat}
+            skeleton={nodes.Object_27.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_28 && materials.details_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_28.geometry}
+            material={materials.details_mat}
+            skeleton={nodes.Object_28.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_29 && materials.top_armor_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_29.geometry}
+            material={materials.top_armor_mat}
+            skeleton={nodes.Object_29.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
+
+        {nodes.Object_31 && materials.details_mat && (
+          <skinnedMesh
+            geometry={nodes.Object_31.geometry}
+            material={materials.details_mat}
+            skeleton={nodes.Object_31.skeleton}
+            castShadow
+            receiveShadow
+          />
+        )}
 
         {/* Sword */}
-        <mesh
-          geometry={nodes.Object_103.geometry}
-          material={materials.sword_mat}
-          position={[0, 1.7, 0.3]}
-          rotation={[0, 0, -0.1]}
-          castShadow
-          receiveShadow
-        />
+        {nodes.Object_103 && materials.sword_mat && (
+          <mesh
+            geometry={nodes.Object_103.geometry}
+            material={materials.sword_mat}
+            position={[0, 1.7, 0.3]}
+            rotation={[0, 0, -0.1]}
+            castShadow
+            receiveShadow
+          />
+        )}
       </group>
     </group>
   );
