@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Github,
   Linkedin,
@@ -37,11 +37,26 @@ const socialLinks = [
 ];
 
 export function Contact() {
+  const containerRef = useRef<HTMLElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -200]);
+
+  const contactOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0, 0.15, 0.15, 0],
+  );
 
   return (
     <section
       id="contact"
+      ref={containerRef}
       className="relative py-32 md:py-48 px-6 md:px-12 lg:px-16 bg-background overflow-hidden"
     >
       {/* Grid Background */}
@@ -55,7 +70,7 @@ export function Contact() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto relative">
+      <div className="max-w-7xl mx-auto relative z-20">
         {/* SECTION HEADER */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -78,8 +93,14 @@ export function Contact() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 1 }}
               />
-              <motion.span className="font-sans text-xs tracking-[0.4em] text-stone-500 uppercase">
-                CHAPTER VI — CONNECT
+              <motion.span
+                className="font-sans text-xs md:text-sm tracking-[0.3em] text-stone-400 uppercase font-medium"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+              >
+                CHAPTER VI — CONNECTIONS
               </motion.span>
             </div>
 
@@ -189,6 +210,25 @@ export function Contact() {
           </div>
         </div>
       </div>
+      <motion.div
+        style={{
+          y: yParallax,
+          opacity: contactOpacity,
+        }}
+        className="absolute -bottom-20 right-0 pointer-events-none select-none z-10 whitespace-nowrap"
+      >
+        <h3 className="font-serif text-[28vw] font-bold leading-none uppercase outline-text">
+          CONNECT
+        </h3>
+      </motion.div>
+
+      <style jsx>{`
+        .outline-text {
+          -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+          color: transparent;
+          font-family: serif;
+        }
+      `}</style>
     </section>
   );
 }

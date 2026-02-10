@@ -86,7 +86,7 @@ export function LoadingScreen() {
                 }}
                 className="font-serif text-4xl md:text-5xl text-red-600 mt-2 tracking-tight"
               >
-                MY FORTRESS
+                THE FORTRESS
               </motion.h2>
             </div>
 

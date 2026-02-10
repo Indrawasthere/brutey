@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Download,
@@ -14,6 +14,9 @@ import {
 export function Resume() {
   const [downloadHovered, setDownloadHovered] = useState(false);
   const [previewHovered, setPreviewHovered] = useState(false);
+
+  const yParallax = useRef(0);
+  const contentOpacity = useRef(0);
 
   return (
     <section
@@ -44,7 +47,7 @@ export function Resume() {
       >
         {/* Brutalist number decoration */}
         <div className="absolute -left-4 -top-4 md:-left-8 md:-top-8 font-serif text-[120px] md:text-[200px] font-bold text-primary/5 leading-none pointer-events-none">
-          III
+          V
         </div>
 
         <div className="relative">
@@ -57,7 +60,7 @@ export function Resume() {
               transition={{ delay: 0.3, duration: 1 }}
             />
             <motion.span
-              className="font-sans text-sm tracking-[0.3em] text-stone-400 uppercase"
+              className="font-sans text-xs md:text-sm tracking-[0.3em] text-stone-400 uppercase font-medium"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -67,7 +70,7 @@ export function Resume() {
             </motion.span>
           </div>
 
-          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase">
+          <h2 className="font-serif text-5xl md:text-7xl lg:text-9xl leading-none tracking-tighter uppercase">
             CURRICULUM{" "}
             <span className="text-primary italic font-light">VITAE</span>
           </h2>
@@ -679,10 +682,34 @@ export function Resume() {
           <div className="relative p-12 md:p-16">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
               {[
-                { value: "3+", label: "YEARS EXPERIENCE" },
-                { value: "15+", label: "PROJECTS SHIPPED" },
-                { value: "10+", label: "TECHNOLOGIES" },
-                { value: "100%", label: "SATISFACTION" },
+                {
+                  value: "3+",
+                  label: "YEARS EXPERIENCE",
+                  icon: (
+                    <Shield className="w-4 h-4 mx-auto mb-2 text-primary/40" />
+                  ),
+                },
+                {
+                  value: "15+",
+                  label: "PROJECTS SHIPPED",
+                  icon: (
+                    <Target className="w-4 h-4 mx-auto mb-2 text-primary/40" />
+                  ),
+                },
+                {
+                  value: "10+",
+                  label: "TECHNOLOGIES",
+                  icon: (
+                    <FileText className="w-4 h-4 mx-auto mb-2 text-primary/40" />
+                  ),
+                },
+                {
+                  value: "100%",
+                  label: "SATISFACTION",
+                  icon: (
+                    <ArrowUpRight className="w-4 h-4 mx-auto mb-2 text-primary/40" />
+                  ),
+                },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -746,6 +773,25 @@ export function Resume() {
       {/* Floating Background Elements */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl opacity-30" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl opacity-20" />
+
+      <motion.div
+        style={{
+          y: yParallax,
+          opacity: contentOpacity,
+        }}
+        className="absolute -bottom-20 -right-20 pointer-events-none select-none z-0 transition-none"
+      >
+        <h3 className="font-serif text-[28vw] font-bold leading-none uppercase outline-text">
+          RESUME
+        </h3>
+      </motion.div>
+
+      <style jsx>{`
+        .outline-text {
+          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+          color: transparent;
+        }
+      `}</style>
     </section>
   );
 }

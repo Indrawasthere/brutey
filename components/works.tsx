@@ -1,7 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useTransform,
+  useScroll,
+} from "framer-motion";
 import { ArrowUpRight, ExternalLink, Github, Sword } from "lucide-react";
 
 interface Project {
@@ -91,144 +96,153 @@ const projects: Project[] = [
 export function Works() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.5], [1.1, 1]);
+
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0, 1, 1, 0],
+  );
+  const contentY = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
+
   return (
     <section
+      ref={containerRef}
       id="works"
       className="relative py-32 md:py-40 px-6 md:px-12 lg:px-16 bg-background overflow-hidden"
     >
       {/* Brutal Grid Background */}
-      <div className="absolute inset-0 opacity-[0.015]">
+      <div className="absolute inset-0 opacity-[0.015] pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `
-            linear-gradient(to right, var(--border) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--border) 1px, transparent 1px)
-          `,
+            backgroundImage: `linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)`,
             backgroundSize: "70px 70px",
           }}
         />
       </div>
 
-      {/* Section Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-7xl mx-auto mb-24 relative"
-      >
-        {/* Brutalist number decoration */}
-        <div className="absolute -left-4 -top-4 md:-left-8 md:-top-8 font-serif text-[120px] md:text-[200px] font-bold text-primary/5 leading-none pointer-events-none">
-          III
-        </div>
-
-        <div className="relative">
-          <div className="flex items-center gap-4 mb-8">
-            <motion.div
-              className="w-20 h-px bg-linear-to-r from-primary to-stone-700"
-              initial={{ width: 0 }}
-              whileInView={{ width: 80 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 1 }}
-            />
-            <motion.span
-              className="font-sans text-sm tracking-[0.3em] text-stone-400 uppercase"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-            >
-              CHAPTER IV — FEATURES PROJECTS
-            </motion.span>
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-24 relative"
+        >
+          {/* Parallax Background Number */}
+          <div className="absolute -left-10 -top-20 font-serif text-[15vw] font-bold text-primary/[0.03] leading-none pointer-events-none select-none">
+            04
           </div>
 
-          <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter uppercase">
-            SYSTEMS{" "}
-            <span className="text-primary italic font-light">BUILT</span>
-          </h2>
-        </div>
-      </motion.div>
+          <div className="relative">
+            <div className="flex items-center gap-4 mb-8">
+              <motion.div
+                className="w-20 h-px bg-linear-to-r from-primary to-stone-700"
+                initial={{ width: 0 }}
+                whileInView={{ width: 80 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 1 }}
+              />
+              <motion.span
+                className="font-sans text-xs md:text-sm tracking-[0.3em] text-stone-400 uppercase font-medium"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+              >
+                CHAPTER IV — FEATURED PROJECTS
+              </motion.span>
+            </div>
 
-      {/* Projects List - More brutal */}
-      <div className="max-w-7xl mx-auto space-y-0 border-2 border-border">
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.slug}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            className="group relative border-b-2 border-border last:border-b-0"
-          >
-            {/* Main Project Row */}
-            <div
-              className="relative py-12 md:py-16 px-8 md:px-12 cursor-pointer bg-background hover:bg-card/30 transition-all duration-500"
-              onClick={() =>
-                setExpandedIndex(expandedIndex === index ? null : index)
-              }
+            <h2 className="font-serif text-5xl md:text-7xl lg:text-9xl leading-none tracking-tighter uppercase">
+              SYSTEMS{" "}
+              <span className="text-primary italic font-light">BUILT</span>
+            </h2>
+          </div>
+        </motion.div>
+
+        {/* Projects List - Brutalist Container */}
+        <div className="border-t-2 border-x-2 border-border/60 bg-white/[0.01]">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.slug}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="group relative border-b-2 border-border/60 overflow-hidden"
             >
-              {/* Project number */}
-              <div className="absolute top-4 right-4 md:top-8 md:right-8 font-serif text-6xl md:text-8xl font-bold text-primary/5 leading-none pointer-events-none">
-                {project.index}
-              </div>
+              {/* Main Project Row */}
+              <div
+                className="relative py-12 md:py-20 px-8 md:px-12 cursor-pointer transition-all duration-700 ease-in-out hover:bg-white/[0.02]"
+                onClick={() =>
+                  setExpandedIndex(expandedIndex === index ? null : index)
+                }
+              >
+                {/* Floating Index Decor */}
+                <motion.div className="absolute top-4 right-8 md:top-8 font-serif text-7xl md:text-9xl font-bold text-primary/[0.04] leading-none pointer-events-none group-hover:text-primary/[0.08] transition-all duration-700">
+                  {project.index}
+                </motion.div>
 
-              {/* Corner accents */}
-              <div className="absolute top-0 left-0 w-8 h-8">
-                <div className="absolute top-0 left-0 w-full h-px bg-primary/30 group-hover:bg-primary transition-colors duration-300" />
-                <div className="absolute top-0 left-0 w-px h-full bg-primary/30 group-hover:bg-primary transition-colors duration-300" />
-              </div>
-
-              <div className="relative flex flex-col gap-6">
-                {/* Year & Index */}
-                <div className="flex items-center gap-4">
-                  <span className="font-sans text-xs text-primary/60 tracking-[0.3em]">
-                    [{project.index}]
-                  </span>
-                  <div className="w-8 h-px bg-primary/30" />
-                  <span className="label-caps text-primary">
-                    {project.year}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <div>
-                  <h3 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold tracking-wider uppercase mb-3 group-hover:text-primary/90 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-lg md:text-xl text-muted-foreground font-light">
-                    {project.subtitle}
-                  </p>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-3">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-4 py-2 border-2 border-border text-xs font-bold uppercase tracking-wider hover:border-primary/50 transition-colors duration-300"
-                    >
-                      {tag}
+                <div className="relative flex flex-col gap-6 max-w-4xl">
+                  {/* Meta */}
+                  <div className="flex items-center gap-4">
+                    <span className="font-sans text-[10px] text-primary tracking-widest px-2 py-0.5 border border-primary/30">
+                      CASE {project.index}
                     </span>
-                  ))}
-                </div>
+                    <div className="w-8 h-[1px] bg-stone-800" />
+                    <span className="font-sans text-xs text-stone-500 tracking-widest uppercase">
+                      RELEASED — {project.year}
+                    </span>
+                  </div>
 
-                {/* Expand indicator */}
-                <div className="flex items-center gap-3 mt-2">
-                  <Sword className="w-4 h-4 text-primary/50" />
-                  <span className="label-caps text-primary/60">
-                    {expandedIndex === index
-                      ? "COLLAPSE DETAILS"
-                      : "EXPAND DETAILS"}
-                  </span>
-                  <motion.div
-                    animate={{
-                      rotate: expandedIndex === index ? 180 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ArrowUpRight className="w-5 h-5 text-primary/50" />
-                  </motion.div>
+                  {/* Title Area */}
+                  <div className="space-y-2">
+                    <h3 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight uppercase group-hover:translate-x-2 transition-transform duration-500">
+                      {project.title}
+                    </h3>
+                    <p className="text-lg md:text-xl text-stone-500 font-sans italic">
+                      {project.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Tech Stack Bubbles */}
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 border border-white/5 bg-white/[0.02] text-[10px] font-sans text-stone-400 group-hover:border-primary/40 group-hover:text-primary transition-all duration-500"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Toggle Interaction */}
+                  <div className="flex items-center gap-4 mt-4">
+                    <div
+                      className={`p-2 rounded-full border border-primary/20 transition-all duration-500 ${expandedIndex === index ? "bg-primary rotate-45" : "bg-transparent"}`}
+                    >
+                      <ArrowUpRight
+                        className={`w-4 h-4 ${expandedIndex === index ? "text-white" : "text-primary"}`}
+                      />
+                    </div>
+                    <span className="text-[10px] font-bold tracking-[0.3em] text-stone-500 group-hover:text-primary transition-colors">
+                      {expandedIndex === index
+                        ? "CLOSE CASE STUDY"
+                        : "OPEN CASE STUDY"}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -239,40 +253,34 @@ export function Works() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    }}
-                    className="overflow-hidden"
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden bg-white/[0.015]"
                   >
-                    <div className="pt-12 mt-8 border-t-2 border-border">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="px-8 md:px-12 pb-16 pt-4 border-t border-white/5">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
                         {/* Description */}
-                        <div className="space-y-6">
-                          <div>
-                            <h4 className="label-caps text-primary mb-4 flex items-center gap-3">
-                              <div className="w-2 h-2 bg-primary" />
-                              OVERVIEW
+                        <div className="md:col-span-7 space-y-10">
+                          <div className="space-y-4">
+                            <h4 className="text-[10px] font-bold text-primary tracking-[0.4em] uppercase">
+                              Executive Summary
                             </h4>
-                            <p className="text-base md:text-lg leading-relaxed text-foreground/90">
+                            <p className="text-stone-300 text-lg md:text-xl leading-relaxed font-sans">
                               {project.description}
                             </p>
                           </div>
 
-                          {/* Impact metrics */}
-                          <div>
-                            <h4 className="label-caps text-primary mb-4 flex items-center gap-3">
-                              <div className="w-2 h-2 bg-primary" />
-                              IMPACT
+                          <div className="space-y-6">
+                            <h4 className="text-[10px] font-bold text-primary tracking-[0.4em] uppercase">
+                              Core Deliverables
                             </h4>
-                            <div className="space-y-3">
+                            <div className="grid grid-cols-1 gap-3">
                               {project.impact.map((item) => (
                                 <div
                                   key={item}
-                                  className="flex items-start gap-4 p-3 border border-border/50 bg-background/50"
+                                  className="flex items-center gap-4 p-4 border border-white/5 bg-black/20 group/item hover:bg-white/[0.03] transition-colors"
                                 >
-                                  <div className="w-1.5 h-1.5 bg-primary mt-2" />
-                                  <span className="text-sm font-medium flex-1">
+                                  <Sword className="w-4 h-4 text-primary/40 group-hover/item:text-primary group-hover/item:rotate-12 transition-all" />
+                                  <span className="text-stone-400 font-sans text-sm md:text-base">
                                     {item}
                                   </span>
                                 </div>
@@ -281,16 +289,25 @@ export function Works() {
                           </div>
                         </div>
 
-                        {/* Actions */}
-                        <div className="flex flex-col justify-end gap-4">
+                        {/* Actions / Side Panel */}
+                        <div className="md:col-span-5 flex flex-col justify-start gap-4">
+                          <h4 className="text-[10px] font-bold text-stone-600 tracking-[0.4em] uppercase mb-2">
+                            Access Portal
+                          </h4>
+
                           <a
                             href={project.link}
-                            className="group/btn relative flex items-center justify-between gap-4 px-8 py-6 border-4 border-primary/30 hover:border-primary bg-primary/5 hover:bg-primary/10 transition-all duration-300"
+                            className="group/link relative flex items-center justify-between p-6 border-2 border-primary/20 hover:border-primary bg-primary/5 transition-all duration-500"
                           >
-                            <span className="font-sans text-sm font-bold tracking-wider uppercase">
-                              VIEW PROJECT
-                            </span>
-                            <ExternalLink className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                            <div className="space-y-1">
+                              <span className="block text-sm font-bold tracking-widest text-white">
+                                LIVE RECON
+                              </span>
+                              <span className="block text-[10px] text-stone-500 uppercase">
+                                Production Environment
+                              </span>
+                            </div>
+                            <ExternalLink className="w-6 h-6 text-primary group-hover/link:scale-110 transition-transform" />
                           </a>
 
                           {project.github && (
@@ -298,10 +315,17 @@ export function Works() {
                               href={project.github}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group/btn relative flex items-center justify-between gap-4 px-8 py-6 border-2 border-border hover:border-primary/50 transition-all duration-300"
+                              className="group/link flex items-center justify-between p-6 border border-white/10 hover:border-white/30 bg-white/[0.02] transition-all duration-500"
                             >
-                              <span className="label-caps">SOURCE CODE</span>
-                              <Github className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                              <div className="space-y-1">
+                                <span className="block text-sm font-bold tracking-widest text-white">
+                                  REPOSITORY
+                                </span>
+                                <span className="block text-[10px] text-stone-500 uppercase">
+                                  Source Code
+                                </span>
+                              </div>
+                              <Github className="w-6 h-6 text-stone-400 group-hover/link:text-white transition-colors" />
                             </a>
                           )}
                         </div>
@@ -310,20 +334,32 @@ export function Works() {
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              {/* Bottom corner */}
-              <div className="absolute bottom-0 right-0 w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 right-0 w-full h-px bg-primary/30" />
-                <div className="absolute bottom-0 right-0 w-px h-full bg-primary/30" />
-              </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      {/* Vertical accent lines */}
-      <div className="absolute top-0 bottom-0 left-[12%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />
-      <div className="absolute top-0 bottom-0 right-[12%] w-px bg-linear-to-b from-transparent via-primary/10 to-transparent hidden xl:block" />
+      {/* Decorative vertical lines */}
+      <div className="absolute top-0 bottom-0 left-[5%] w-px bg-white/5 hidden 2xl:block" />
+      <div className="absolute top-0 bottom-0 right-[5%] w-px bg-white/5 hidden 2xl:block" />
+      <motion.div
+        style={{
+          y: yParallax,
+          opacity: contentOpacity,
+        }}
+        className="absolute -bottom-20 -right-20 pointer-events-none select-none z-0 transition-none"
+      >
+        <h3 className="font-serif text-[28vw] font-bold leading-none uppercase outline-text">
+          WORKS
+        </h3>
+      </motion.div>
+
+      <style jsx>{`
+        .outline-text {
+          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+          color: transparent;
+        }
+      `}</style>
     </section>
   );
 }

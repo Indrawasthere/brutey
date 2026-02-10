@@ -67,7 +67,7 @@ export function Footer() {
                   transition={{ delay: 0.3, duration: 1 }}
                 />
                 <motion.span
-                  className="font-sans text-sm tracking-[0.3em] uppercase text-stone-400 group-hover:text-background transition-colors duration-300"
+                  className="font-sans text-xs md:text-sm tracking-[0.3em] text-stone-400 uppercase font-medium"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}

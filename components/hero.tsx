@@ -54,6 +54,22 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
+  const [textAnimation, setTextAnimation] = useState({
+    muhammad: { y: 80, opacity: 0 },
+    fadlan: { y: 60, opacity: 0 },
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTextAnimation({
+        muhammad: { y: 0, opacity: 1 },
+        fadlan: { y: 0, opacity: 1 },
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section
       ref={containerRef}
@@ -65,10 +81,30 @@ export function Hero() {
         className="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none"
       >
         <h1 className="font-serif text-[18vw] leading-[0.75] text-center font-bold tracking-tighter uppercase text-foreground/80">
-          <span className="block">MUHAMMAD</span>
-          <span className="block italic font-light text-primary brightness-110">
+          <motion.span
+            initial={{ y: 80, opacity: 0 }}
+            animate={textAnimation.muhammad}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.1,
+            }}
+            className="block"
+          >
+            MUHAMMAD
+          </motion.span>
+          <motion.span
+            initial={{ y: 60, opacity: 0 }}
+            animate={textAnimation.fadlan}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.2,
+            }}
+            className="block italic font-light text-primary brightness-110"
+          >
             FADLAN
-          </span>
+          </motion.span>
         </h1>
       </motion.div>
 
