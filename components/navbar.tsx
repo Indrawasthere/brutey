@@ -7,12 +7,12 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Works", href: "#works" },
+  { label: "Resume", href: "#resume" },
   { label: "Contact", href: "#contact" },
 ];
 
 const useJakartaTime = () => {
   const [time, setTime] = useState("");
-
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -25,12 +25,10 @@ const useJakartaTime = () => {
       };
       setTime(new Intl.DateTimeFormat("en-GB", options).format(now));
     };
-
     updateTime();
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
   }, []);
-
   return time;
 };
 
@@ -41,7 +39,7 @@ export function Navbar() {
   const currentTime = useJakartaTime();
 
   const toRoman = (num: number) => {
-    const map = ["I", "II", "III", "IV"];
+    const map = ["I", "II", "III", "IV", "V"];
     return map[num] || num + 1;
   };
 
@@ -84,106 +82,91 @@ export function Navbar() {
             : ""
         }`}
       >
-        <nav className="grid grid-cols-3 items-center px-6 py-4 md:px-12 h-20 md:h-24">
-          {/* LEFT: LOGO */}
-          <div className="flex items-center justify-start">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="group flex items-center gap-5"
-            >
-              {/* Box Logo */}
-              <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center relative transition-transform duration-500 group-hover:scale-105">
-                {/* Subtle glow*/}
-                <div className="absolute inset-0 bg-primary/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <img
-                  src="/dacode.png"
-                  alt="Logo"
-                  className="relative w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity"
-                />
-              </div>
-
-              {/* Text Fortress*/}
-              <span className="hidden lg:block font-sans text-[12px] leading-tight tracking-[0.4em] text-stone-400 uppercase group-hover:text-white transition-colors">
-                Sir Fadlan <br />
-                <span className="text-primary font-bold opacity-80 group-hover:opacity-100">
-                  PORTFOLIO
-                </span>
-              </span>
-            </a>
-          </div>
-
-          {/* CENTER:*/}
-          <ul className="hidden md:flex items-center justify-center gap-8">
-            {navLinks.map((link, index) => (
-              <li key={link.label}>
-                <button
-                  onClick={() => scrollToSection(link.href)}
-                  className={`group relative flex items-center font-sans text-[12px] tracking-[0.2em] transition-all duration-300 ${
-                    activeSection === link.href.slice(1)
-                      ? "text-primary"
-                      : "text-white/40 hover:text-white"
-                  }`}
-                >
-                  <span className="font-serif italic text-[12px] mr-1.5 opacity-30 group-hover:opacity-100">
-                    {toRoman(index)}.
-                  </span>
-                  {link.label.toUpperCase()}
-                  {/* Underline*/}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-px bg-primary transition-all duration-500 ${
-                      activeSection === link.href.slice(1) ? "w-full" : "w-0"
-                    }`}
+        <nav className="px-5 py-4 md:px-12 h-20 md:h-24">
+          <div className="flex items-center justify-between md:grid md:grid-cols-3 h-full">
+            {/* LEFT: LOGO */}
+            <div className="flex items-center justify-start">
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="group flex items-center gap-3"
+              >
+                <div className="w-12 h-12 md:w-14 md:h-14 relative">
+                  <img
+                    src="/dacode.png"
+                    alt="Logo"
+                    className="w-full h-full object-contain"
                   />
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          {/* RIGHT: REALTIME CLOCK & MOBILE TRIGGER */}
-          <div className="flex items-center justify-end gap-6">
-            {/* Clock Container */}
-            <div className="hidden md:flex flex-col items-end justify-center h-14 md:h-16 min-w-30">
-              <span className="font-technical text-[10px] text-white/30 tracking-[0.3em] uppercase mb-1">
-                Local Time
-              </span>
-              <div className="flex items-baseline gap-2">
-                <span className="font-technical text-sm md:text-base text-primary tabular-nums font-bold tracking-wider">
-                  {currentTime}
+                </div>
+                <span className="hidden lg:block font-sans text-xs tracking-[0.25em] text-stone-400 uppercase leading-tight">
+                  Sir Fadlan <br />
+                  <span className="text-primary font-bold">PORTFOLIO</span>
                 </span>
-                <span className="text-[10px] text-white/40 font-bold">
-                  GMT+7
-                </span>
-              </div>
+              </a>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden w-14 h-14 flex flex-col items-center justify-center gap-1.5 transition-colors active:bg-white/5"
-              aria-label="Toggle menu"
-            >
-              <motion.span
-                animate={
-                  isMenuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }
-                }
-                className="w-6 h-[1.5px] bg-white"
-              />
-              <motion.span
-                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-[1.5px] bg-white"
-              />
-              <motion.span
-                animate={
-                  isMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }
-                }
-                className="w-6 h-[1.5px] bg-white"
-              />
-            </button>
+            {/* CENTER: DESKTOP NAV ONLY */}
+            <div className="hidden md:flex items-center justify-center">
+              <ul className="flex items-center gap-8">
+                {navLinks.map((link, index) => (
+                  <li key={link.label}>
+                    <button
+                      onClick={() => scrollToSection(link.href)}
+                      className={`group flex items-center font-sans text-xs tracking-[0.15em] transition-all duration-300 ${
+                        activeSection === link.href.slice(1)
+                          ? "text-primary"
+                          : "text-white/50 hover:text-white"
+                      }`}
+                    >
+                      <span className="font-serif italic text-[10px] mr-1.5 opacity-50">
+                        {toRoman(index)}.
+                      </span>
+                      {link.label.toUpperCase()}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* RIGHT: HAMBURGER (Mobile) or TIME (Desktop) */}
+            <div className="flex items-center justify-end gap-4">
+              {/* Time - hidden on mobile */}
+              <div className="hidden md:block text-right">
+                <p className="font-technical text-[9px] text-white/30 tracking-widest uppercase mb-0.5">
+                  Jakarta/ID
+                </p>
+                <p className="font-technical text-sm text-primary font-bold tabular-nums">
+                  {currentTime}
+                </p>
+              </div>
+
+              {/* Hamburger Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="md:hidden flex flex-col items-center justify-center gap-1.5 w-12 h-12 z-50 relative"
+                aria-label="Toggle menu"
+              >
+                <motion.span
+                  animate={
+                    isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }
+                  }
+                  className="w-7 h-[2px] bg-white rounded-full"
+                />
+                <motion.span
+                  animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                  className="w-7 h-[2px] bg-white rounded-full"
+                />
+                <motion.span
+                  animate={
+                    isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }
+                  }
+                  className="w-7 h-[2px] bg-white rounded-full"
+                />
+              </button>
+            </div>
           </div>
         </nav>
       </motion.header>
@@ -192,36 +175,61 @@ export function Navbar() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: "-100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-background flex flex-col p-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-3xl md:hidden"
           >
-            <div className="mt-20 flex flex-col gap-8">
-              {navLinks.map((link, index) => (
-                <button
-                  key={link.label}
-                  onClick={() => scrollToSection(link.href)}
-                  className="flex items-baseline gap-4 text-left"
-                >
-                  <span className="font-serif italic text-xl text-primary/40">
-                    {toRoman(index)}
-                  </span>
-                  <span className="text-5xl font-sans font-bold tracking-tighter hover:italic hover:text-primary transition-all">
-                    {link.label.toUpperCase()}
-                  </span>
-                </button>
-              ))}
-            </div>
-            {/* Mobile Clock */}
-            <div className="mt-auto border-t border-white/5 pt-8">
-              <span className="block text-[10px] tracking-widest text-white/20 uppercase mb-2">
-                Current Coordinates
-              </span>
-              <span className="text-2xl font-technical text-white">
-                {currentTime} JKT
-              </span>
+            <div className="flex flex-col items-center justify-center h-full px-6">
+              {/* Menu Items */}
+              <div className="flex flex-col gap-6 w-full max-w-sm">
+                {navLinks.map((link, index) => (
+                  <motion.button
+                    key={link.label}
+                    initial={{ x: -30, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{
+                      delay: index * 0.08,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                    onClick={() => scrollToSection(link.href)}
+                    className={`group flex items-center gap-4 py-3 px-5 rounded-xl transition-all duration-300 ${
+                      activeSection === link.href.slice(1)
+                        ? "bg-primary/10 border border-primary/20"
+                        : "hover:bg-white/5"
+                    }`}
+                  >
+                    <span className="font-serif italic text-base text-primary/60 min-w-[28px]">
+                      {toRoman(index)}.
+                    </span>
+                    <span
+                      className={`text-2xl font-sans font-bold tracking-tight uppercase transition-colors ${
+                        activeSection === link.href.slice(1)
+                          ? "text-primary"
+                          : "text-white group-hover:text-primary"
+                      }`}
+                    >
+                      {link.label}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Time Display in Menu */}
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="mt-12 text-center"
+              >
+                <p className="font-technical text-xs text-white/40 tracking-widest uppercase mb-1">
+                  Jakarta/ID
+                </p>
+                <p className="font-technical text-2xl text-primary font-bold tabular-nums">
+                  {currentTime}
+                </p>
+              </motion.div>
             </div>
           </motion.div>
         )}

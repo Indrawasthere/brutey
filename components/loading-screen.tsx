@@ -61,9 +61,9 @@ export function LoadingScreen() {
               }}
             />
           </div>
-          <div className="relative z-10 flex flex-col items-center justify-center">
+          <div className="relative z-10 flex flex-col items-center justify-center px-6">
             {/* Title */}
-            <div className="relative overflow-hidden mb-8 px-4 text-center">
+            <div className="relative overflow-hidden mb-12 md:mb-16 text-center">
               <motion.h1
                 initial={{ y: 80, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -72,7 +72,7 @@ export function LoadingScreen() {
                   ease: [0.22, 1, 0.36, 1],
                   delay: 0.1,
                 }}
-                className="font-serif text-3xl md:text-4xl text-stone-300 tracking-[0.3em]"
+                className="font-serif text-4xl sm:text-5xl md:text-6xl text-stone-300 tracking-[0.2em] sm:tracking-[0.3em]"
               >
                 FORGING
               </motion.h1>
@@ -84,16 +84,16 @@ export function LoadingScreen() {
                   ease: [0.22, 1, 0.36, 1],
                   delay: 0.2,
                 }}
-                className="font-serif text-4xl md:text-5xl text-red-600 mt-2 tracking-tight"
+                className="font-serif text-5xl sm:text-6xl md:text-7xl text-red-600 mt-3 tracking-tight"
               >
                 THE FORTRESS
               </motion.h2>
             </div>
 
             {/* Blade Forging Progress */}
-            <div className="w-72 md:w-96 mb-10 relative">
+            <div className="w-full max-w-sm md:max-w-md mb-12 md:mb-16 relative px-4 md:px-0">
               {/* Blade track */}
-              <div className="relative h-0.5 bg-linear-to-r from-transparent via-stone-700 to-transparent overflow-hidden">
+              <div className="relative h-1 md:h-0.5 bg-linear-to-r from-transparent via-stone-700 to-transparent overflow-hidden rounded-full">
                 {/* Heat shimmer */}
                 <motion.div
                   className="absolute inset-0"
@@ -111,14 +111,14 @@ export function LoadingScreen() {
 
                 {/* Forged blade fill */}
                 <motion.div
-                  className="absolute top-0 left-0 h-full"
+                  className="absolute top-0 left-0 h-full rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${smoothProgress}%` }}
                   transition={{ duration: 0.6, ease: [0.65, 0, 0.35, 1] }}
                   style={{
                     background:
                       "linear-gradient(90deg, #e5e5e5, #9ca3af, #e5e5e5)",
-                    boxShadow: "0 0 12px rgba(180,60,40,0.35)",
+                    boxShadow: "0 0 16px rgba(180,60,40,0.4)",
                   }}
                 />
               </div>
@@ -129,9 +129,9 @@ export function LoadingScreen() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="mb-3"
+              className="mb-4 md:mb-5"
             >
-              <span className="font-sans text-xs tracking-[0.45em] text-stone-500 uppercase">
+              <span className="font-sans text-sm md:text-xs tracking-[0.3em] md:tracking-[0.45em] text-stone-500 uppercase">
                 {smoothProgress < 30 && "GATHERING STEEL"}
                 {smoothProgress >= 30 && smoothProgress < 70 && "TEMPERING"}
                 {smoothProgress >= 70 && smoothProgress < 100 && "SHARPENING"}
@@ -144,23 +144,23 @@ export function LoadingScreen() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-3"
             >
               {active ? (
                 <>
                   <motion.div
                     animate={{ scale: [1, 1.4, 1] }}
                     transition={{ duration: 0.8, repeat: Infinity }}
-                    className="w-1.5 h-1.5 rounded-full bg-red-500/70"
+                    className="w-2 h-2 md:w-1.5 md:h-1.5 rounded-full bg-red-500/70"
                   />
-                  <span className="text-[10px] tracking-[0.35em] text-stone-600 uppercase">
+                  <span className="text-xs md:text-[10px] tracking-[0.25em] md:tracking-[0.35em] text-stone-600 uppercase">
                     FORGING IN FIRE
                   </span>
                 </>
               ) : smoothProgress >= 100 ? (
                 <>
-                  <div className="w-1.5 h-1.5 rounded-full bg-stone-300 animate-pulse" />
-                  <span className="text-[10px] tracking-[0.35em] text-stone-500 uppercase">
+                  <div className="w-2 h-2 md:w-1.5 md:h-1.5 rounded-full bg-stone-300 animate-pulse" />
+                  <span className="text-xs md:text-[10px] tracking-[0.25em] md:tracking-[0.35em] text-stone-500 uppercase">
                     FORGE COMPLETE
                   </span>
                 </>
@@ -168,15 +168,15 @@ export function LoadingScreen() {
             </motion.div>
 
             {/* Decorative Sigils */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+            <div className="absolute bottom-12 md:bottom-10 left-1/2 -translate-x-1/2">
               <motion.div
-                className="flex gap-10"
+                className="flex gap-8 md:gap-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55 }}
               >
-                <div className="w-14 h-px bg-linear-to-r from-transparent via-stone-700 to-transparent" />
-                <div className="w-14 h-px bg-linear-to-r from-transparent via-stone-700 to-transparent" />
+                <div className="w-12 md:w-14 h-px bg-linear-to-r from-transparent via-stone-700 to-transparent" />
+                <div className="w-12 md:w-14 h-px bg-linear-to-r from-transparent via-stone-700 to-transparent" />
               </motion.div>
             </div>
           </div>{" "}
