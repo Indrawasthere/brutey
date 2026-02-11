@@ -326,7 +326,7 @@ export function Experience() {
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: 0.5 + i * 0.05 }}
-                              className="text-[11px] font-mono px-3 py-1.5 border border-white/5 bg-white/2 text-stone-500 hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-300 cursor-default"
+                              className="text-[11px] font-sans px-3 py-1.5 border border-white/5 bg-white/2 text-stone-500 hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-300 cursor-default"
                             >
                               {tech}
                             </motion.span>
