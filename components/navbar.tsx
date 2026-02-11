@@ -84,7 +84,6 @@ export function Navbar() {
       >
         <nav className="px-5 py-4 md:px-12 h-20 md:h-24">
           <div className="flex items-center justify-between md:grid md:grid-cols-3 h-full">
-            {/* LEFT: LOGO */}
             <div className="flex items-center justify-start">
               <a
                 href="#"
@@ -108,7 +107,6 @@ export function Navbar() {
               </a>
             </div>
 
-            {/* CENTER: DESKTOP NAV ONLY */}
             <div className="hidden md:flex items-center justify-center">
               <ul className="flex items-center gap-8">
                 {navLinks.map((link, index) => (
@@ -131,19 +129,16 @@ export function Navbar() {
               </ul>
             </div>
 
-            {/* RIGHT: HAMBURGER (Mobile) or TIME (Desktop) */}
             <div className="flex items-center justify-end gap-4">
-              {/* Time - hidden on mobile */}
               <div className="hidden md:block text-right">
-                <p className="font-technical text-[9px] text-white/30 tracking-widest uppercase mb-0.5">
-                  Jakarta/ID
-                </p>
-                <p className="font-technical text-sm text-primary font-bold tabular-nums">
-                  {currentTime}
-                </p>
+                <span className="hidden lg:block font-sans text-xs tracking-[0.25em] text-stone-400 uppercase leading-tight">
+                  Jakarta/ID <br />
+                  <span className="text-primary font-bold tabular-nums">
+                    {currentTime}
+                  </span>
+                </span>
               </div>
 
-              {/* Hamburger Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="md:hidden flex flex-col items-center justify-center gap-1.5 w-12 h-12 z-50 relative"
@@ -153,17 +148,17 @@ export function Navbar() {
                   animate={
                     isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }
                   }
-                  className="w-7 h-[2px] bg-white rounded-full"
+                  className="w-7 h-0.5 bg-white rounded-full"
                 />
                 <motion.span
                   animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="w-7 h-[2px] bg-white rounded-full"
+                  className="w-7 h-0.5 bg-white rounded-full"
                 />
                 <motion.span
                   animate={
                     isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }
                   }
-                  className="w-7 h-[2px] bg-white rounded-full"
+                  className="w-7 h-0.5 bg-white rounded-full"
                 />
               </button>
             </div>
@@ -171,7 +166,6 @@ export function Navbar() {
         </nav>
       </motion.header>
 
-      {/* MOBILE MENU OVERLAY */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -181,7 +175,6 @@ export function Navbar() {
             className="fixed inset-0 z-40 bg-background/98 backdrop-blur-3xl md:hidden"
           >
             <div className="flex flex-col items-center justify-center h-full px-6">
-              {/* Menu Items */}
               <div className="flex flex-col gap-6 w-full max-w-sm">
                 {navLinks.map((link, index) => (
                   <motion.button
@@ -200,7 +193,7 @@ export function Navbar() {
                         : "hover:bg-white/5"
                     }`}
                   >
-                    <span className="font-serif italic text-base text-primary/60 min-w-[28px]">
+                    <span className="font-serif italic text-base text-primary/60 min-w-7">
                       {toRoman(index)}.
                     </span>
                     <span
@@ -216,17 +209,16 @@ export function Navbar() {
                 ))}
               </div>
 
-              {/* Time Display in Menu */}
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
                 className="mt-12 text-center"
               >
-                <p className="font-technical text-xs text-white/40 tracking-widest uppercase mb-1">
+                <p className="font-sans text-xs text-white/40 tracking-widest uppercase mb-1">
                   Jakarta/ID
                 </p>
-                <p className="font-technical text-2xl text-primary font-bold tabular-nums">
+                <p className="font-sans text-2xl text-primary font-bold tabular-nums">
                   {currentTime}
                 </p>
               </motion.div>

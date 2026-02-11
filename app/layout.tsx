@@ -9,10 +9,6 @@ import { PageTransition } from "@/components/page-transition";
 import { CustomCursor } from "@/components/custom-cursor";
 import FocusMain from "@/components/focus-main";
 
-/* ======================
-   Fonts
-====================== */
-
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -26,10 +22,6 @@ const inter = Inter({
   variable: "--font-sans",
   display: "swap",
 });
-
-/* ======================
-   Metadata (SEO Core)
-====================== */
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mfadlans.xyz"),
@@ -109,17 +101,9 @@ export const metadata: Metadata = {
   },
 };
 
-/* ======================
-   Viewport
-====================== */
-
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
-
-/* ======================
-   Root Layout
-====================== */
 
 export default function RootLayout({
   children,
@@ -130,14 +114,12 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${playfair.variable} ${inter.variable}`}
-      suppressHydrationWarning // Sudah ada, mantap
+      suppressHydrationWarning
     >
       <head>
-        {/* Resource Hints for Performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
       </head>
-      {/* UPDATE DI SINI: Tambahkan suppressHydrationWarning */}
       <body
         className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30"
         suppressHydrationWarning
