@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://mfadlans.xyz"),
 
   title: {
-    default: "Muhammad Fadlan — Portfolio",
+    default: "Muhammad Fadlan — Software Engineer",
     template: "%s | Muhammad Fadlan Hafiz",
   },
 
@@ -40,16 +40,11 @@ export const metadata: Metadata = {
   keywords: [
     "Muhammad Fadlan",
     "Muhammad Fadlan Hafiz",
-    "Muhammad Fadlan H",
     "Software Engineer",
     "Web Developer",
     "Next.js",
     "React",
     "System Architecture",
-    "Software Engineer",
-    "Frontend Developer",
-    "Backend Developer",
-    "Fullstack Developer",
     "Fullstack Engineer",
     "Portfolio",
   ],
@@ -57,6 +52,16 @@ export const metadata: Metadata = {
   authors: [{ name: "Muhammad Fadlan Hafiz" }],
   creator: "Muhammad Fadlan Hafiz",
   publisher: "Muhammad Fadlan Hafiz",
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/dacodefix.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico",
+  },
+  manifest: "/site.webmanifest",
 
   robots: {
     index: true,
@@ -70,12 +75,6 @@ export const metadata: Metadata = {
     },
   },
 
-  icons: {
-    icon: "/dacode.webp",
-    shortcut: "/dacode.webp",
-    apple: "/dacode.webp",
-  },
-
   openGraph: {
     title: "Muhammad Fadlan — Software Engineer",
     description: "A guy who's addicted to code",
@@ -85,9 +84,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/dacode.webp",
-        width: 1500,
-        height: 700,
+        url: "/og-image.webp",
+        width: 1200,
+        height: 630,
         alt: "Muhammad Fadlan Portfolio",
       },
     ],
@@ -97,7 +96,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Muhammad Fadlan — Software Engineer",
     description: "A guy who's addicted to code",
-    images: ["/dacode.webp"],
+    images: ["/og-image.webp"],
   },
 };
 
@@ -116,10 +115,6 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-      </head>
       <body
         className="font-sans antialiased overflow-x-hidden bg-background text-foreground selection:bg-accent/30"
         suppressHydrationWarning
@@ -130,13 +125,15 @@ export default function RootLayout({
           enableSystem={false}
           forcedTheme="dark"
         >
+          {/* Main utilities */}
           <FocusMain />
-
-          <div className="noise-overlay fixed inset-0 z-9999 pointer-events-none opacity-[0.05]" />
-          <div className="vignette-overlay fixed inset-0 z-9998 pointer-events-none" />
-
           <CustomCursor />
 
+          {/* Overlays */}
+          <div className="noise-overlay fixed inset-0 z-[9999] pointer-events-none opacity-[0.05]" />
+          <div className="vignette-overlay fixed inset-0 z-[9998] pointer-events-none" />
+
+          {/* Page Content */}
           <PageTransition>
             <main id="main-content" className="relative overflow-x-hidden">
               {children}

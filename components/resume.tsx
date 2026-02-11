@@ -90,7 +90,7 @@ export function Resume() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 mb-24 border-2 border-border group/cards">
         {/* Download Resume Card */}
         <motion.a
-          href="/fadlan_resume.pdf"
+          href="/MFadlanHafiz_resume.pdf"
           download
           target="_blank"
           rel="noopener noreferrer"

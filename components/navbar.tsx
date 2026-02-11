@@ -99,15 +99,14 @@ export function Navbar() {
                 }}
                 className="group flex items-center gap-2 sm:gap-3"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 relative flex-shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 relative shrink-0">
                   <Image
-                    src="/dacode.webp"
+                    src="/dacodefix.png"
                     alt="Logo"
-                    width={72}
-                    height={72}
+                    fill
                     priority
-                    quality={90}
-                    className="w-full h-full object-contain"
+                    quality={85}
+                    className="object-contain"
                   />
                 </div>
                 <span className="hidden lg:block font-sans text-xs tracking-[0.25em] text-stone-400 uppercase leading-tight">
