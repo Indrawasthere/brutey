@@ -1,7 +1,6 @@
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { LoadingScreen } from "@/components/loading-screen";
 import dynamic from "next/dynamic";
 
 const About = dynamic(

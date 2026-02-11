@@ -32,7 +32,6 @@ export function Resume() {
       id="resume"
       className="relative py-32 md:py-40 px-6 md:px-12 lg:px-16 bg-background"
     >
-      {/* Brutal Grid Background */}
       <div className="absolute inset-0 opacity-[0.015]">
         <div
           className="absolute inset-0"
@@ -46,7 +45,6 @@ export function Resume() {
         />
       </div>
 
-      {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -54,7 +52,6 @@ export function Resume() {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="max-w-7xl mx-auto mb-24 relative"
       >
-        {/* Brutalist number decoration */}
         <div className="absolute -left-4 -top-4 md:-left-8 md:-top-8 font-serif text-[120px] md:text-[200px] font-bold text-primary/5 leading-none pointer-events-none">
           V
         </div>
@@ -86,9 +83,7 @@ export function Resume() {
         </div>
       </motion.div>
 
-      {/* Resume Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 mb-24 border-2 border-border group/cards">
-        {/* Download Resume Card */}
         <motion.a
           href="/MFadlanHafiz_resume.pdf"
           download
@@ -107,7 +102,6 @@ export function Resume() {
           onMouseLeave={() => setDownloadHovered(false)}
           className="relative p-10 md:p-14 border-r-2 md:border-r-2 border-b-2 md:border-b-0 border-border overflow-hidden cursor-pointer bg-card"
         >
-          {/* Background Glow Effect */}
           <motion.div
             className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent"
             initial={{ opacity: 0 }}
@@ -115,7 +109,6 @@ export function Resume() {
             transition={{ duration: 0.4 }}
           />
 
-          {/* Main Background Sweep */}
           <motion.div
             className="absolute inset-0 bg-primary"
             initial={{ x: "-100%", y: "100%" }}
@@ -129,9 +122,7 @@ export function Resume() {
             }}
           />
 
-          {/* Content Container */}
           <div className="relative z-10">
-            {/* Top Right Index */}
             <motion.div
               className="absolute top-0 right-0 font-sans text-xs tracking-[0.3em] font-bold"
               animate={{
@@ -142,7 +133,6 @@ export function Resume() {
               [01]
             </motion.div>
 
-            {/* Corner Accents */}
             <div className="absolute top-0 left-0 w-8 h-8">
               <motion.div
                 className="absolute top-0 left-0 w-full h-px"
@@ -164,9 +154,7 @@ export function Resume() {
               />
             </div>
 
-            {/* Main Content */}
             <div className="flex flex-col gap-6">
-              {/* Icon Container */}
               <motion.div
                 animate={{
                   scale: downloadHovered ? 1.05 : 1,
@@ -197,7 +185,6 @@ export function Resume() {
                 </motion.div>
               </motion.div>
 
-              {/* Title Section */}
               <div className="space-y-3">
                 <motion.h3
                   className="font-sans text-3xl md:text-4xl font-bold tracking-wider uppercase"
@@ -220,7 +207,6 @@ export function Resume() {
                 />
               </div>
 
-              {/* Description */}
               <motion.p
                 className="text-sm md:text-base leading-relaxed"
                 animate={{
@@ -232,7 +218,6 @@ export function Resume() {
                 ready for printing or sharing with commanders.
               </motion.p>
 
-              {/* Stats Row */}
               <div className="flex items-center gap-6 pt-4">
                 <div className="flex items-center gap-2">
                   <motion.div
@@ -273,7 +258,6 @@ export function Resume() {
                 </motion.span>
               </div>
 
-              {/* Call to Action */}
               <motion.div
                 className="flex items-center gap-3 mt-2 group/cta"
                 animate={{
@@ -327,7 +311,6 @@ export function Resume() {
               </motion.div>
             </div>
 
-            {/* Bottom Corner */}
             <div className="absolute bottom-0 right-0 w-6 h-6">
               <motion.div
                 className="absolute bottom-0 right-0 w-full h-px"
@@ -353,9 +336,8 @@ export function Resume() {
           </div>
         </motion.a>
 
-        {/* Preview Card */}
         <motion.a
-          href="/fadlan_resume.pdf"
+          href="/MFadlanHafiz_resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 40 }}
@@ -371,7 +353,6 @@ export function Resume() {
           onMouseLeave={() => setPreviewHovered(false)}
           className="relative p-10 md:p-14 border-b-2 md:border-b-0 border-border overflow-hidden cursor-pointer bg-card"
         >
-          {/* Background Glow Effect */}
           <motion.div
             className="absolute inset-0 bg-linear-to-bl from-primary/5 to-transparent"
             initial={{ opacity: 0 }}
@@ -379,7 +360,6 @@ export function Resume() {
             transition={{ duration: 0.4 }}
           />
 
-          {/* Main Background Sweep */}
           <motion.div
             className="absolute inset-0 bg-primary"
             initial={{ x: "100%", y: "100%" }}
@@ -393,9 +373,7 @@ export function Resume() {
             }}
           />
 
-          {/* Content Container */}
           <div className="relative z-10">
-            {/* Top Left Index */}
             <motion.div
               className="absolute top-0 left-0 font-sans text-xs tracking-[0.3em] font-bold"
               animate={{
@@ -406,7 +384,6 @@ export function Resume() {
               [02]
             </motion.div>
 
-            {/* Corner Accents */}
             <div className="absolute top-0 right-0 w-8 h-8">
               <motion.div
                 className="absolute top-0 right-0 w-full h-px"
@@ -428,9 +405,7 @@ export function Resume() {
               />
             </div>
 
-            {/* Main Content */}
             <div className="flex flex-col gap-6">
-              {/* Icon Container */}
               <motion.div
                 animate={{
                   scale: previewHovered ? 1.05 : 1,
@@ -461,7 +436,6 @@ export function Resume() {
                 </motion.div>
               </motion.div>
 
-              {/* Title Section */}
               <div className="space-y-3">
                 <motion.h3
                   className="font-sans text-3xl md:text-4xl font-bold tracking-wider uppercase"
@@ -484,7 +458,6 @@ export function Resume() {
                 />
               </div>
 
-              {/* Description */}
               <motion.p
                 className="text-sm md:text-base leading-relaxed"
                 animate={{
@@ -496,7 +469,6 @@ export function Resume() {
                 sharing link with recruiters.
               </motion.p>
 
-              {/* Stats Row */}
               <div className="flex items-center gap-6 pt-4">
                 <div className="flex items-center gap-2">
                   <motion.div
@@ -537,7 +509,6 @@ export function Resume() {
                 </motion.span>
               </div>
 
-              {/* Call to Action */}
               <motion.div
                 className="flex items-center gap-3 mt-2 group/cta"
                 animate={{
@@ -591,7 +562,6 @@ export function Resume() {
               </motion.div>
             </div>
 
-            {/* Bottom Corner */}
             <div className="absolute bottom-0 left-0 w-6 h-6">
               <motion.div
                 className="absolute bottom-0 left-0 w-full h-px"
@@ -618,7 +588,6 @@ export function Resume() {
         </motion.a>
       </div>
 
-      {/* Enhanced Stats Block */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -627,7 +596,6 @@ export function Resume() {
         className="max-w-7xl mx-auto"
       >
         <div className="relative border-4 border-border bg-card/80 backdrop-blur-sm overflow-hidden group/stats">
-          {/* Animated Border Glow */}
           <motion.div
             className="absolute inset-0 border-2 border-primary/20 m-2 pointer-events-none"
             animate={{
@@ -640,7 +608,6 @@ export function Resume() {
             transition={{ duration: 3, repeat: Infinity }}
           />
 
-          {/* Floating Particles */}
           {PARTICLE_POSITIONS.map((pos, i) => (
             <motion.div
               key={i}
@@ -662,7 +629,6 @@ export function Resume() {
             />
           ))}
 
-          {/* Decorative corners */}
           <div className="absolute top-0 left-0 w-12 h-12">
             <motion.div
               className="absolute top-0 left-0 w-full h-px bg-primary/40"
@@ -734,11 +700,9 @@ export function Resume() {
                   }}
                   className="text-center border-r-2 border-border last:border-r-0 md:last:border-r-0 relative group/stat"
                 >
-                  {/* Hover Effect */}
                   <motion.div className="absolute inset-0 bg-primary/5 rounded-lg opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300" />
 
                   <div className="relative">
-                    {/* Icon */}
                     <motion.div
                       className="text-2xl mb-3 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300"
                       animate={{ y: [0, -5, 0] }}
@@ -751,7 +715,6 @@ export function Resume() {
                       {stat.icon}
                     </motion.div>
 
-                    {/* Value with Count Up Effect */}
                     <motion.div
                       className="font-serif text-4xl md:text-6xl font-bold text-primary mb-3"
                       initial={{ scale: 0.5, opacity: 0 }}
@@ -767,7 +730,6 @@ export function Resume() {
                       {stat.value}
                     </motion.div>
 
-                    {/* Label */}
                     <div className="font-sans text-[10px] tracking-[0.25em] text-muted-foreground uppercase">
                       {stat.label}
                     </div>
@@ -779,7 +741,6 @@ export function Resume() {
         </div>
       </motion.div>
 
-      {/* Floating Background Elements */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl opacity-30" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl opacity-20" />
 

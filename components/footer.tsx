@@ -27,14 +27,12 @@ export function Footer() {
 
   return (
     <footer className="relative bg-background border-t-4 border-border">
-      {/* Main CTA */}
       <motion.a
         href="mailto:mhmdfdln14@gmail.com"
         className="relative block overflow-hidden group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Fill Background on Hover */}
         <motion.div
           className="absolute inset-0 bg-primary"
           initial={{ y: "100%" }}
@@ -42,7 +40,6 @@ export function Footer() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Content Container */}
         <div className="relative py-32 md:py-40 px-6 md:px-12 lg:px-16">
           <motion.div
             className="max-w-7xl mx-auto relative"
@@ -51,13 +48,11 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Brutalist Roman Number Decoration */}
             <div className="absolute -left-4 -top-10 md:-left-8 md:-top-16 font-serif text-[120px] md:text-[200px] font-bold text-primary/5 group-hover:text-background/10 leading-none pointer-events-none transition-colors duration-500">
               VII
             </div>
 
             <div className="relative">
-              {/* Top Label with Gradient Line */}
               <div className="flex items-center gap-4 mb-8">
                 <motion.div
                   className="w-20 h-px bg-linear-to-r from-primary to-stone-700 group-hover:from-background group-hover:to-background/50 transition-all duration-500"
@@ -77,7 +72,6 @@ export function Footer() {
                 </motion.span>
               </div>
 
-              {/* Main Heading */}
               <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
                 <div className="flex-1">
                   <h2
@@ -96,11 +90,9 @@ export function Footer() {
                     </span>
                   </h2>
 
-                  {/* */}
                   <div className="mt-12 flex items-center gap-5 group/text">
                     <div className="relative flex items-center justify-center"></div>
 
-                    {/* */}
                     <p
                       className={`text-lg md:text-2xl font-light leading-none transition-colors duration-300 ${
                         isHovered
@@ -111,9 +103,7 @@ export function Footer() {
                   </div>
                 </div>
 
-                {/* Geometric Arrow Box */}
                 <div className="relative pt-12 md:pt-0">
-                  {/**/}
                   <motion.div
                     className={`w-32 h-32 md:w-40 md:h-40 border-4 flex items-center justify-center transition-all duration-500 ${
                       isHovered
@@ -127,7 +117,7 @@ export function Footer() {
                       }`}
                     />
                   </motion.div>
-                  {/* Decor Corners */}
+
                   <div
                     className={`absolute -top-4 -left-4 w-8 h-8 border-l-4 border-t-4 transition-colors duration-300 ${
                       isHovered ? "border-background/40" : "border-primary/20"
@@ -145,11 +135,9 @@ export function Footer() {
         </div>
       </motion.a>
 
-      {/* Footer Info Grid */}
       <div className="border-t-4 border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-10 md:py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            {/* Time Card */}
             <div className="flex items-center gap-4 px-6 py-4 border-2 border-border bg-card/30">
               <Clock className="w-5 h-5 text-primary" />
               <div className="flex-1">
@@ -165,7 +153,6 @@ export function Footer() {
               </span>
             </div>
 
-            {/* Copyright Card */}
             <div className="flex items-center justify-center px-6 py-4 border-2 border-border bg-card/30 text-center">
               <div>
                 <div className="font-sans text-[10px] text-muted-foreground tracking-[0.3em] mb-1">
@@ -177,7 +164,6 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Signature Card */}
             <div className="flex items-center justify-center px-6 py-4 border-2 border-border bg-card/30 text-center">
               <div>
                 <div className="font-sans text-[10px] text-primary/60 tracking-[0.3em] mb-1">

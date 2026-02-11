@@ -7,7 +7,6 @@ import { MoveLeft, AlertTriangle, Ghost } from "lucide-react";
 export default function NotFound() {
   return (
     <main className="relative min-h-screen bg-background flex items-center justify-center px-6 overflow-hidden">
-      {/* Background Decor - Grid & Large Watermark */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <div
           className="absolute inset-0"
@@ -25,7 +24,6 @@ export default function NotFound() {
       </div>
 
       <div className="relative z-10 max-w-3xl w-full text-center">
-        {/* Error Code */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,7 +38,6 @@ export default function NotFound() {
           </div>
         </motion.div>
 
-        {/* Main Title */}
         <motion.h2
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -51,7 +48,6 @@ export default function NotFound() {
           <span className="text-primary italic">THE EDGE</span>
         </motion.h2>
 
-        {/* Description */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -63,7 +59,6 @@ export default function NotFound() {
           civilization, traveler.
         </motion.p>
 
-        {/* CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -73,7 +68,6 @@ export default function NotFound() {
             href="/"
             className="group relative inline-flex items-center gap-4 bg-primary px-8 py-4 transition-transform active:scale-95 overflow-hidden"
           >
-            {/* Button Hover Slide Effect */}
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
 
             <span className="relative z-10 font-sans font-black text-black tracking-widest uppercase flex items-center gap-3">
@@ -84,7 +78,6 @@ export default function NotFound() {
         </motion.div>
       </div>
 
-      {/* Decorative Stamp (Bottom Right) */}
       <div className="absolute bottom-12 right-12 hidden md:block opacity-20 rotate-12 pointer-events-none">
         <div className="border-4 border-double border-stone-500 p-4">
           <p className="font-serif text-sm font-bold text-stone-500 uppercase leading-tight">

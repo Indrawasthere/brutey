@@ -79,7 +79,6 @@ export function Experience() {
       ref={containerRef}
       className="relative py-24 md:py-40 px-6 md:px-12 lg:px-24 overflow-hidden bg-[#0a0a0a]"
     >
-      {/* Background Decor */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div
           className="absolute inset-0"
@@ -90,7 +89,7 @@ export function Experience() {
           }}
         />
       </div>
-      {/* Runes Pattern */}
+
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.015]">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -139,22 +138,20 @@ export function Experience() {
         </svg>
       </div>
 
-      {/* Decorative Elements */}
       <motion.div
         style={{ rotate: rotateDecorative }}
-        className="absolute -top-20 -left-20 w-40 h-40 border-[1px] border-white/5 rounded-full"
+        className="absolute -top-20 -left-20 w-40 h-40 border border-white/5 rounded-full"
       />
 
       <motion.div
         style={{ rotate: rotateDecorative }}
-        className="absolute -bottom-20 -right-20 w-60 h-60 border-[1px] border-primary/10 rounded-full"
+        className="absolute -bottom-20 -right-20 w-60 h-60 border border-primary/10 rounded-full"
       />
 
       <motion.div
         style={{ opacity }}
         className="max-w-7xl mx-auto relative z-10"
       >
-        {/* SECTION HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -164,7 +161,7 @@ export function Experience() {
         >
           <div className="flex items-center gap-4 mb-6">
             <motion.div
-              className="w-20 h-px bg-gradient-to-r from-primary to-stone-700"
+              className="w-20 h-px bg-linear-to-r from-primary to-stone-700"
               initial={{ width: 0 }}
               whileInView={{ width: 80 }}
               viewport={{ once: true }}
@@ -201,18 +198,15 @@ export function Experience() {
           </h2>
         </motion.div>
 
-        {/* MAIN CONTENT */}
         <div className="relative">
-          {/* Vertical Rail */}
           <motion.div
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent origin-top"
+            className="absolute left-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-primary/20 to-transparent origin-top"
           />
 
-          {/* Timeline Items */}
           <div className="space-y-32 pl-8 md:pl-12">
             {experiences.map((exp, index) => (
               <motion.div
@@ -227,16 +221,14 @@ export function Experience() {
                 }}
                 className="relative group will-change-transform"
               >
-                {/* Timeline Node - Core */}
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2 + 0.3, duration: 0.3 }}
-                  className="absolute -left-[37px] md:-left-[53px] top-2 w-4 h-4 rounded-full bg-[#0a0a0a] border-2 border-primary group-hover:bg-primary transition-colors duration-500 z-20"
+                  className="absolute -left-9.25 md:-left-13.25 top-2 w-4 h-4 rounded-full bg-[#0a0a0a] border-2 border-primary group-hover:bg-primary transition-colors duration-500 z-20"
                 />
 
-                {/* Timeline Node - Glow */}
                 <motion.div
                   animate={{ scale: [1, 1.3, 1] }}
                   transition={{
@@ -244,24 +236,21 @@ export function Experience() {
                     repeat: Infinity,
                     delay: index * 0.5,
                   }}
-                  className="absolute -left-[37px] md:-left-[53px] top-2 w-4 h-4 rounded-full bg-primary/10 z-10"
+                  className="absolute -left-9.25 md:-left-13.25 top-2 w-4 h-4 rounded-full bg-primary/10 z-10"
                 />
 
-                {/* Connecting Line */}
                 {index < experiences.length - 1 && (
                   <motion.div
                     initial={{ scaleY: 0 }}
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.2 + 0.5, duration: 0.8 }}
-                    className="absolute -left-[35px] md:-left-[51px] top-6 bottom-[-4rem] w-px bg-gradient-to-b from-primary/30 via-primary/10 to-transparent origin-top"
+                    className="absolute -left-8.75 md:-left-13.25 top-6 bottom-16 w-px bg-linear-to-b from-primary/30 via-primary/10 to-transparent origin-top"
                   />
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                  {/* Left Column: Company & Meta */}
                   <div className="lg:col-span-4 relative">
-                    {/* Decorative Corner */}
                     <motion.div
                       className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-primary/20"
                       animate={{ opacity: [0.3, 0.7, 0.3] }}
@@ -306,7 +295,6 @@ export function Experience() {
                         </motion.div>
                       </div>
 
-                      {/* Tech Stack */}
                       <div className="pt-8 relative">
                         <div className="absolute -left-4 top-0 w-px h-full bg-linear-to-b from-primary/10 via-transparent to-transparent" />
 
@@ -336,7 +324,6 @@ export function Experience() {
                     </div>
                   </div>
 
-                  {/* Right Column: Description & Achievements */}
                   <div className="lg:col-span-8">
                     <motion.p
                       initial={{ opacity: 0 }}
@@ -377,10 +364,8 @@ export function Experience() {
                             }}
                             className="flex items-start gap-4 p-5 border border-white/5 bg-linear-to-r from-white/1 to-transparent hover:from-white/3 hover:to-primary/5 transition-all duration-500 group/item relative overflow-hidden"
                           >
-                            {/* Hover Border Effect */}
                             <div className="absolute inset-0 border border-primary/0 group-hover/item:border-primary/10 transition-all duration-500 pointer-events-none" />
 
-                            {/* Decorative Corner */}
                             <motion.div
                               className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary/10 group-hover/item:border-primary/30 transition-colors"
                               animate={{ opacity: [0.3, 0.7, 0.3] }}
@@ -414,7 +399,6 @@ export function Experience() {
         </div>
       </motion.div>
 
-      {/* Floating Background Text Parallax */}
       <motion.div
         style={{
           y: yParallax,
@@ -430,7 +414,6 @@ export function Experience() {
         </h3>
       </motion.div>
 
-      {/* Animated Glow Elements */}
       <motion.div
         animate={{
           boxShadow: [

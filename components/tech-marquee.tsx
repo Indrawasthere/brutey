@@ -39,8 +39,7 @@ function MarqueeRow({
   const duplicatedItems = [...items, ...items, ...items, ...items];
 
   return (
-    <div className="relative overflow-hidden py-8 md:py-10 border-y border-white/5 bg-white/[0.01]">
-      {/* Cinematic Gradient Fades */}
+    <div className="relative overflow-hidden py-8 md:py-10 border-y border-white/5 bg-white/1">
       <div className="absolute left-0 top-0 bottom-0 w-32 md:w-60 bg-linear-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-32 md:w-60 bg-linear-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
 
@@ -101,7 +100,6 @@ export function TechMarquee() {
       ref={containerRef}
       className="relative py-24 md:py-40 px-6 md:px-12 lg:px-24 overflow-hidden bg-background"
     >
-      {/* Background Grid */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <div
           className="absolute inset-0"
@@ -116,7 +114,6 @@ export function TechMarquee() {
         style={{ opacity, scale }}
         className="max-w-7xl mx-auto relative z-10"
       >
-        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -147,9 +144,7 @@ export function TechMarquee() {
           </h2>
         </motion.div>
 
-        {/* CONTENT AREA */}
         <div className="relative">
-          {/* Vertical Rail Animasi */}
           <motion.div
             initial={{ height: 0 }}
             whileInView={{ height: "100%" }}
@@ -159,35 +154,32 @@ export function TechMarquee() {
           />
 
           <div className="space-y-32 pl-8 md:pl-12">
-            {/* ROW 1 */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 10, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative group"
             >
-              <div className="absolute -left-[37px] md:-left-[53px] top-2 w-3 h-3 rounded-full bg-stone-900 border border-primary/50 group-hover:bg-primary group-hover:shadow-[0_0_15px_rgba(124,45,18,0.5)] transition-all duration-500 z-20" />
+              <div className="absolute -left-9.25 md:-left-13.25 top-2 w-3 h-3 rounded-full bg-stone-900 border border-primary/50 group-hover:bg-primary group-hover:shadow-[0_0_15px_rgba(124,45,18,0.5)] transition-all duration-500 z-20" />
 
               <div className="text-[10px] text-stone-600 uppercase tracking-[0.4em] mb-8 font-sans font-bold">
                 Development Stack
               </div>
 
-              {/* Marquee Container */}
               <div className="relative -ml-14 md:-ml-24 lg:-ml-36 w-screen">
                 <MarqueeRow items={techItems} direction="left" />
               </div>
             </motion.div>
 
-            {/* ROW 2 */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 10, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="relative group"
             >
-              <div className="absolute -left-[37px] md:-left-[53px] top-2 w-3 h-3 rounded-full bg-stone-900 border border-primary/50 group-hover:bg-primary group-hover:shadow-[0_0_15px_rgba(124,45,18,0.5)] transition-all duration-500 z-20" />
+              <div className="absolute -left-9.25 md:-left-13.25 top-2 w-3 h-3 rounded-full bg-stone-900 border border-primary/50 group-hover:bg-primary group-hover:shadow-[0_0_15px_rgba(124,45,18,0.5)] transition-all duration-500 z-20" />
 
               <div className="text-[10px] text-stone-600 uppercase tracking-[0.4em] mb-8 font-sans font-bold">
                 Conceptual Foundations

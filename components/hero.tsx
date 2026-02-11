@@ -197,11 +197,39 @@ export function Hero() {
         className="absolute inset-0 z-40 flex flex-col items-center justify-end pb-[8vh] px-6 pointer-events-none"
       >
         <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="w-full max-w-lg pointer-events-auto backdrop-blur-md bg-white/3 border border-white/10 p-6 rounded-2xl text-center shadow-2xl relative overflow-hidden"
+          initial={{ y: 30, opacity: 0, scale: 0.9 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.5,
+            type: "spring",
+            stiffness: 100,
+          }}
+          whileHover={{
+            scale: 1.02,
+            y: -5,
+            transition: { duration: 0.3 },
+          }}
+          className="w-full max-w-lg pointer-events-auto backdrop-blur-md bg-white/3 border border-white/10 p-6 rounded-2xl text-center shadow-2xl relative overflow-hidden group"
+          style={{
+            transformStyle: "preserve-3d",
+          }}
         >
+          <motion.div
+            className="absolute inset-0 border-2 border-primary/0 group-hover:border-primary/30 transition-all duration-500 rounded-2xl"
+            animate={{
+              boxShadow: [
+                "0 0 0px rgba(124, 45, 18, 0)",
+                "0 0 20px rgba(124, 45, 18, 0.3)",
+                "0 0 0px rgba(124, 45, 18, 0)",
+              ],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
           <div className="absolute -top-10 -left-10 w-20 h-20 border border-white/5 rounded-full" />
           <div className="absolute -bottom-10 -right-10 w-24 h-24 border border-white/5 rounded-full" />
 

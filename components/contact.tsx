@@ -59,7 +59,6 @@ export function Contact() {
       ref={containerRef}
       className="relative py-32 md:py-48 px-6 md:px-12 lg:px-16 bg-background overflow-hidden"
     >
-      {/* Grid Background */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div
           className="absolute inset-0"
@@ -71,7 +70,6 @@ export function Contact() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-20">
-        {/* SECTION HEADER */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -79,7 +77,6 @@ export function Contact() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="mb-24 relative"
         >
-          {/* Brutalist number decoration */}
           <div className="absolute -left-4 -top-10 md:-left-12 md:-top-20 font-serif text-[150px] md:text-[250px] font-bold text-primary/5 leading-none pointer-events-none">
             VI
           </div>
@@ -117,7 +114,6 @@ export function Contact() {
           </div>
         </motion.div>
 
-        {/* Social Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {socialLinks.map((social, index) => (
             <motion.a
@@ -136,7 +132,7 @@ export function Contact() {
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               />
 
-              <div className="relative z-10 flex flex-col h-full justify-between min-h-[160px]">
+              <div className="relative z-10 flex flex-col h-full justify-between min-h-40">
                 <div className="flex justify-between items-start">
                   <div
                     className={`w-12 h-12 border flex items-center justify-center transition-colors duration-500 ${hoveredIndex === index ? "border-black/20 bg-black/5" : "border-primary/30"}`}
@@ -169,7 +165,6 @@ export function Contact() {
           ))}
         </div>
 
-        {/* Bottom Info Bar */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
           <div className="border-2 border-border p-6 bg-card/30">
             <div className="flex items-center gap-3 text-primary mb-2">
@@ -178,7 +173,7 @@ export function Contact() {
                 Phone
               </span>
             </div>
-            <p className="font-sans text-sm">+62 878-8885-7532</p>
+            <p className="font-sans text-sm">+62 823-1233-5006</p>
           </div>
 
           <div className="border-2 border-border p-6 bg-card/30">

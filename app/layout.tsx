@@ -125,15 +125,12 @@ export default function RootLayout({
           enableSystem={false}
           forcedTheme="dark"
         >
-          {/* Main utilities */}
           <FocusMain />
           <CustomCursor />
 
-          {/* Overlays */}
-          <div className="noise-overlay fixed inset-0 z-[9999] pointer-events-none opacity-[0.05]" />
-          <div className="vignette-overlay fixed inset-0 z-[9998] pointer-events-none" />
+          <div className="noise-overlay fixed inset-0 z-9999 pointer-events-none opacity-[0.05]" />
+          <div className="vignette-overlay fixed inset-0 z-9998 pointer-events-none" />
 
-          {/* Page Content */}
           <PageTransition>
             <main id="main-content" className="relative overflow-x-hidden">
               {children}

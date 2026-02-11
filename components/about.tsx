@@ -174,7 +174,7 @@ export function About() {
                 style={{ scale: imageScale }}
                 className="absolute inset-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 mix-blend-overlay pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-primary/5 mix-blend-overlay pointer-events-none" />
               <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
 
               <motion.div
@@ -204,7 +204,7 @@ export function About() {
               </span>
 
               <motion.div
-                className="absolute -right-4 top-1/2 w-1 h-12 bg-gradient-to-b from-transparent via-primary/20 to-transparent"
+                className="absolute -right-4 top-1/2 w-1 h-12 bg-linear-to-b from-transparent via-primary/20 to-transparent"
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
               />
@@ -382,7 +382,7 @@ export function About() {
                 viewport={{ once: true }}
                 transition={{ delay: 1 }}
               >
-                <div className="absolute -top-1 left-0 w-20 h-px bg-gradient-to-r from-primary to-transparent" />
+                <div className="absolute -top-1 left-0 w-20 h-px bg-linear-to-r from-primary to-transparent" />
 
                 {[
                   { label: "Experience", value: "3+ YEARS" },
