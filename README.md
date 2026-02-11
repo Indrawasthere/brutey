@@ -89,7 +89,7 @@ brutal-portfo/
 │   └── ui/                  # Radix UI components (placeholder)
 ├── public/
 │   ├── avatar.png           # Profile image
-│   ├── dacode.png           # Logo/favicon
+│   ├── dacode.webp           # Logo/favicon
 │   ├── fadlan_resume.pdf    # Resume file
 │   └── models/              # 3D model assets
 ├── .env.local               # Environment variables

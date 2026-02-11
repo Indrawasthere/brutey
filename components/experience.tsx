@@ -70,7 +70,6 @@ export function Experience() {
     [0, 0.2, 0.8, 1],
     [0, 1, 1, 0],
   );
-  const contentY = useTransform(scrollYProgress, [0, 0.2], [30, 0]);
 
   const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
 
@@ -370,8 +369,12 @@ export function Experience() {
                             key={i}
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.4 + i * 0.1 }}
+                            viewport={{ once: true, amount: 0.8 }}
+                            transition={{
+                              delay: 0.4 + i * 0.1,
+                              duration: 0.6,
+                              ease: [0.21, 0.47, 0.32, 0.98],
+                            }}
                             className="flex items-start gap-4 p-5 border border-white/5 bg-linear-to-r from-white/1 to-transparent hover:from-white/3 hover:to-primary/5 transition-all duration-500 group/item relative overflow-hidden"
                           >
                             {/* Hover Border Effect */}

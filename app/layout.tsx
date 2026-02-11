@@ -71,9 +71,9 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/dacode.png",
-    shortcut: "/dacode.png",
-    apple: "/dacode.png",
+    icon: "/dacode.webp",
+    shortcut: "/dacode.webp",
+    apple: "/dacode.webp",
   },
 
   openGraph: {
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/dacode.png",
+        url: "/dacode.webp",
         width: 1500,
         height: 700,
         alt: "Muhammad Fadlan Portfolio",
@@ -97,7 +97,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Muhammad Fadlan — Software Engineer",
     description: "A guy who's addicted to code",
-    images: ["/dacode.png"],
+    images: ["/dacode.webp"],
   },
 };
 
@@ -138,7 +138,7 @@ export default function RootLayout({
           <CustomCursor />
 
           <PageTransition>
-            <main id="main-content" className="relative">
+            <main id="main-content" className="relative overflow-x-hidden">
               {children}
             </main>
           </PageTransition>

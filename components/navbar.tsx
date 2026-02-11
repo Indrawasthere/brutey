@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  LazyMotion,
+  domAnimation,
+} from "framer-motion";
+import Image from "next/image";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -58,7 +64,7 @@ export function Navbar() {
         }
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -71,7 +77,7 @@ export function Navbar() {
   };
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -82,7 +88,7 @@ export function Navbar() {
             : ""
         }`}
       >
-        <nav className="px-5 py-4 md:px-12 h-20 md:h-24">
+        <nav className="px-4 sm:px-5 py-4 md:px-12 h-20 md:h-24 max-w-full">
           <div className="flex items-center justify-between md:grid md:grid-cols-3 h-full">
             <div className="flex items-center justify-start">
               <a
@@ -91,12 +97,16 @@ export function Navbar() {
                   e.preventDefault();
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="group flex items-center gap-3"
+                className="group flex items-center gap-2 sm:gap-3"
               >
-                <div className="w-12 h-12 md:w-14 md:h-14 relative">
-                  <img
-                    src="/dacode.png"
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 relative flex-shrink-0">
+                  <Image
+                    src="/dacode.webp"
                     alt="Logo"
+                    width={72}
+                    height={72}
+                    priority
+                    quality={90}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -108,7 +118,7 @@ export function Navbar() {
             </div>
 
             <div className="hidden md:flex items-center justify-center">
-              <ul className="flex items-center gap-8">
+              <ul className="flex items-center gap-6 lg:gap-8">
                 {navLinks.map((link, index) => (
                   <li key={link.label}>
                     <button
@@ -129,7 +139,7 @@ export function Navbar() {
               </ul>
             </div>
 
-            <div className="flex items-center justify-end gap-4">
+            <div className="flex items-center justify-end gap-2 sm:gap-4">
               <div className="hidden md:block text-right">
                 <span className="hidden lg:block font-sans text-xs tracking-[0.25em] text-stone-400 uppercase leading-tight">
                   Jakarta/ID <br />
@@ -141,24 +151,24 @@ export function Navbar() {
 
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden flex flex-col items-center justify-center gap-1.5 w-12 h-12 z-50 relative"
+                className="md:hidden flex flex-col items-center justify-center gap-1.5 w-10 h-10 sm:w-12 sm:h-12 z-50 relative flex-shrink-0"
                 aria-label="Toggle menu"
               >
                 <motion.span
                   animate={
                     isMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }
                   }
-                  className="w-7 h-0.5 bg-white rounded-full"
+                  className="w-6 sm:w-7 h-0.5 bg-white rounded-full"
                 />
                 <motion.span
                   animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="w-7 h-0.5 bg-white rounded-full"
+                  className="w-6 sm:w-7 h-0.5 bg-white rounded-full"
                 />
                 <motion.span
                   animate={
                     isMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }
                   }
-                  className="w-7 h-0.5 bg-white rounded-full"
+                  className="w-6 sm:w-7 h-0.5 bg-white rounded-full"
                 />
               </button>
             </div>
@@ -172,10 +182,10 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-3xl md:hidden"
+            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-3xl md:hidden overflow-y-auto"
           >
-            <div className="flex flex-col items-center justify-center h-full px-6">
-              <div className="flex flex-col gap-6 w-full max-w-sm">
+            <div className="flex flex-col items-center justify-center min-h-screen px-6 py-24">
+              <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-sm">
                 {navLinks.map((link, index) => (
                   <motion.button
                     key={link.label}
@@ -187,17 +197,17 @@ export function Navbar() {
                       stiffness: 100,
                     }}
                     onClick={() => scrollToSection(link.href)}
-                    className={`group flex items-center gap-4 py-3 px-5 rounded-xl transition-all duration-300 ${
+                    className={`group flex items-center gap-3 sm:gap-4 py-3 px-4 sm:px-5 rounded-xl transition-all duration-300 ${
                       activeSection === link.href.slice(1)
                         ? "bg-primary/10 border border-primary/20"
                         : "hover:bg-white/5"
                     }`}
                   >
-                    <span className="font-serif italic text-base text-primary/60 min-w-7">
+                    <span className="font-serif italic text-sm sm:text-base text-primary/60 min-w-6 sm:min-w-7">
                       {toRoman(index)}.
                     </span>
                     <span
-                      className={`text-2xl font-sans font-bold tracking-tight uppercase transition-colors ${
+                      className={`text-xl sm:text-2xl font-sans font-bold tracking-tight uppercase transition-colors ${
                         activeSection === link.href.slice(1)
                           ? "text-primary"
                           : "text-white group-hover:text-primary"
@@ -218,7 +228,7 @@ export function Navbar() {
                 <p className="font-sans text-xs text-white/40 tracking-widest uppercase mb-1">
                   Jakarta/ID
                 </p>
-                <p className="font-sans text-2xl text-primary font-bold tabular-nums">
+                <p className="font-sans text-xl sm:text-2xl text-primary font-bold tabular-nums">
                   {currentTime}
                 </p>
               </motion.div>
@@ -226,6 +236,6 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </LazyMotion>
   );
 }

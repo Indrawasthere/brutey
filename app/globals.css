@@ -82,6 +82,9 @@
         letter-spacing: 0.01em;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        overflow-x: hidden;
+        max-width: 100vw;
+        position: relative;
     }
 
     html::-webkit-scrollbar,
@@ -206,8 +209,12 @@
 
 /* Fade In - For simple opacity transitions */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .animate-fade-in {
@@ -268,11 +275,21 @@
     opacity: 0;
 }
 
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.stagger-children > *:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.stagger-children > *:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.stagger-children > *:nth-child(4) {
+    animation-delay: 0.4s;
+}
+.stagger-children > *:nth-child(5) {
+    animation-delay: 0.5s;
+}
 
 /* Selection */
 ::selection {
