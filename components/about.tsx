@@ -292,17 +292,17 @@ export function About() {
                   <>
                     I am currently pursuing a degree in{" "}
                     <span className="text-white relative">
-                      Information Systems
+                      Information Systems at Binus University
                       <motion.span
                         className="absolute -right-4 top-1/2 w-2 h-2 bg-primary rotate-45"
                         animate={{ scale: [1, 1.5, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                     </span>
-                    , at Binus University while continuing to explore software
-                    architecture and applied AI. My focus remains on building
-                    systems that effectively connect software, infrastructure,
-                    and meaningful human impact.
+                    , while continuing to explore software architecture and
+                    applied AI. My focus remains on building systems that
+                    effectively connect software, infrastructure, and meaningful
+                    human impact.
                   </>,
                 ].map((text, i) => (
                   <motion.p
